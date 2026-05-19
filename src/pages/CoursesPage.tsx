@@ -7,7 +7,7 @@ type Course = {
   body: string;
   meta: string[];
   live: boolean;
-  accent: string;
+  accent: "t-green" | "t-gold" | "t-blue" | "t-red";
 };
 
 const courses: Course[] = [
@@ -60,94 +60,190 @@ const accentBg = {
   "t-red": "bg-t-red",
 } as const;
 
-const accentBorder = {
-  "t-green": "border-l-t-green",
-  "t-gold": "border-l-t-gold",
-  "t-blue": "border-l-t-blue",
-  "t-red": "border-l-t-red",
+const accentText = {
+  "t-green": "text-t-green",
+  "t-gold": "text-t-gold",
+  "t-blue": "text-t-blue",
+  "t-red": "text-t-red",
+} as const;
+
+const accentHeader = {
+  "t-green":
+    "bg-gradient-to-br from-t-green to-[#0F6B33] before:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_60%)]",
+  "t-gold":
+    "bg-gradient-to-br from-t-gold to-[#C28A0E] before:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.22),transparent_60%)]",
+  "t-blue":
+    "bg-gradient-to-br from-t-blue to-[#143F7A] before:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_60%)]",
+  "t-red":
+    "bg-gradient-to-br from-t-red to-[#A11616] before:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_60%)]",
+} as const;
+
+const accentDot = {
+  "t-green": "bg-t-green",
+  "t-gold": "bg-t-gold",
+  "t-blue": "bg-t-blue",
+  "t-red": "bg-t-red",
 } as const;
 
 export default function CoursesPage() {
   return (
     <>
-      <section className="relative pt-[100px] pb-[60px] bg-ivory border-b border-border-warm overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:w-[45%] before:h-full before:bg-[url('/images/ornament.webp')] before:bg-right-top before:bg-cover before:bg-no-repeat before:opacity-50 before:pointer-events-none">
-        <div className="relative z-[1] max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
-          <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-5">
-            The Pathway
-          </span>
-          <h1 className="font-display font-medium text-[clamp(36px,4.5vw,64px)] leading-[1.05] text-navy mb-5 tracking-[-0.015em] max-w-[800px]">
-            A stepwise curriculum in infertility and IVF.
-          </h1>
-          <p className="text-[17px] leading-[1.6] text-slate max-w-[800px]">
-            The STAR pathway is a four-tier academic journey. Foundation
-            teaches interpretation. Core teaches workflow. Advanced teaches
-            IVF strategy. Masterclass refines judgment. Each tier is taught
-            live by Dr. Sunita Tandulwadkar, on Zoom, every Wednesday at 8:00
-            PM IST.
-          </p>
+      {/* HERO: text left, video right */}
+      <section className="relative pt-[80px] pb-[70px] bg-ivory border-b border-border-warm overflow-hidden">
+        <div className="relative z-[1] max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+          {/* Left: text */}
+          <div>
+            <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-5">
+              The Pathway
+            </span>
+            <h1 className="font-display font-medium text-[clamp(34px,4.2vw,58px)] leading-[1.05] text-navy mb-5 tracking-[-0.015em]">
+              A stepwise curriculum in infertility and IVF.
+            </h1>
+            <p className="text-[16.5px] leading-[1.65] text-slate mb-7">
+              The STAR pathway is a four-tier academic journey. Foundation
+              teaches interpretation. Core teaches workflow. Advanced teaches
+              IVF strategy. Masterclass refines judgment. Each tier is taught
+              live by Dr. Sunita Tandulwadkar, on Zoom, every Wednesday at 8:00
+              PM IST.
+            </p>
+            <Link
+              to="/foundation"
+              className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-navy rounded-[2px] bg-navy text-gold-light transition-all duration-300 hover:bg-black hover:border-gold hover:text-gold group"
+            >
+              Explore the Foundation Series
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
+          </div>
+
+          {/* Right: video */}
+          <div className="relative w-full rounded-[6px] overflow-hidden border border-border-warm shadow-[0_30px_70px_-30px_rgba(20,28,46,0.45)]">
+            <div className="relative w-full pt-[56.25%] bg-navy">
+              <iframe
+                src="https://www.youtube.com/embed/PLACEHOLDER_VIDEO_ID"
+                title="Dr. Sunita Tandulwadkar introduces the STAR pathway"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="pt-[60px] pb-[clamp(80px,10vw,140px)] bg-ivory">
-        <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid gap-7">
-          {courses.map((c) => (
-            <div
-              key={c.letter}
-              className={`relative grid grid-cols-[60px_1fr] sm:grid-cols-[80px_1fr_auto] gap-6 md:gap-10 items-center px-7 sm:px-[42px] py-[26px] sm:py-[38px] bg-cream border border-border-warm border-l-4 ${
-                accentBorder[c.accent as keyof typeof accentBorder]
-              } transition-all duration-300 ${
-                c.live
-                  ? "hover:translate-x-1 hover:shadow-[0_20px_40px_-20px_rgba(30,42,68,0.18)]"
-                  : "opacity-70 saturate-50"
-              }`}
-            >
+      {/* COURSE CARDS GRID */}
+      <section className="pt-[clamp(60px,7vw,100px)] pb-[clamp(80px,10vw,140px)] bg-ivory">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
+          <div className="text-center mb-12 md:mb-14 max-w-[620px] mx-auto">
+            <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
+              Four Tiers
+            </span>
+            <h2 className="font-display font-medium text-[clamp(28px,3.4vw,40px)] leading-[1.12] text-navy">
+              From Foundation to Masterclass.
+            </h2>
+            <p className="mt-3.5 text-[15px] text-slate">
+              Every tier stands on its own and builds the next.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7">
+            {courses.map((c) => (
               <div
-                className={`w-[60px] h-[60px] flex items-center justify-center font-display font-semibold text-[32px] text-ivory border border-gold ${
-                  accentBg[c.accent as keyof typeof accentBg]
-                }`}
+                key={c.letter}
+                className="group relative flex flex-col bg-white rounded-[10px] overflow-hidden border border-border-warm shadow-[0_10px_30px_-15px_rgba(20,28,46,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_50px_-22px_rgba(20,28,46,0.35)]"
               >
-                {c.letter}
-              </div>
-              <div>
-                <span className="block font-mono text-[11px] text-gold-deep tracking-[0.18em] uppercase mb-1.5">
-                  {c.tierLabel}
-                </span>
-                <h3 className="font-display font-medium text-[30px] text-navy mb-2">
-                  {c.title}
-                </h3>
-                <p className="text-[15px] text-slate mb-3.5 max-w-[56ch] leading-[1.55]">
-                  {c.body}
-                </p>
-                <div className="flex gap-[18px] flex-wrap font-mono text-[11px] tracking-[0.1em] text-gold-deep uppercase">
-                  {c.meta.map((m) => (
+                {/* Colored header */}
+                <div
+                  className={`relative overflow-hidden px-6 pt-7 pb-6 text-ivory before:content-[''] before:absolute before:inset-0 before:pointer-events-none ${
+                    accentHeader[c.accent]
+                  }`}
+                >
+                  {/* Status pill */}
+                  <div className="relative z-[1] flex items-center justify-between mb-6">
                     <span
-                      key={m}
-                      className="flex items-center gap-1.5 before:content-[''] before:w-1 before:h-1 before:bg-gold before:rounded-full"
+                      className={`inline-flex items-center gap-1.5 font-mono text-[9.5px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full ${
+                        c.live
+                          ? "bg-white/95 text-navy"
+                          : "bg-white/15 text-white/90 border border-white/25"
+                      }`}
                     >
-                      {m}
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          c.live ? "bg-t-green animate-pulse" : "bg-white/70"
+                        }`}
+                      />
+                      {c.live ? "Enrolling Now" : "Coming Soon"}
                     </span>
-                  ))}
+                    <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-white/75">
+                      {c.tierLabel.split("·")[0].trim()}
+                    </span>
+                  </div>
+
+                  {/* Letter */}
+                  <div className="relative z-[1] font-display font-bold text-[88px] leading-none text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.18)]">
+                    {c.letter}
+                  </div>
+
+                  {/* Decorative ring */}
+                  <span className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full border-[1.5px] border-white/15 pointer-events-none" />
+                  <span className="absolute -bottom-16 -right-16 w-40 h-40 rounded-full border-[1.5px] border-white/10 pointer-events-none" />
+                </div>
+
+                {/* Body */}
+                <div className="flex flex-col flex-grow p-6">
+                  <span
+                    className={`block font-mono text-[10px] tracking-[0.18em] uppercase mb-2.5 font-medium ${
+                      accentText[c.accent]
+                    }`}
+                  >
+                    {c.tierLabel.split("·").slice(1).join("·").trim()}
+                  </span>
+                  <h3 className="font-display font-semibold text-[22px] text-navy mb-3 leading-[1.18]">
+                    {c.title}
+                  </h3>
+                  <p className="text-[13.5px] text-slate mb-5 leading-[1.62] flex-grow">
+                    {c.body}
+                  </p>
+
+                  <ul className="space-y-2 mb-6 pt-4 border-t border-border-warm">
+                    {c.meta.map((m) => (
+                      <li
+                        key={m}
+                        className="flex items-center gap-2.5 text-[12px] text-soft-black"
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                            accentDot[c.accent]
+                          }`}
+                        />
+                        {m}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-auto">
+                    {c.live ? (
+                      <Link
+                        to="/foundation"
+                        className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-medium text-[13.5px] tracking-[0.02em] border border-navy rounded-[3px] bg-navy text-gold-light transition-all duration-300 hover:bg-black hover:border-gold hover:text-gold group/btn"
+                      >
+                        View &amp; Enrol
+                        <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
+                          &rarr;
+                        </span>
+                      </Link>
+                    ) : (
+                      <span className="w-full inline-flex items-center justify-center gap-2 font-mono text-[10.5px] tracking-[0.18em] text-slate px-4 py-3 border border-dashed border-border-warm rounded-[3px] uppercase bg-ivory">
+                        <span className="w-1 h-1 rounded-full bg-slate/50" />
+                        Notify Me
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div className="col-span-2 sm:col-span-1">
-                {c.live ? (
-                  <Link
-                    to="/foundation"
-                    className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-navy rounded-[2px] bg-navy text-gold-light transition-all duration-300 hover:bg-black hover:border-gold hover:text-gold group"
-                  >
-                    View &amp; Enrol
-                    <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                      &rarr;
-                    </span>
-                  </Link>
-                ) : (
-                  <span className="font-mono text-[11px] tracking-[0.2em] text-slate px-[18px] py-3 border border-border-warm uppercase">
-                    Coming Soon
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
     </>

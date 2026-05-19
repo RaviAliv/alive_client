@@ -19,8 +19,8 @@ export default function App() {
           
           {/* <Route path="about" element={<AboutPage />} /> */}
           {/* <Route path="faculty" element={<FacultyPage />} /> */}
-          {/* <Route path="courses" element={<CoursesPage />} /> */}
-          {/* <Route path="foundation" element={<FoundationPage />} /> */}
+          <Route path="courses" element={<CoursesPage />} />
+          <Route path="foundation" element={<FoundationPage />} />
           {/* <Route path="faq" element={<FAQPage />} /> */}
           {/* <Route path="contact" element={<ContactPage />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
