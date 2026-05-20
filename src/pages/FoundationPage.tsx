@@ -355,7 +355,7 @@ export default function FoundationPage() {
               href="#inquiry"
               className="w-full inline-flex items-center justify-center gap-2 bg-navy hover:bg-black text-gold-light hover:text-gold border border-navy hover:border-gold py-3 rounded-[2px] font-body font-medium text-sm tracking-[0.02em] transition-all duration-300 group mb-3"
             >
-              Enrol Now
+              Enroll Now
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                 &rarr;
               </span>

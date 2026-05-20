@@ -341,7 +341,7 @@ export default function HomePage() {
         <div className="relative z-[1] max-w-[1240px] mx-auto px-[clamp(20px,4vw,80px)]">
           <div className="text-center max-w-[640px] mx-auto mb-14 md:mb-16">
             <span className={`${eyebrowGold} block mb-4`}>The Faculty</span>
-            <h2 className="font-display font-medium text-[clamp(32px,4.5vw,56px)] leading-[1.05] tracking-[-0.015em] text-ivory">
+            <h2 className="font-display font-medium text-[clamp(22px,3.5vw,46px)] leading-[1.05] tracking-[-0.015em] text-ivory">
               The Pioneer of Indian Endoscopy and
               <span className="italic text-gold-light"> Reproductive Medicine.</span>
             </h2>

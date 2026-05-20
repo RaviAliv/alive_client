@@ -8,6 +8,8 @@ import CoursesPage from "./pages/CoursesPage";
 import FoundationPage from "./pages/FoundationPage";
 import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 export default function App() {
   return (
@@ -16,14 +18,16 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
-          
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+
           {/* <Route path="about" element={<AboutPage />} /> */}
           {/* <Route path="faculty" element={<FacultyPage />} /> */}
           <Route path="courses" element={<CoursesPage />} />
           <Route path="foundation" element={<FoundationPage />} />
           {/* <Route path="faq" element={<FAQPage />} /> */}
           {/* <Route path="contact" element={<ContactPage />} /> */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

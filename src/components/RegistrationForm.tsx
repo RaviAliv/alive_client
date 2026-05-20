@@ -2,10 +2,10 @@ import { useState, type FormEvent } from "react";
 
 const COURSES = [
   { value: "all", label: "All Courses" },
-  { value: "foundation", label: "Foundation Series (Tier I)" },
-  { value: "core", label: "Core Series (Tier II)" },
-  { value: "advanced", label: "Advanced Series (Tier III)" },
-  { value: "masterclass", label: "Masterclass Series (Tier IV)" },
+  { value: "foundation", label: "Foundation Series" },
+  { value: "core", label: "Core Series" },
+  { value: "advanced", label: "Advanced Series" },
+  { value: "masterclass", label: "Masterclass Series" },
 ];
 
 const ROLES = [
