@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($img = [System.Drawing.Image]::FromFile\\('c:\\\\Users\\\\Administrator\\\\Desktop\\\\Ravi\\\\Alive\\\\client\\\\public\\\\images\\\\book-card-image.webp'\\); \"$\\($img.Width\\)x$\\($img.Height\\)\"; $img.Dispose\\(\\))"
+    ]
+  }
+}

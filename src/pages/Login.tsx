@@ -1,5 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
+import { apiPost } from "../lib/api";
+import { useAuth, type AuthUser } from "../context/AuthContext";
 
 const inputCls =
   "w-full px-[15px] py-[13px] bg-white border border-border-warm font-body text-sm text-navy transition-colors focus:outline-none focus:border-gold";
@@ -39,12 +42,14 @@ type Errors = { email?: string; password?: string };
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const validate = (): Errors => {
     const next: Errors = {};
@@ -61,10 +66,36 @@ export default function Login() {
     if (Object.keys(next).length > 0) return;
 
     setSubmitting(true);
-    // TODO: replace with real API call, e.g. POST /api/auth/login
-    await new Promise((r) => setTimeout(r, 700));
-    setSubmitting(false);
-    navigate("/");
+    setFormError(null);
+    try {
+      const data = await apiPost<{ token: string; user: AuthUser }>(
+        "/auth/login",
+        { email: email.trim(), password }
+      );
+      login(data.token, data.user);
+      navigate("/");
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Login failed.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogle = async (cred: CredentialResponse) => {
+    if (!cred.credential) return;
+    setFormError(null);
+    try {
+      const data = await apiPost<{ token: string; user: AuthUser }>(
+        "/auth/google",
+        { credential: cred.credential }
+      );
+      login(data.token, data.user);
+      navigate("/");
+    } catch (err) {
+      setFormError(
+        err instanceof Error ? err.message : "Google sign-in failed."
+      );
+    }
   };
 
   return (
@@ -108,6 +139,11 @@ export default function Login() {
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+            {formError && (
+              <p className="rounded-lg border border-t-red/40 bg-t-red/10 px-3 py-2 text-[13px] text-t-red">
+                {formError}
+              </p>
+            )}
             <div>
               <label className={labelCls} htmlFor="email">
                 Email
@@ -191,6 +227,22 @@ export default function Login() {
                 &rarr;
               </span>
             </button>
+
+            <div className="flex items-center gap-3 pt-1">
+              <span className="h-px flex-1 bg-border-warm" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate">
+                or
+              </span>
+              <span className="h-px flex-1 bg-border-warm" />
+            </div>
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogle}
+                onError={() => setFormError("Google sign-in failed.")}
+                text="continue_with"
+                shape="rectangular"
+              />
+            </div>
           </form>
         </div>
       </div>

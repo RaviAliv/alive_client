@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
 const HERO_IMAGES = [
-  "/images/heroImg1.webp",
-  "/images/heroImg2.webp",
-  "/images/heroImg3.webp",
+  "/images/hero1.webp",
+  "/images/hero2.webp",
+  "/images/hero3.webp",
+  "/images/hero4.webp"
 ];
 
-const SLIDE_INTERVAL_MS = 5000;
+const SLIDE_INTERVAL_MS = 7000; // 7 seconds per slide
 const TRANSITION_MS = 800;
 
 export default function HeroCarousel() {
@@ -15,6 +16,7 @@ export default function HeroCarousel() {
   const slides = [...HERO_IMAGES, HERO_IMAGES[0]];
 
   useEffect(() => {
+    if (HERO_IMAGES.length <= 1) return; // nothing to cycle through
     const id = setInterval(() => {
       setAnimate(true);
       setIndex((prev) => prev + 1);
@@ -53,7 +55,7 @@ export default function HeroCarousel() {
             <img
               src={src}
               alt={`Hero slide ${(i % HERO_IMAGES.length) + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
               loading={i === 0 ? "eager" : "lazy"}
             />
           </div>

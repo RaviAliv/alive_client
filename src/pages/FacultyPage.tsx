@@ -4,7 +4,7 @@ export default function FacultyPage() {
   return (
     <>
       <section className="relative bg-black bg-[url('/images/faculty-bg.webp')] bg-center bg-cover bg-no-repeat pt-[100px] pb-20 text-ivory after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-b after:from-[rgba(10,14,22,0.45)] after:to-[rgba(10,14,22,0.85)]">
-        <div className="relative z-[1] max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-[0.9fr_1fr] gap-[40px] md:gap-20 items-center">
+        <div className=" z-[1] max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-[0.9fr_1fr] gap-[0px] md:gap-20 items-center">
           <BookCard large />
           <div>
             <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold mb-6">

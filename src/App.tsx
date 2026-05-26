@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage";
@@ -13,23 +14,24 @@ import SignUp from "./pages/SignUp";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
-
-          {/* <Route path="about" element={<AboutPage />} /> */}
-          {/* <Route path="faculty" element={<FacultyPage />} /> */}
+          <Route path="about" element={<AboutPage />} />
+          <Route path="faculty" element={<FacultyPage />} />
           <Route path="courses" element={<CoursesPage />} />
           <Route path="foundation" element={<FoundationPage />} />
-          {/* <Route path="faq" element={<FAQPage />} /> */}
-          {/* <Route path="contact" element={<ContactPage />} /> */}
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+          <Route path="faq" element={<FAQPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

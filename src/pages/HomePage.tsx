@@ -1,72 +1,191 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
 import RegistrationForm from "../components/RegistrationForm";
 
 const eyebrow =
-  "inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold-deep";
+  "inline-block font-mono text-[14px] font-medium tracking-[0.26em] uppercase text-gold-deep";
 const eyebrowGold = eyebrow.replace("text-gold-deep", "text-gold");
 const btnBase =
   "inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border rounded-[2px] cursor-pointer transition-all duration-300 group";
-const btnGold = `${btnBase} bg-gold text-navy border-gold hover:bg-gold-light`;
 const btnGhostGold = `${btnBase} bg-transparent text-gold border-gold hover:bg-gold hover:text-navy`;
-const btnPrimary = `${btnBase} bg-navy text-gold-light border-navy hover:bg-black hover:border-gold hover:text-gold`;
 const arrow =
   "inline-block transition-transform duration-300 group-hover:translate-x-1";
 
+const YT_VIDEO = "QkiegbAnFqc";
+
+/** Academy card whose YouTube video autoplays (muted) while hovered. */
+function VideoCard({ h, p }: { h: string; p: string }) {
+  const [hover, setHover] = useState(false);
+  const base = `https://www.youtube.com/embed/${YT_VIDEO}`;
+  const src = hover
+    ? `${base}?autoplay=1&mute=1&rel=0&playsinline=1`
+    : `${base}?rel=0`;
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="bg-cream relative border border-border-warm overflow-hidden w-[82%] shrink-0 snap-start md:w-auto md:shrink transition-all duration-500 ease-out md:group-hover/cards:scale-[0.96] md:group-hover/cards:opacity-60 md:hover:!scale-[1.04] md:hover:!opacity-100 hover:z-10 hover:shadow-[0_20px_40px_-20px_rgba(30,42,68,0.18)]"
+    >
+      {/* Video — autoplays muted on hover */}
+      <div className="h-[200px] overflow-hidden bg-black">
+        <iframe
+          src={src}
+          title="STAR Academy — Dr. Sunita Tandulwadkar"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="w-full h-full border-0"
+        />
+      </div>
+      {/* Gold accent below the video */}
+      <div className="h-[3px] bg-gold" />
+      <div className="pt-4 pb-7 px-8">
+        <h3 className="font-display text-[28px] text-navy mb-[18px] font-medium">
+          {h}
+        </h3>
+        <p className="text-soft-black text-[15px] leading-[1.7]">{p}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
+  const tiersRef = useRef<HTMLDivElement>(null);
+  const [activeTier, setActiveTier] = useState(0);
+  const TIER_COUNT = 4;
+
+  // Snap point for card[idx] = its position inside the scroller minus the scroll-padding.
+  // We must scroll to the exact snap point or snap-mandatory will reject the smooth scroll.
+  const snapPointFor = (el: HTMLElement, card: HTMLElement) => {
+    const padL = parseFloat(getComputedStyle(el).paddingLeft) || 0;
+    return card.offsetLeft - el.offsetLeft - padL;
+  };
+
+  const scrollToTier = (idx: number) => {
+    const el = tiersRef.current;
+    if (!el) return;
+    const target = el.children[idx] as HTMLElement | undefined;
+    if (!target) return;
+    el.scrollTo({ left: snapPointFor(el, target), behavior: "smooth" });
+  };
+
+  // Auto-advance every 7s on mobile. Reads current position so it survives manual swipes.
+  useEffect(() => {
+    const el = tiersRef.current;
+    if (!el) return;
+    if (window.matchMedia("(min-width: 640px)").matches) return;
+
+    const id = window.setInterval(() => {
+      const cards = Array.from(el.children) as HTMLElement[];
+      if (!cards.length) return;
+      let currentIdx = 0;
+      let best = Infinity;
+      for (let i = 0; i < cards.length; i++) {
+        const dist = Math.abs(snapPointFor(el, cards[i]) - el.scrollLeft);
+        if (dist < best) {
+          best = dist;
+          currentIdx = i;
+        }
+      }
+      const next = cards[(currentIdx + 1) % cards.length];
+      el.scrollTo({ left: snapPointFor(el, next), behavior: "smooth" });
+    }, 7000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  // Scroll listener purely updates the active-dot state. No scrollTo here.
+  useEffect(() => {
+    const el = tiersRef.current;
+    if (!el) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const cards = Array.from(el.children) as HTMLElement[];
+        if (!cards.length) return;
+        let closestIdx = 0;
+        let best = Infinity;
+        for (let i = 0; i < cards.length; i++) {
+          const dist = Math.abs(snapPointFor(el, cards[i]) - el.scrollLeft);
+          if (dist < best) {
+            best = dist;
+            closestIdx = i;
+          }
+        }
+        setActiveTier(closestIdx);
+      });
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <>
       {/* HERO */}
-      <section className="relative -mt-20 h-screen min-h-[600px] bg-black overflow-hidden flex items-center">
-        <HeroCarousel />
-        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,14,22,0.92)] via-[rgba(10,14,22,0.65)] to-[rgba(10,14,22,0.45)] z-[1]" />
+      <section className="relative -mt-5 h-[calc(100vh-60px)] min-h-[600px] bg-black overflow-hidden flex items-center">
+        {/* Desktop: cycling carousel */}
+        <div className="hidden md:block">
+          <HeroCarousel />
+        </div>
+        {/* Mobile: single static image — the carousel crops badly on small screens */}
+        <img
+          src="/images/header_footer.webp"
+          alt=""
+          aria-hidden="true"
+          className="md:hidden absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/90 via-black/65 to-black/45 md:bg-gradient-to-r md:from-[rgba(10,14,22,0.85)] md:via-[rgba(10,14,22,0.25)] md:to-transparent" />
         <div className="relative z-[2] max-w-[1280px] mx-auto pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
-          <div className="max-w-[640px]">
-            <span className={`${eyebrowGold} mb-4`}>Commencing 15 July 2026</span>
+          <div className="max-w-[640px] mx-auto md:mx-0 text-center md:text-left">
+            <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
             <h1 className="font-display font-medium text-[clamp(28px,3.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
-              A structured academic pathway
+              Five live lectures that rebuild how you read a fertility cycle.
               <br />
-              in Indian infertility and IVF.
+             
             </h1>
-            <p className="text-gold-light text-[clamp(13px,1vw,15px)] leading-[1.55] mb-6 max-w-[520px]">
-              Founded and led by Dr. Sunita Tandulwadkar. A live, progressive
-              learning platform for gynecologists, IVF clinicians, and
-              fellowship trainees who want clinical judgment, not fragments.
+            <p className="text-gold-light text-[clamp(19px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
+             From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them.
             </p>
-            <div className="flex gap-2.5 flex-wrap mb-6">
+            <div className="flex gap-2.5 flex-wrap justify-center md:justify-start mb-6">
               <Link
                 to="/foundation"
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-body font-medium text-[13px] tracking-[0.02em] border bg-gold text-navy border-gold hover:bg-gold-light rounded-[2px] transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em]   text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
               >
-                Explore the Foundation Series <span className={arrow}>&rarr;</span>
+                Reserve Your Seat <span className={arrow}>&rarr;</span>
               </Link>
               <Link
                 to="/faculty"
-                className="inline-flex items-center gap-2 px-5 py-2.5 font-body font-medium text-[13px] tracking-[0.02em] border bg-transparent text-gold border-gold hover:bg-gold hover:text-navy rounded-[2px] transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-6 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy group"
               >
-                Meet the Faculty <span className={arrow}>&rarr;</span>
+               See the Curriculum <span className={arrow}>&rarr;</span>
               </Link>
             </div>
-            <div className="flex gap-3 flex-wrap font-mono text-[10px] text-gold tracking-[0.15em] uppercase">
-              <span>Every Wednesday</span>
+            <div className="flex gap-3 flex-wrap justify-center md:justify-start font-mono text-[10px] text-gold tracking-[0.15em] uppercase">
+              <span>FIVE LECTURES</span>
               <span className="text-gold-deep opacity-60">/</span>
-              <span>8:00 PM IST</span>
+              <span>EVERY WEDNESDAY</span>
               <span className="text-gold-deep opacity-60">/</span>
-              <span>Live on Zoom</span>
+              <span>LIVE ON ZOOM</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* THESIS */}
-      <section className="relative bg-ivory py-15 overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:w-1/2 before:h-[30%]  before:bg-right-top before:bg-cover before:bg-no-repeat before:opacity-45 before:pointer-events-none">
+      <section className="relative bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center py-15 overflow-hidden">
         <div className="max-w-[1100px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-start relative z-[1]">
           <div>
-            <span className={`${eyebrow} text-2xl mb-8`}>Why STAR Academy Exists</span>
-            <h2 className="font-display font-medium text-[clamp(26px,5vw,54px)] leading-[1.05] tracking-[-0.015em] text-navy mb-9 max-w-[14ch]">
-              Infertility practice should not be learned in fragments.
-            </h2>
+            {/* Only the eyebrow + heading are centered */}
+            <div className="text-center">
+              <span className={` ${eyebrow}  mb-4`}>Why STAR Academy Exists</span>
+              <h2 className="font-display font-medium text-[clamp(26px,5vw,40px)] leading-[1.05] tracking-[-0.015em] text-navy mb-9">
+                Infertility practice should not be learned in fragments.
+              </h2>
+            </div>
             <p className="text-[clamp(16px,1.15vw,18px)] leading-[1.7] text-slate mb-4">
               Today, most infertility education reaches Indian doctors as
               scattered webinars, disconnected lectures, and isolated topic
@@ -85,10 +204,10 @@ export default function HomePage() {
           </div>
           <div className="md:sticky md:top-[120px] flex md:flex-col flex-row md:gap-3 gap-3 items-center md:pl-5 pl-0 md:border-l md:border-t-0 border-t border-gold-deep md:pt-0 pt-5">
             {[
-              { c: "bg-t-green", label: "Foundation" },
-              { c: "bg-t-gold", label: "Core" },
-              { c: "bg-t-blue", label: "Advanced" },
-              { c: "bg-t-red", label: "Masterclass" },
+              { c: "bg-[#19984F]", label: "Foundation" },
+              { c: "bg-[#F5CB38]", label: "Core" },
+              { c: "bg-[#283049]", label: "Advanced" },
+              { c: "bg-[#DA3834]", label: "Masterclass" },
             ].map((chip) => (
               <div
                 key={chip.label}
@@ -107,19 +226,19 @@ export default function HomePage() {
       </section>
 
       {/* TIER CARDS */}
-      <section className="pb-[clamp(70px,10vw,100px)] bg-ivory">
+      <section className="pt-[clamp(40px,8vw,20px)] pb-[clamp(70px,10vw,150px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
           <div className="text-center max-w-[720px] mx-auto mb-12">
-            <span className={`${eyebrow} mb-[18px]`}>The Pathway</span>
-            <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-navy">
-              Four tiers. One continuous academic pathway.
+            <span className={`${eyebrowGold} mb-[18px]`}>The Pathway</span>
+            <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-ivory">
+              Four tiers. One continuous academic pathway
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+          <div ref={tiersRef} className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-7 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-pl-[clamp(20px,4vw,80px)] -mx-[clamp(20px,4vw,80px)] sm:mx-0 px-[clamp(20px,4vw,80px)] sm:px-0 pb-3 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden group/cards">
             {[
               {
-                img: "/images/marble.webp",
+                img: "/images/Foundation.webp",
                 accent: "bg-t-green",
                 accentText: "text-t-green",
                 ring: "group-hover/card:border-t-green",
@@ -134,7 +253,7 @@ export default function HomePage() {
                 live: true,
               },
               {
-                img: "/images/ornament.webp",
+                img: "/images/Core.webp",
                 accent: "bg-t-gold",
                 accentText: "text-t-gold",
                 ring: "group-hover/card:border-t-gold",
@@ -149,7 +268,7 @@ export default function HomePage() {
                 live: false,
               },
               {
-                img: "/images/dna-pattern.webp",
+                img: "/images/Advanced.webp",
                 accent: "bg-t-blue",
                 accentText: "text-t-blue",
                 ring: "group-hover/card:border-t-blue",
@@ -164,7 +283,7 @@ export default function HomePage() {
                 live: false,
               },
               {
-                img: "/images/faculty-bg.webp",
+                img: "/images/Masterclass.webp",
                 accent: "bg-t-red",
                 accentText: "text-t-red",
                 ring: "group-hover/card:border-t-red",
@@ -181,7 +300,7 @@ export default function HomePage() {
             ].map((c) => (
               <div
                 key={c.title}
-                className={`group/card relative flex flex-col bg-cream border border-border-warm transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-20px_rgba(30,42,68,0.28)] ${c.ring}`}
+                className={`group/card relative flex flex-col bg-cream border border-border-warm w-full shrink-0 snap-start sm:w-auto sm:shrink transition-all duration-500 ease-out sm:group-hover/cards:scale-[0.96] sm:group-hover/cards:opacity-60 sm:hover:!scale-[1.04] sm:hover:!opacity-100 hover:z-10 hover:shadow-[0_30px_60px_-20px_rgba(30,42,68,0.28)] ${c.ring}`}
               >
                 {/* Top accent ribbon */}
                 <div
@@ -239,19 +358,19 @@ export default function HomePage() {
                   {/* <h3 className="font-display font-medium text-[26px] text-navy mb-3 leading-[1.15] transition-colors duration-300 group-hover/card:text-black">
                     {c.title}
                   </h3> */}
-                  <p className="text-[14px] leading-[1.7] text-slate mb-5 flex-1">
+                  <p className="text-[14px] leading-[1.7] text-black mb-5 flex-1">
                     {c.desc}
                   </p>
 
                   {/* Meta row */}
                   <div className="flex items-center gap-3 mb-5 pb-5 border-b border-border-warm">
                     <span
-                      className={`flex items-center gap-1.5 font-mono text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}
+                      className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}
                     >
                       {c.lectures}
                     </span>
                     <span className="w-px h-3 bg-border-warm" />
-                    <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase text-gold-deep">
+                    <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase font-bold text-yellow-500">
                       Live on Zoom
                     </span>
                   </div>
@@ -270,16 +389,117 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          {/* Pagination dots — mobile only */}
+          <div className="sm:hidden flex justify-center gap-2 mt-6">
+            {Array.from({ length: TIER_COUNT }).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToTier(i)}
+                aria-label={`Go to tier ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === activeTier ? "w-6 bg-gold" : "w-2 bg-gold/40"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
-            <RegistrationForm/>
+      <div className="bg-[url('/images/white_background.webp')] bg-cover bg-center py-[clamp(40px,7vw,80px)]">
+        <RegistrationForm />
+      </div>
+
+      {/* FACULTY SHORT */}
+      <section className="relative bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center text-ivory py-[clamp(38px,7vw,60px)] overflow-hidden">
+        {/* Decorative corner accents */}
+        <div className="absolute top-10 left-10 w-16 h-16 border-t border-l border-gold/40 z-[1] hidden md:block" />
+        <div className="absolute bottom-10 right-10 w-16 h-16 border-b border-r border-gold/40 z-[1] hidden md:block" />
+
+        <div className="relative z-[1] max-w-[1240px] mx-auto px-[clamp(20px,4vw,80px)]">
+          <div className="text-center max-w-[840px] mx-auto mb-5 md:mb-7">
+            <span className={`${eyebrowGold} block mb-2`}>The Faculty</span>
+            <p className="font-mono text-[11px] tracking-[0.20em] uppercase text-ivory/70 mb-2">
+             Built for the doctor who wants to think clearly, not just learn more
+            </p>
+            <h2 className="font-display font-medium italic text-gold-light text-[clamp(22px,3.4vw,40px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
+              Founder and faculty, Academy of SRT.
+            </h2>
+            <div className="mt-4 w-12 h-px bg-gold mx-auto" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-[0.78fr_1fr] gap-8 md:gap-12 lg:gap-14 items-stretch">
+            {/* Left: BookCard */}
+            <div className="relative mx-auto md:mx-0 self-center w-full max-w-[400px] md:max-w-none">
+              <BookCard large />
+            </div>
+
+            {/* Right: single cohesive panel */}
+            <div className="relative flex flex-col justify-center bg-[rgba(10,14,22,0.5)] backdrop-blur-sm border border-gold/20 px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-7">
+              <p className="text-[15px] leading-[1.65] mb-4 max-w-[58ch]">
+                Dr. Sunita Tandulwadkar has spent over thirty-five years in IVF, endoscopy, and reproductive medicine. She heads the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune, founded Solo Clinic IVF, and co-founded ALIV Stem Cell Research.
+She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lecture in the Academy is taught by her, in the same voice and the same method she uses with her own patients.
+              </p>
+
+              {/* Stat grid — 3 cols on sm+, 2 cols on xs with 3rd spanning full */}
+              <div className="grid grid-cols-3 gap-px bg-gold/20 border border-gold/20 mb-4">
+                {[
+                  { num: "35+", label: "Years Practice" },
+                  { num: "39",  label: "Books Authored" },
+                  { num: "106+",label: "Peer Papers"    },
+                ].map((s) => (
+                  <div
+                    key={s.label}
+                    className="bg-[rgba(10,14,22,0.7)] backdrop-blur-sm px-2 py-3 sm:px-3 text-center transition-colors duration-300 hover:bg-[rgba(10,14,22,0.85)]"
+                  >
+                    <div className="font-display text-[clamp(20px,2vw,28px)] text-gold leading-none mb-1">
+                      {s.num}
+                    </div>
+                    <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.10em] sm:tracking-[0.16em] uppercase text-ivory/70 leading-snug">
+                      {s.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <blockquote className="relative pl-5 mb-4 font-display italic text-[clamp(14px,1.2vw,18px)] text-gold-light leading-[1.5] before:content-[''] before:absolute before:left-0 before:top-1 before:bottom-1 before:w-[2px] before:bg-gradient-to-b before:from-gold before:via-gold-deep before:to-transparent">
+                In reproductive medicine, I do have an authority. In
+                regenerative medicine, India's first stem cell success, and
+                the world's first at the age of 45, goes to my credit.
+                <cite className="block mt-2 font-mono not-italic text-[10px] tracking-[0.20em] text-gold-deep uppercase">
+                  — Dr. Sunita Tandulwadkar
+                </cite>
+              </blockquote>
+
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
+                {[
+                  "President, ISAR 2026–2028",
+                  "India's First Endoscopic Surgeon, 1994",
+                  "World's First Stem Cell Success at 45",
+                ].map((cred) => (
+                  <span
+                    key={cred}
+                    className="font-mono text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.16em] uppercase px-2.5 py-1.5 border border-gold-deep/60 text-gold-light bg-[rgba(197,164,109,0.06)] rounded-sm"
+                  >
+                    {cred}
+                  </span>
+                ))}
+              </div>
+
+              <Link to="/faculty" className="self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-medium text-[13px] tracking-[0.02em] border rounded-[2px] cursor-pointer transition-all duration-300 group bg-transparent text-gold border-gold hover:bg-gold hover:text-navy">
+                Read Dr. Sunita's full profile <span className={arrow}>&rarr;</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* 3-CARD MINI BLOCK */}
-      <section className="py-[clamp(80px,10vw,140px)] bg-ivory">
-        <div className="max-w-[720px] mx-auto mb-16 text-center px-[clamp(20px,4vw,80px)]">
+      <section className="py-[clamp(48px,7vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center">
+        <div className="max-w-[720px] mx-auto mb-5 text-center px-[clamp(20px,4vw,80px)]">
           <span className={`${eyebrow} mb-[18px]`}>The Academy</span>
           <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-navy mb-5">
-            A doctor-led academic platform in infertility and IVF.
+            A doctor-led academic platform in infertility and IVF
           </h2>
           <p className="text-slate text-[17px] leading-[1.7]">
             Founded by Dr. Sunita Tandulwadkar, India's pioneering IVF and
@@ -288,142 +508,144 @@ export default function HomePage() {
             actually practised.
           </p>
         </div>
-        <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] flex md:grid md:grid-cols-3 gap-3 md:gap-2 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-pl-[clamp(20px,4vw,80px)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden group/cards">
           {[
             {
-              top: "bg-t-green",
               h: "What it is",
-              p: "A live, stepwise learning platform in infertility and IVF. A space for structured, clinically relevant teaching that moves from fundamentals to advanced decision-making.",
+              p: "Live training in infertility and IVF, taught in a structured order. Each tier builds on the one before, moving from fundamentals to advanced clinical decisions. Sessions are taught on Zoom, with room for questions every week.",
             },
             {
-              top: "bg-t-blue",
               h: "Who it is for",
-              p: "Gynecologists building or expanding infertility practice. IVF clinicians refining their protocols. Fellowship trainees in reproductive medicine. Doctors who want clinical judgment, not passive content.",
+              p: "Gynecologists starting or growing an infertility practice. IVF clinicians sharpening their protocols. Fellowship trainees in reproductive medicine. Doctors who want to learn how to think through a case, not just hear another lecture.",
             },
             {
-              top: "bg-t-red",
               h: "Why it is different",
-              p: "Conducted by an internationally respected pioneer in IVF and gynecologic endoscopy. Focused on practical decision-making. Designed to progress from basics to advanced application.",
+              p: "Taught by an IVF and gynecologic endoscopy specialist with three decades of clinical practice. Focused on the decisions doctors actually make in the clinic. Built as a four-tier pathway, so each course continues where the last one ended.",
             },
           ].map((c) => (
-            <div
-              key={c.h}
-              className="bg-cream relative border border-border-warm transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(30,42,68,0.18)]"
-            >
-              <div className={`h-1 ${c.top}`} />
-              <div className="pt-9 pb-10 px-8">
-                <h3 className="font-display text-[28px] text-navy mb-[18px] font-medium">
-                  {c.h}
-                </h3>
-                <p className="text-soft-black text-[15px] leading-[1.7]">
-                  {c.p}
-                </p>
-              </div>
-            </div>
+            <VideoCard key={c.h} h={c.h} p={c.p} />
           ))}
         </div>
-        <div className="text-center mt-14 px-[clamp(20px,4vw,80px)]">
-          <Link
-            to="/about"
-            className="group text-gold-deep font-medium text-sm tracking-[0.02em] uppercase font-mono inline-flex items-center gap-2 pb-0.5 border-b border-current transition-all duration-300 hover:text-navy hover:gap-3.5"
+        
+      </section>
+      {/* WHY JOIN */}
+      <section className=" pt-[clamp(50px,8vw,40px)] pb-[clamp(60px,10vw,120px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
+        <div className="max-w-[720px] mx-auto mb-20 text-center px-[clamp(20px,4vw,80px)]">
+          <span className={`${eyebrowGold} block mb-[18px]`}>Why STAR Academy</span>
+          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-ivory">
+            Why doctors across India are choosing STAR.
+          </h2>
+        </div>
+
+        {[
+          {
+            reverse: false,
+            src: "/images/mam.webp",
+            eb: "Taught by a pioneer",
+            h: "Learn directly from one of India's most authoritative voices in IVF.",
+            p: "Dr. Sunita Tandulwadkar has performed IVF and endoscopic surgery for more than three decades. She has led ISAR, IAGE, FOGSI, and PHOXI at the national level. STAR Academy is the first time her teaching is available in a structured, live, stepwise format directly to doctors across the country.",
+          }
+          // {
+          //   reverse: true,
+          //   src: "/images/jugment.webp",
+          //   eb: "Built for clinical judgment",
+          //   h: "Not just protocols. Practical reasoning for real patients.",
+          //   p: "Most online infertility courses teach lists of steps. STAR teaches the reasoning behind the steps. You will learn not only what to do in a given clinical situation, but why it works, when it fails, and how to adapt when the case does not follow the textbook. This is the difference between information and judgment.",
+          // },
+          // {
+          //   reverse: false,
+          //   src: "/images/pyramid.webp",
+          //   eb: "Progressive, not fragmented",
+          //   h: "A continuous pathway, not a one-off webinar.",
+          //   p: "Webinars teach a topic. STAR teaches a subject. From the first lecture on reproductive endocrinology to the final masterclass on difficult cases, every session builds on the one before it. The four tiers form one connected educational pathway that takes clinicians from fundamentals to advanced application.",
+          // },
+        ].map((row, i) => (
+          <div
+            key={i}
+            className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-[30px] md:gap-20 items-center mb-[60px] md:mb-[100px] last:mb-0"
           >
-            Learn more about STAR Academy <span>&rarr;</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* FACULTY SHORT */}
-      <section className="relative  bg-center bg-cover bg-no-repeat bg-black text-ivory py-[clamp(40px,10vw,10px)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-b after:from-[rgba(10,14,22,0.78)] after:via-[rgba(10,14,22,0.7)] after:to-[rgba(10,14,22,0.92)] after:z-0">
-        {/* Decorative corner accents */}
-        <div className="absolute top-10 left-10 w-16 h-16 border-t border-l border-gold/40 z-[1] hidden md:block" />
-        <div className="absolute bottom-10 right-10 w-16 h-16 border-b border-r border-gold/40 z-[1] hidden md:block" />
-
-        <div className="relative z-[1] max-w-[1240px] mx-auto px-[clamp(20px,4vw,80px)]">
-          <div className="text-center max-w-[640px] mx-auto mb-14 md:mb-16">
-            <span className={`${eyebrowGold} block mb-4`}>The Faculty</span>
-            <h2 className="font-display font-medium text-[clamp(22px,3.5vw,46px)] leading-[1.05] tracking-[-0.015em] text-ivory">
-              The Pioneer of Indian Endoscopy and
-              <span className="italic text-gold-light"> Reproductive Medicine.</span>
-            </h2>
-            <div className="mt-6 w-16 h-px bg-gold mx-auto" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-[0.78fr_1fr] gap-[50px] md:gap-16 lg:gap-20 items-center">
-            {/* Left: BookCard with framing */}
-            <div className="relative mx-auto md:mx-0">
-              <div className="absolute -inset-3 border border-gold/30 pointer-events-none" />
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-gold pointer-events-none" />
-              <BookCard large />
-            </div>
-
-            {/* Right: Bio + Credentials */}
+            <img
+              src={row.src}
+              alt={row.eb}
+              className={`w-full  h-auto rounded-xl ${
+                row.reverse ? "md:order-2" : ""
+              }`}
+            />
             <div>
-              <p className="text-[16px] leading-[1.75] text-ivory/85 mb-7 max-w-[58ch]">
-                Dr. Sunita Tandulwadkar is one of India's most respected names
-                in infertility, IVF, and gynecologic endoscopy, with over 35
-                years of clinical, academic, and leadership experience. She
-                has built and led IVF and endoscopy centres, authored 39
-                books, published more than 106 peer-reviewed papers, and been
-                invited as faculty at over 400 national and international
-                platforms.
+              <span className="text-2xl text-yellow-500 font-mono t tracking-[0.26em] uppercase text-bold py-4 ">{row.eb}</span>
+              <h3 className="font-display font-medium text-[clamp(22px,2.4vw,30px)] text-ivory leading-[1.2] mt-3 mb-[18px]">
+                {row.h}
+              </h3>
+              <p className="text-base leading-[1.75] text-ivory/80 max-w-[55ch]">
+                {row.p}
               </p>
-
-              {/* Stat grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gold/20 border border-gold/20 mb-9">
-                {[
-                  { num: "35+", label: "Years Practice" },
-                  { num: "39", label: "Books Authored" },
-                  { num: "106+", label: "Peer Papers" },
-                  { num: "400+", label: "Faculty Talks" },
-                ].map((s) => (
-                  <div
-                    key={s.label}
-                    className="bg-[rgba(10,14,22,0.7)] backdrop-blur-sm px-4 py-5 text-center transition-colors duration-300 hover:bg-[rgba(10,14,22,0.85)]"
-                  >
-                    <div className="font-display text-[clamp(24px,2.4vw,32px)] text-gold leading-none mb-1.5">
-                      {s.num}
-                    </div>
-                    <div className="font-mono text-[9px] tracking-[0.18em] uppercase text-ivory/70">
-                      {s.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <blockquote className="relative pl-7 my-8 font-display italic text-[clamp(17px,1.4vw,21px)] text-gold-light leading-[1.55] max-w-[58ch] before:content-[''] before:absolute before:left-0 before:top-1 before:bottom-1 before:w-[2px] before:bg-gradient-to-b before:from-gold before:via-gold-deep before:to-transparent">
-                <span className="absolute -left-1 -top-3 font-display text-[44px] text-gold/50 leading-none select-none">
-                  &ldquo;
-                </span>
-                In reproductive medicine, I do have an authority. In
-                regenerative medicine, India's first stem cell success, and
-                the world's first at the age of 45, goes to my credit.
-                <cite className="block mt-4 font-mono not-italic text-[10px] tracking-[0.22em] text-gold-deep uppercase">
-                  — Dr. Sunita Tandulwadkar
-                </cite>
-              </blockquote>
-
-              <div className="flex flex-wrap gap-2 mb-9">
-                {[
-                  "President, ISAR 2026–2028",
-                  "India's First Endoscopic Surgeon, 1994",
-                  "World's First Stem Cell Success at 45",
-                ].map((cred) => (
-                  <span
-                    key={cred}
-                    className="font-mono text-[10px] tracking-[0.16em] uppercase px-3 py-1.5 border border-gold-deep/60 text-gold-light bg-[rgba(197,164,109,0.06)] rounded-sm"
-                  >
-                    {cred}
-                  </span>
-                ))}
-              </div>
-
-              <Link to="/faculty" className={btnGhostGold}>
-                Read Dr. Sunita's full profile <span className={arrow}>&rarr;</span>
-              </Link>
             </div>
           </div>
-        </div>
+        ))}
+       
       </section>
+      {/* ENROLLMENT CTA */}
+      <section className="bg-white py-[clamp(34px,4vw,62px)] px-[clamp(20px,4vw,80px)]">
+  <div
+    className="
+      relative
+      overflow-hidden
+      max-w-[1100px]
+      mx-auto
+      border border-gold/25
+      rounded-[28px]
+      bg-[url('/images/header_footer.webp')]
+      bg-cover
+      bg-center
+    "
+  >
+    {/* Dark Overlay */}
+    <div className="absolute inset-0 bg-[rgba(11,18,32,0.82)] " />
+
+    {/* Decorative corner accents */}
+    <div className="absolute top-8 left-8 w-14 h-14 border-t border-l border-gold/40 hidden md:block z-[2]" />
+    <div className="absolute bottom-8 right-8 w-14 h-14 border-b border-r border-gold/40 hidden md:block z-[2]" />
+
+    {/* Content */}
+    <div className="relative z-[3] max-w-[880px] mx-auto text-center px-[clamp(24px,5vw,56px)] py-[clamp(40px,6vw,70px)] text-ivory">
+      
+      <span className="inline-block font-mono text-[10px] sm:text-[12px] font-medium tracking-[0.15em] sm:tracking-[0.3em] uppercase text-gold mb-4 whitespace-nowrap">
+        Now Enrolling &middot; 15 July 2026
+      </span>
+
+      <h2 className="font-display font-medium text-[clamp(26px,3.6vw,40px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
+        The first batch begins on 15 July. Reserve your seat.
+        <span className="italic text-gold-light">
+          {" "}
+        </span>
+      </h2>
+
+      <p className="text-[15px] leading-[1.7] text-ivory/80 max-w-[56ch] mx-auto mb-7">
+        The Foundation Series runs live, every Wednesday at 8 PM IST.
+        Live Q&amp;A in every session. Seats are limited so the cohort
+        stays small enough for direct teaching.
+      </p>
+
+      <div className="flex flex-wrap gap-3 justify-center">
+        <Link
+          to="/foundation"
+          className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
+        >
+          Reserve Your Seat →
+        </Link>
+
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-2 px-7 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy"
+        >
+          Speak to Our Team →
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
+
+      
 
       {/* PATHWAY */}
       {/* <section className="relative bg-black text-ivory py-[clamp(80px,10vw,140px)] overflow-hidden before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:w-[220px] before:bg-[url('/images/pathway-decor.webp')] before:bg-center before:bg-cover before:bg-no-repeat before:opacity-55 before:pointer-events-none before:[mask-image:linear-gradient(90deg,black_35%,transparent_100%)] after:content-[''] after:absolute after:top-0 after:bottom-0 after:right-0 after:w-[220px] after:bg-[url('/images/pathway-decor.webp')] after:bg-center after:bg-cover after:bg-no-repeat after:opacity-55 after:pointer-events-none after:-scale-x-100 after:[mask-image:linear-gradient(90deg,black_35%,transparent_100%)]">
@@ -648,70 +870,7 @@ export default function HomePage() {
         </div>
       </section> */}
 
-      {/* WHY JOIN */}
-      <section className="py-[clamp(80px,10vw,140px)] bg-mist">
-        <div className="max-w-[720px] mx-auto mb-20 text-center px-[clamp(20px,4vw,80px)]">
-          <span className={`${eyebrow} block mb-[18px]`}>Why STAR Academy</span>
-          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-navy">
-            Why doctors across India are choosing STAR.
-          </h2>
-        </div>
-
-        {[
-          {
-            reverse: false,
-            img: "bg-black bg-[url('/images/dna-pattern.webp')] bg-center bg-cover",
-            imgChildren: null,
-            eb: "Taught by a pioneer",
-            h: "Learn directly from one of India's most authoritative voices in IVF.",
-            p: "Dr. Sunita Tandulwadkar has performed IVF and endoscopic surgery for more than three decades. She has led ISAR, IAGE, FOGSI, and PHOXI at the national level. STAR Academy is the first time her teaching is available in a structured, live, stepwise format directly to doctors across the country.",
-          },
-          {
-            reverse: true,
-            img: "bg-charcoal bg-[url('/images/book-card-image.webp')] bg-center bg-contain bg-no-repeat",
-            imgChildren: null,
-            eb: "Built for clinical judgment",
-            h: "Not just protocols. Practical reasoning for real patients.",
-            p: "Most online infertility courses teach lists of steps. STAR teaches the reasoning behind the steps. You will learn not only what to do in a given clinical situation, but why it works, when it fails, and how to adapt when the case does not follow the textbook. This is the difference between information and judgment.",
-          },
-          {
-            reverse: false,
-            img: "bg-black flex items-center justify-center",
-            imgChildren: (
-              <img
-                src="/images/pyramid.webp"
-                alt="Four-tier pathway"
-                className="max-h-[85%] [filter:drop-shadow(0_20px_40px_rgba(197,164,109,0.3))]"
-              />
-            ),
-            eb: "Progressive, not fragmented",
-            h: "A continuous pathway, not a one-off webinar.",
-            p: "Webinars teach a topic. STAR teaches a subject. From the first lecture on reproductive endocrinology to the final masterclass on difficult cases, every session builds on the one before it. The four tiers form one connected educational pathway that takes clinicians from fundamentals to advanced application.",
-          },
-        ].map((row, i) => (
-          <div
-            key={i}
-            className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-[30px] md:gap-20 items-center mb-[60px] md:mb-[100px] last:mb-0"
-          >
-            <div
-              className={`aspect-[4/3] bg-cream border border-border-warm relative overflow-hidden ${row.img} ${
-                row.reverse ? "md:order-2" : ""
-              }`}
-            >
-              {row.imgChildren}
-            </div>
-            <div>
-              <span className={`${eyebrow} block mb-4`}>{row.eb}</span>
-              <h3 className="font-display font-medium text-[clamp(22px,2.4vw,30px)] text-navy leading-[1.2] mb-[18px]">
-                {row.h}
-              </h3>
-              <p className="text-base leading-[1.75] text-slate max-w-[55ch]">
-                {row.p}
-              </p>
-            </div>
-          </div>
-        ))}
-      </section>
+      
     </>
   );
 }

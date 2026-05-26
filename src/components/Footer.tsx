@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-navy-dark text-gold-light pt-20 pb-[30px] relative">
+    <footer className="bg-[linear-gradient(rgba(12,16,26,0.6),rgba(12,16,26,0.6)),url('/images/header_footer.webp')] bg-cover bg-center text-gold-light pt-20 pb-[30px] relative">
       <div className="max-w-[1280px] mx-auto mb-[50px] px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr] gap-9 md:gap-[50px]">
         <div>
           <div className="flex items-center gap-3 mb-[18px]">
             <img
-              src="/images/logo.webp"
+              src="/images/logo.png"
               alt="STAR logo"
-              className="w-11 h-11 bg-white p-1 border border-gold"
+              className="w-20 h-11 p-1 "
             />
             <span className="font-display text-[15px] text-gold-light leading-[1.2]">
               Sunita Tandulwadkar
@@ -137,7 +137,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-[1280px] mx-auto pt-[30px] px-[clamp(20px,4vw,80px)] border-t border-[rgba(197,164,109,0.15)] flex justify-between flex-wrap gap-[18px] font-mono text-[11px] tracking-[0.12em] text-gold-light opacity-60 uppercase">
-        <span>(c) 2026 Sunita Tandulwadkar Academy of Reproduction</span>
+        <span>© 2026 Academy of Reproduction</span>
         <span>All rights reserved</span>
       </div>
     </footer>
