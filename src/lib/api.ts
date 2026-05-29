@@ -1,5 +1,6 @@
-// Base URL of the backend API. Override via client/.env (VITE_API_URL).
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080/api";
+// In dev, Vite proxies /api → http://localhost:8080 (see vite.config.js).
+// In production, the web server (nginx etc.) must proxy /api → backend.
+const BASE_URL = import.meta.env.VITE_API_URL ?? "/api";
 
 type ApiOptions = { token?: string };
 

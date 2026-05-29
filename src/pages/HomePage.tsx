@@ -7,9 +7,9 @@ import RegistrationForm from "../components/RegistrationForm";
 const eyebrow =
   "inline-block font-mono text-[14px] font-medium tracking-[0.26em] uppercase text-gold-deep";
 const eyebrowGold = eyebrow.replace("text-gold-deep", "text-gold");
-const btnBase =
+// const btnBase =
   "inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border rounded-[2px] cursor-pointer transition-all duration-300 group";
-const btnGhostGold = `${btnBase} bg-transparent text-gold border-gold hover:bg-gold hover:text-navy`;
+// const btnGhostGold = `${btnBase} bg-transparent text-gold border-gold hover:bg-gold hover:text-navy`;
 const arrow =
   "inline-block transition-transform duration-300 group-hover:translate-x-1";
 
@@ -136,19 +136,19 @@ export default function HomePage() {
           src="/images/header_footer.webp"
           alt=""
           aria-hidden="true"
-          className="md:hidden absolute inset-0 w-full h-full object-cover"
+          className="md:hidden absolute inset-0 w-full h-full object-cover opacity-50"
         />
         <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/90 via-black/65 to-black/45 md:bg-gradient-to-r md:from-[rgba(10,14,22,0.85)] md:via-[rgba(10,14,22,0.25)] md:to-transparent" />
         <div className="relative z-[2] max-w-[1280px] mx-auto pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
           <div className="max-w-[640px] mx-auto md:mx-0 text-center md:text-left">
             <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
-            <h1 className="font-display font-medium text-[clamp(28px,3.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
-              Five live lectures that rebuild how you read a fertility cycle.
+            <h1 className="font-display font-medium text-[clamp(20px,3.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
+              Five live lectures that rebuild how you read a fertility cycle
               <br />
              
             </h1>
-            <p className="text-gold-light text-[clamp(19px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
-             From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them.
+            <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
+             From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them
             </p>
             <div className="flex gap-2.5 flex-wrap justify-center md:justify-start mb-6">
               <Link
@@ -572,7 +572,7 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
               }`}
             />
             <div>
-              <span className="text-2xl text-yellow-500 font-mono t tracking-[0.26em] uppercase text-bold py-4 ">{row.eb}</span>
+              <span className="text-md text-[#F7DB7D] font-mono  uppercase text-bold py-4 ">{row.eb}</span>
               <h3 className="font-display font-medium text-[clamp(22px,2.4vw,30px)] text-ivory leading-[1.2] mt-3 mb-[18px]">
                 {row.h}
               </h3>

@@ -156,6 +156,7 @@ export default function SignUp() {
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [signedUpEmail, setSignedUpEmail] = useState<string | null>(null);
 
   const set = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -203,19 +204,15 @@ export default function SignUp() {
     setSubmitting(true);
     setFormError(null);
     try {
-      const data = await apiPost<{ token: string; user: AuthUser }>(
-        "/auth/signup",
-        {
-          name: form.name.trim(),
-          email: form.email.trim(),
-          mobile: form.mobile.trim(),
-          dob: form.dob || undefined,
-          role: form.role || undefined,
-          password: form.password,
-        }
-      );
-      login(data.token, data.user);
-      navigate("/");
+      await apiPost("/auth/signup", {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        mobile: form.mobile.trim(),
+        dob: form.dob || undefined,
+        role: form.role || undefined,
+        password: form.password,
+      });
+      setSignedUpEmail(form.email.trim());
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "Sign up failed.");
     } finally {
@@ -239,6 +236,40 @@ export default function SignUp() {
       );
     }
   };
+
+  if (signedUpEmail) {
+    return (
+      <section className="-mt-20 min-h-screen flex items-center justify-center bg-[#0A0E16] px-5">
+        <div className="absolute inset-0 bg-[url('/images/header_footer.webp')] bg-cover bg-center opacity-20 pointer-events-none" />
+        <div className="relative z-[1] w-full max-w-[420px] border border-gold/20 bg-[rgba(10,14,22,0.75)] backdrop-blur-sm px-8 py-10 text-center">
+          <div className="w-12 h-12 rounded-full border border-gold/40 flex items-center justify-center mx-auto mb-6">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10l4 4 8-8" stroke="#C5A46D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <span className="font-mono text-[10px] tracking-[0.26em] uppercase text-gold block mb-4">
+            Check your inbox
+          </span>
+          <h1 className="font-display font-medium text-[26px] text-ivory mb-3 leading-[1.15]">
+            Verify your email
+          </h1>
+          <p className="text-[14px] text-ivory/60 mb-2 leading-[1.65]">
+            We sent a verification link to
+          </p>
+          <p className="font-mono text-[13px] text-gold mb-8 break-all">{signedUpEmail}</p>
+          <p className="text-[13px] text-ivory/40 mb-6">
+            Click the link in the email to activate your account, then sign in.
+          </p>
+          <Link
+            to="/login"
+            className="inline-flex items-center gap-2 px-7 py-3 bg-[linear-gradient(90deg,#b9842a,#f7db7d,#b9842a)] text-navy font-mono font-bold text-[11px] tracking-[0.16em] uppercase hover:brightness-110 transition-all"
+          >
+            Go to Sign In →
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative bg-ivory min-h-[calc(100vh-60px)] flex items-center py-[clamp(16px,3vw,36px)] px-[clamp(20px,2vw,60px)] overflow-hidden">
