@@ -3,22 +3,18 @@ import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
 import RegistrationForm from "../components/RegistrationForm";
+import { VIDEOS } from "../lib/config";
 
 const eyebrow =
   "inline-block font-mono text-[14px] font-medium tracking-[0.26em] uppercase text-gold-deep";
 const eyebrowGold = eyebrow.replace("text-gold-deep", "text-gold");
-// const btnBase =
-  "inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border rounded-[2px] cursor-pointer transition-all duration-300 group";
-// const btnGhostGold = `${btnBase} bg-transparent text-gold border-gold hover:bg-gold hover:text-navy`;
 const arrow =
   "inline-block transition-transform duration-300 group-hover:translate-x-1";
-
-const YT_VIDEO = "QkiegbAnFqc";
 
 /** Academy card whose YouTube video autoplays (muted) while hovered. */
 function VideoCard({ h, p }: { h: string; p: string }) {
   const [hover, setHover] = useState(false);
-  const base = `https://www.youtube.com/embed/${YT_VIDEO}`;
+  const base = `https://www.youtube.com/embed/${VIDEOS.foundationIntro}`;
   const src = hover
     ? `${base}?autoplay=1&mute=1&rel=0&playsinline=1`
     : `${base}?rel=0`;
@@ -144,8 +140,6 @@ export default function HomePage() {
             <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
             <h1 className="font-display font-medium text-[clamp(20px,3.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
               Five live lectures that rebuild how you read a fertility cycle
-              <br />
-             
             </h1>
             <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
              From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them
@@ -226,7 +220,7 @@ export default function HomePage() {
       </section>
 
       {/* TIER CARDS */}
-      <section className="pt-[clamp(40px,8vw,20px)] pb-[clamp(70px,10vw,150px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
+      <section className="pt-[clamp(20px,8vw,40px)] pb-[clamp(70px,10vw,150px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
           <div className="text-center max-w-[720px] mx-auto mb-12">
             <span className={`${eyebrowGold} mb-[18px]`}>The Pathway</span>
@@ -302,12 +296,7 @@ export default function HomePage() {
                 key={c.title}
                 className={`group/card relative flex flex-col bg-cream border border-border-warm w-full shrink-0 snap-start sm:w-auto sm:shrink transition-all duration-500 ease-out sm:group-hover/cards:scale-[0.96] sm:group-hover/cards:opacity-60 sm:hover:!scale-[1.04] sm:hover:!opacity-100 hover:z-10 hover:shadow-[0_30px_60px_-20px_rgba(30,42,68,0.28)] ${c.ring}`}
               >
-                {/* Top accent ribbon */}
-                <div
-                  className={`absolute top-0 left-0 right-0 h-[3px] z-[3] ${c.accent}`}
-                />
-
-                {/* Image wrapper: outer keeps letter badge visible; inner clips for zoom */}
+                <div className={`absolute top-0 left-0 right-0 h-[3px] z-[3] ${c.accent}`} />
                 <div className="relative">
                   <div className="relative h-[220px] overflow-hidden">
                     <img
@@ -316,12 +305,8 @@ export default function HomePage() {
                       className="w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover/card:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-
-                    {/* Status pill */}
                     {c.live ? (
-                      <span
-                        className={`absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory ${c.accent} border border-white/30 before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-white before:animate-pulse`}
-                      >
+                      <span className={`absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory ${c.accent} border border-white/30 before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-white before:animate-pulse`}>
                         Enrolling
                       </span>
                     ) : (
@@ -329,61 +314,36 @@ export default function HomePage() {
                         Coming Soon
                       </span>
                     )}
-
-                    {/* Tier label bottom-right of image */}
                     <span className="absolute bottom-3 right-4 font-mono text-[10px] tracking-[0.22em] uppercase text-gold-light">
                       {c.tier}
                     </span>
                   </div>
-
-                  {/* Letter badge half-overlapping — first letter in box, rest of word extends to the right */}
                   <div className="absolute -bottom-7 left-6 z-[2] flex items-stretch shadow-[0_10px_25px_-5px_rgba(0,0,0,0.4)]">
-                    <div
-                      className={`relative w-12 h-14 flex items-center text-right pl-4 justify-center font-display font-semibold text-[28px] text-ivory border-2 border-gold ${c.accent}`}
-                    >
+                    <div className={`relative w-12 h-14 flex items-center justify-center font-display font-semibold text-[28px] text-ivory border-2 border-gold ${c.accent}`}>
                       {c.letter}
                     </div>
                     <div className="flex items-center bg-cream border-y-2 border-r-2 border-gold -ml-px px-1">
-                      <span
-                        className={`font-display font-semibold text-[22px] leading-none tracking-[0.01em] ${c.accentText}`}
-                      >
+                      <span className={`font-display font-semibold text-[22px] leading-none tracking-[0.01em] ${c.accentText}`}>
                         {c.rest}
                       </span>
                     </div>
                   </div>
                 </div>
-
-                {/* Body */}
                 <div className="flex flex-col flex-1 pt-12 pb-7 px-6">
-                  {/* <h3 className="font-display font-medium text-[26px] text-navy mb-3 leading-[1.15] transition-colors duration-300 group-hover/card:text-black">
-                    {c.title}
-                  </h3> */}
-                  <p className="text-[14px] leading-[1.7] text-black mb-5 flex-1">
-                    {c.desc}
-                  </p>
-
-                  {/* Meta row */}
+                  <p className="text-[14px] leading-[1.7] text-black mb-5 flex-1">{c.desc}</p>
                   <div className="flex items-center gap-3 mb-5 pb-5 border-b border-border-warm">
-                    <span
-                      className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}
-                    >
+                    <span className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}>
                       {c.lectures}
                     </span>
                     <span className="w-px h-3 bg-border-warm" />
-                    <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase font-bold text-yellow-500">
-                      Live on Zoom
-                    </span>
+                    <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase font-bold text-gold">Live on Zoom</span>
                   </div>
-
-                  {/* CTA */}
                   <Link
                     to={c.to}
                     className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_8px_20px_-6px_rgba(168,121,40,0.5)]"
                   >
                     {c.cta}
-                    <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
-                      &rarr;
-                    </span>
+                    <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
                   </Link>
                 </div>
               </div>

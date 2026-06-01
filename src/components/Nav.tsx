@@ -47,7 +47,7 @@ export default function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-[100] bg-[linear-gradient(rgba(12,16,26,0.55),rgba(12,16,26,0.55)),url('/images/navbar.webp')] bg-cover bg-center border-b border-[rgba(197,164,109,0.18)] transition-[padding] duration-300 ${
-        scrolled ? "py-2.5" : "py-[10px]"
+        scrolled ? "py-3" : "py-[10px]"
       }`}
     >
       <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-[clamp(20px,4vw,80px)] flex items-center justify-between gap-4">
@@ -57,11 +57,11 @@ export default function Nav() {
           onClick={() => navigate("/")}
         >
           <div className="w-16 h-9 sm:w-20 sm:h-10 flex-shrink-0">
-            <img src="/images/logo.png" alt="STAR Academy logo" className="w-full h-full object-contain" />
+            <img src="/images/logo.png" alt="STAR Academy logo" className="w-full h-[40px]" />
           </div>
           <div className={`font-display font-medium text-sm sm:text-md leading-[1.2] tracking-[0.01em] ${goldGradientText}`}>
             Sunita Tandulwadkar
-            <span className={`hidden sm:block text-[7.3px] font-mono font-normal tracking-[0.22em] uppercase mt-[3px] ${goldGradientText}`}>
+            <span className={`block text-[6.5px] sm:text-[7.3px] font-mono font-normal tracking-[0.22em] uppercase mt-[3px] ${goldGradientText}`}>
               Academy of Reproduction
             </span>
           </div>
@@ -114,9 +114,9 @@ export default function Nav() {
           aria-expanded={mobileOpen}
           className="md:hidden relative flex flex-col justify-center items-center w-9 h-9 shrink-0"
         >
-          <span className={`block w-5 h-[1.5px] bg-[#f7db7d] absolute transition-all duration-250 ${mobileOpen ? "rotate-45 translate-y-0" : "-translate-y-[5px]"}`} />
-          <span className={`block w-5 h-[1.5px] bg-[#f7db7d] transition-all duration-250 ${mobileOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
-          <span className={`block w-5 h-[1.5px] bg-[#f7db7d] absolute transition-all duration-250 ${mobileOpen ? "-rotate-45 translate-y-0" : "translate-y-[5px]"}`} />
+          <span className={`block w-5 h-[1.5px] bg-[#f7db7d] absolute transition-all duration-[250ms] ${mobileOpen ? "rotate-45 translate-y-0" : "-translate-y-[5px]"}`} />
+          <span className={`block w-5 h-[1.5px] bg-[#f7db7d] transition-all duration-[250ms] ${mobileOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
+          <span className={`block w-5 h-[1.5px] bg-[#f7db7d] absolute transition-all duration-[250ms] ${mobileOpen ? "-rotate-45 translate-y-0" : "translate-y-[5px]"}`} />
         </button>
       </div>
 

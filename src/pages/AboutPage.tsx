@@ -150,7 +150,7 @@ export default function AboutPage() {
                 </Link>
                 <Link
                   to="/faculty"
-                  className="group inline-flex items-center gap-2 px-6 py-3 border border-gold/60 text-gold font-mono text-[11px] tracking-[0.16em] uppercase transition-all hover:bg-gold hover:text-navy rounded-lg"
+                  className="group inline-flex items-center gap-2 px-6 py-3 border border-gold/60  font-mono text-[11px] tracking-[0.16em] uppercase transition-all hover:bg-gold hover:text-navy rounded-lg"
                 >
                   Meet the Faculty <span className={arrow}>→</span>
                 </Link>

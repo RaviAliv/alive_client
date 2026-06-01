@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { PRICING } from "../lib/config";
 
 /* ─── Data ───────────────────────────────────────────────── */
 const LECTURES = [
@@ -10,10 +11,7 @@ const LECTURES = [
   { id: "l05", no: "05", title: "The Precision Diagnostic Roadmap",              duration: "90 min · Live" },
 ];
 
-const PRICE_EACH   = 999;
-const BUNDLE_FULL  = PRICE_EACH * 5;                    // 4995
-const BUNDLE_PRICE = Math.round(BUNDLE_FULL * 0.8);     // 3996  (exactly 20% off)
-const BUNDLE_SAVE  = BUNDLE_FULL - BUNDLE_PRICE;        // 999
+const { each: PRICE_EACH, bundlePrice: BUNDLE_PRICE, bundleSave: BUNDLE_SAVE } = PRICING;
 
 /* ─── Country picker ─────────────────────────────────────── */
 type Country = { cca2: string; name: string; code: string; flagSvg: string };

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { COURSE } from "../lib/config";
 
 const COURSES = [
   { to: "/foundation", label: "Foundation Series" },
@@ -137,7 +138,7 @@ export default function Footer() {
             </form>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-gold/45">Now Enrolling · July 2026</span>
+              <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-gold/45">{COURSE.enrollmentLabel}</span>
             </div>
           </div>
         </div>

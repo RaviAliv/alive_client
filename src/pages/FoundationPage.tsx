@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import RegistrationForm from "../components/RegistrationForm";
-
-const YT_INTRO = "QkiegbAnFqc";
+import { VIDEOS, COURSE } from "../lib/config";
 
 const LECTURE_THUMBS = [
   "/images/Foundation.webp",
@@ -70,7 +69,7 @@ export default function FoundationPage() {
             <div className="lg:w-[400px] shrink-0">
               <div className="inline-flex items-center gap-2 border border-t-green/25 bg-t-green/10 px-3 py-1.5 rounded-full mb-4">
                 <span className="w-1.5 h-1.5 rounded-full bg-t-green animate-pulse" />
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-t-green">Now Enrolling · July 2026</span>
+                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-t-green">{COURSE.enrollmentLabel}</span>
               </div>
 
               <h1 className="font-display font-semibold leading-[0.92] tracking-[-0.02em] text-white mb-4" style={{ fontSize: "clamp(38px,4.8vw,62px)" }}>
@@ -120,7 +119,7 @@ export default function FoundationPage() {
 
                   <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
                     <iframe
-                      src={`https://www.youtube.com/embed/${YT_INTRO}?rel=0&modestbranding=1&color=white`}
+                      src={`https://www.youtube.com/embed/${VIDEOS.foundationIntro}?rel=0&modestbranding=1&color=white`}
                       title="Dr. Sunita Tandulwadkar — Foundation Series Introduction"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -222,10 +221,10 @@ export default function FoundationPage() {
                     {l.body}
                   </p>
                   <div className="mt-4 pt-4 border-t border-[#e2f0e7] flex items-center justify-between">
-                    <a href="/enroll" className="inline-flex items-center gap-2 font-mono text-[10px]  font-semibold p-3 rounded-xl tracking-[0.14em] uppercase text-t-green hover:gap-3 transition-all duration-200">
-                      Enroll to unlock 
+                    <Link to="/foundation/enroll" className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold p-3 rounded-xl tracking-[0.14em] uppercase text-t-green hover:gap-3 transition-all duration-200">
+                      Enroll to unlock
                       <span className="w-4 h-[1.5px] bg-t-green relative after:content-[''] after:absolute after:right-0 after:-top-[2px] after:w-[5px] after:h-[5px] after:border-t after:border-r after:border-t-green after:rotate-45" />
-                    </a>
+                    </Link>
                     <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-gold">Premium</span>
                   </div>
                 </div>
@@ -236,7 +235,7 @@ export default function FoundationPage() {
 
          {/* ── Compact Premium Enrollment Ribbon ── */}
 <a
-  href="#inquiry"
+  href="#register"
   className="group relative mt-6 block overflow-hidden rounded-[18px] border border-[#1f4f34] bg-[linear-gradient(135deg,#071410_0%,#0b1d16_45%,#10261c_100%)] transition-all duration-300 hover:border-[#2f7a50]"
 >
   {/* Soft green ambient */}
@@ -277,11 +276,11 @@ export default function FoundationPage() {
 
         <span className="hidden sm:block h-1 w-1 rounded-full bg-[#335443]" />
 
-        <span>Wednesdays · 8 PM IST</span>
+        <span>{COURSE.schedule}</span>
 
         <span className="hidden sm:block h-1 w-1 rounded-full bg-[#335443]" />
 
-        <span>Begins 15 July 2026</span>
+        <span>Begins {COURSE.startDate}</span>
       </div>
     </div>
 

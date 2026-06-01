@@ -361,7 +361,7 @@ export default function RegistrationForm({
                     <label className="block mb-1 text-[12px] text-gray-600 font-medium">
                       Phone Number <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex rounded-lg border border-border-warm overflow-visible focus-within:ring-2 focus-within:ring-navy/40 focus-within:border-navy transition h-[36px]">
+                    <div className="flex rounded-lg border border-border-warm overflow-visible focus-within:ring-2 focus-within:ring-navy/40 focus-within:border-navy transition min-h-[36px]">
                       {loadingCountries ? (
                         <div className="flex items-center px-3 bg-gray-50 border-r border-border-warm">
                           <div className="w-4 h-4 border-2 border-gray-200 border-t-navy rounded-full animate-spin" />
