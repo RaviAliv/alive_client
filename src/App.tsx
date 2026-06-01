@@ -7,6 +7,7 @@ import AboutPage from "./pages/AboutPage";
 import FacultyPage from "./pages/FacultyPage";
 import CoursesPage from "./pages/CoursesPage";
 import FoundationPage from "./pages/FoundationPage";
+import FoundationEnrollPage from "./pages/FoundationEnrollPage";
 import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
 import Login from "./pages/Login";
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="faculty" element={<FacultyPage />} />
           <Route path="courses" element={<CoursesPage />} />
           <Route path="foundation" element={<FoundationPage />} />
+          <Route path="foundation/enroll" element={<FoundationEnrollPage />} />
           <Route path="faq" element={<FAQPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />

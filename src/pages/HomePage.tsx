@@ -431,7 +431,12 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-[0.78fr_1fr] gap-8 md:gap-12 lg:gap-14 items-stretch">
             {/* Left: BookCard */}
-            <div className="relative mx-auto md:mx-0 self-center w-full max-w-[400px] md:max-w-none">
+            <div className="relative mx-auto md:mx-0 self-center w-full max-w-[400px] md:max-w-none flex items-center justify-center">
+              {/* Atmospheric glow behind book */}
+              <div className="absolute inset-0 pointer-events-none">
+                {/* <div className="absolute inset-x-[10%] bottom-0 top-[20%] bg-[radial-gradient(ellipse_80%_70%_at_50%_90%,rgba(197,164,109,0.18),transparent_70%)]" />
+                <div className="absolute inset-x-[15%] inset-y-[10%] bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,rgba(197,164,109,0.08),transparent_65%)]" /> */}
+              </div>
               <BookCard large />
             </div>
 
@@ -531,9 +536,9 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
       {/* WHY JOIN */}
       <section className=" pt-[clamp(50px,8vw,40px)] pb-[clamp(60px,10vw,120px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[720px] mx-auto mb-20 text-center px-[clamp(20px,4vw,80px)]">
-          <span className={`${eyebrowGold} block mb-[18px]`}>Why STAR Academy</span>
+          <span className={`${eyebrowGold} block mb-[10px]`}>Why STAR Academy</span>
           <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-ivory">
-            Why doctors across India are choosing STAR.
+            Why doctors across India are choosing STAR
           </h2>
         </div>
 
@@ -562,7 +567,7 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
         ].map((row, i) => (
           <div
             key={i}
-            className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-[30px] md:gap-20 items-center mb-[60px] md:mb-[100px] last:mb-0"
+            className="max-w-[1280px] -mt-7 mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-20 items-center mb-[30px] md:mb-[100px] last:mb-0"
           >
             <img
               src={row.src}

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import RegistrationForm from "../components/RegistrationForm";
 
 const YT_INTRO = "QkiegbAnFqc";
@@ -11,27 +12,27 @@ const LECTURE_THUMBS = [
 ];
 
 const lectures = [
-  { id: "lecture-1", lnum: "L01", label: "Lecture One",   no: "01", title: "The 300-Day Ovarian Symphony",            body: "The complete arc of how an oocyte matures, from the first hormonal signal to ovulation. The HPO axis, follicular endocrinology, and folliculogenesis, laid down as the layer every later clinical decision rests on.", duration: "90 min" },
-  { id: "lecture-2", lnum: "L02", label: "Lecture Two",   no: "02", title: "Ovulation and Precision Triggering",      body: "Ovulation physiology from molecular dynamics to clinical application. When to trigger, why it works, and how to adapt with confidence when the standard playbook does not give the expected result.", duration: "90 min" },
-  { id: "lecture-3", lnum: "L03", label: "Lecture Three", no: "03", title: "The Corpus Luteum as a Clinical Compass", body: "Advances in luteal phase support. The corpus luteum read not as a checkbox at the end of a cycle, but as a clinical signal that tells you what the cycle is doing.", duration: "90 min" },
-  { id: "lecture-4", lnum: "L04", label: "Lecture Four",  no: "04", title: "Implantation, the Genesis Dialogue",      body: "The molecular dialogue between the human embryo and the endometrium. The signals each sends, what makes that dialogue succeed or fail, and the biology your patients ask you to explain.", duration: "90 min" },
-  { id: "lecture-5", lnum: "L05", label: "Lecture Five",  no: "05", title: "The Precision Diagnostic Roadmap",        body: "The diagnostic framework working specialists use in female fertility evaluation. What to ask first, what to order, and how to read results in the context of the biology covered across the series.", duration: "90 min" },
+  { id: "lecture-1", lnum: "L01", label: "Lecture One",   no: "01", title: "The Complete Arc of the Ovarian Cycle",         body: "The full story of how an oocyte matures over 300 days, the hormonal signal it answers to, and the clinical decisions resting on the biology in front of you.", duration: "90 min · Live" },
+  { id: "lecture-2", lnum: "L02", label: "Lecture Two",   no: "02", title: "Ovulation, Triggering, and Timing",              body: "The physiology of ovulation in clinical practice. Why it works, how to adapt when the textbook playbook breaks down in front of a real patient.", duration: "90 min · Live" },
+  { id: "lecture-3", lnum: "L03", label: "Lecture Three", no: "03", title: "Reading the Luteal Phase as a Clinical Signal",  body: "The luteal phase as a diagnostic compass, not a checkbox. How to recognise what a luteal phase is telling you, and how to support it intelligently.", duration: "90 min · Live" },
+  { id: "lecture-4", lnum: "L04", label: "Lecture Four",  no: "04", title: "The Molecular Dialogue of Implantation",         body: "Implantation as a conversation between embryo and endometrium. Understand how endometrial receptivity and embryonic signalling actually work, and what this changes in your thinking.", duration: "90 min · Live" },
+  { id: "lecture-5", lnum: "L05", label: "Lecture Five",  no: "05", title: "The Precision Diagnostic Roadmap",               body: "How to evaluate a fertility patient with precision, not breadth. What to test, what to skip, and how to interpret every result in clinical context.", duration: "90 min · Live" },
 ];
 
 const fullCurriculum = [
   { num: "01", title: "The Complete Arc of the Ovarian Cycle",         body: "The full story of how an oocyte matures over 300 days, from the first hormonal signal through to ovulation. Where every clinical decision actually sits on the biology, and what you gain by seeing the whole arc instead of the single month in front of you." },
-  { num: "02", title: "Ovulation, Triggering, and Timing",             body: "From molecular dynamics to clinical application. Why ovulation works the way it does, when to trigger, what makes a trigger succeed or fail, and how to adapt when the textbook playbook breaks down in a real patient." },
+  { num: "02", title: "Ovulation, Triggering, and Timing",             body: "From molecular dynamics to clinical application. Why ovulation works the way it does, when to trigger, what makes a trigger succeed or fail, and how to adapt when the textbook playbook breaks down in front of a real patient." },
   { num: "03", title: "Reading the Luteal Phase as a Clinical Signal", body: "The corpus luteum as a diagnostic compass, not a checkbox. Current understanding of luteal phase support. How to recognise what a luteal phase is telling you, and how to support it intelligently in the right patient." },
   { num: "04", title: "The Molecular Dialogue of Implantation",        body: "Implantation is not a timing problem. It is a conversation between the embryo and the endometrium. Understand how endometrial receptivity and embryonic signalling actually work, and why this changes the way you think about implantation failure." },
-  { num: "05", title: "The Precision Diagnostic Road Map",             body: "How to evaluate a fertility patient with precision, not breadth. What to test, what to skip, and how to interpret every result in the full clinical context. The diagnostic philosophy that separates efficient practice from exhaustive over-investigation." },
+  { num: "05", title: "The Precision Diagnostic Roadmap",              body: "How to evaluate a fertility patient with precision, not breadth. What to test, what to skip, and how to interpret every result in the full clinical context. The diagnostic philosophy that separates efficient practice from exhaustive over-investigation." },
 ];
 
 const enrollPerks = [
   "Five live lectures with Dr. Sunita",
-  "Interactive Q&A every session",
+  "Live Q&A in every session",
   "Clinical protocol sheets",
   "Certificate on completion",
-  "One email, one entry access",
+  "Six weeks of replay access after the live cohort closes",
 ];
 
 function LockIcon({ size = 14 }: { size?: number }) {
@@ -44,6 +45,7 @@ function LockIcon({ size = 14 }: { size?: number }) {
 }
 
 export default function FoundationPage() {
+  const navigate = useNavigate();
   const eyebrow = "font-mono text-[12px] font-medium tracking-[0.28em] uppercase text-t-green";
 
   return (
@@ -75,21 +77,32 @@ export default function FoundationPage() {
                 Foundation<br /><span className="text-t-green">Series</span>
               </h1>
 
+              <h2 className="font-display text-2xl pb-2 italic leading-[1.55] text-white">The biology layer of reproductive medicine</h2>
               <p className="text-[14px] text-white/55 leading-[1.65] mb-5">
-                The biology layer of reproductive medicine. Five live lectures taught by Dr. Sunita Tandulwadkar — built to give every clinical decision a foundation it can rest on.
+                Five live lectures with Dr. Sunita Tandulwadkar. Built to give every clinical decision a foundation it can rest on. Designed for the doctor who wants to understand the cycle before reading its results
               </p>
 
-              <div className="flex flex-wrap gap-2">
-                {["5 Lectures","Q&A Included", "Certificate"].map((t) => (
-                  <span key={t} className="font-mono text-[10.2px] tracking-[0.18em] uppercase text-white/40 border border-white/10 px-3 py-1.5">
+              <div className="flex flex-wrap  gap-2 mb-6">
+                {["5 Lectures", "Live Q&A", "Certificate"].map((t) => (
+                  <span key={t} className="font-mono  text-[10.2px] tracking-[0.18em] uppercase text-white/40 border border-white/30 px-3 py-1.5">
                     {t}
                   </span>
                 ))}
               </div>
+
+              {/* Desktop-only button — hidden on mobile */}
+              <button
+                type="button"
+                onClick={() => navigate("/foundation/enroll")}
+                className="hidden lg:inline-flex group items-center gap-2.5 bg-t-green hover:bg-[#196638] text-white px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-colors duration-200 rounded-[3px]"
+              >
+                Register My Seat
+                <span className="inline-block group-hover:translate-x-0.5 transition-transform duration-150">→</span>
+              </button>
             </div>
 
             {/* Right — intro video */}
-            <div className="flex-1  min-w-0">
+            <div className="flex-1 min-w-0">
               <div className="relative">
                 {/* Ambient glow */}
                 <div className="absolute -inset-6 bg-t-green/8 blur-[60px] rounded-full pointer-events-none" />
@@ -128,6 +141,16 @@ export default function FoundationPage() {
                 <div className="absolute -bottom-px -left-px w-5 h-5 border-b-2 border-l-2 border-t-green/55 pointer-events-none" />
                 <div className="absolute -bottom-px -right-px w-5 h-5 border-b-2 border-r-2 border-t-green/55 pointer-events-none" />
               </div>
+
+              {/* Mobile-only button — below video */}
+              <button
+                type="button"
+                onClick={() => navigate("/foundation/enroll")}
+                className="lg:hidden mt-5 w-full flex items-center justify-center gap-2.5 bg-t-green hover:bg-[#196638] text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-colors duration-200 rounded-[3px] group"
+              >
+                Register My Seat
+                <span className="inline-block group-hover:translate-x-0.5 transition-transform duration-150">→</span>
+              </button>
             </div>
           </div>
         </div>
@@ -179,7 +202,7 @@ export default function FoundationPage() {
                   </div>
 
                   <div className="absolute bottom-2.5 left-3">
-                    <span className="font-mono text-[9px] tracking-[0.14em] uppercase text-white/40">{l.duration}</span>
+                    <span className="font-mono text-[9px] tracking-[0.14em] uppercase text-white/60">{l.duration}</span>
                   </div>
                 </div>
 
@@ -195,15 +218,15 @@ export default function FoundationPage() {
                   <h3 className="font-display font-semibold text-[20px] leading-[1.25] text-navy mb-2.5">
                     {l.title}
                   </h3>
-                  <p className="text-[13px] text-slate leading-[1.65] flex-grow">
+                  <p className="text-[13px]  leading-[1.65] flex-grow">
                     {l.body}
                   </p>
                   <div className="mt-4 pt-4 border-t border-[#e2f0e7] flex items-center justify-between">
-                    <a href="#inquiry" className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.14em] uppercase text-t-green hover:gap-3 transition-all duration-200">
-                      Enroll to unlock
-                      <span className="w-4 h-[1.5px] bg-t-green relative after:content-[''] after:absolute after:right-0 after:-top-[3px] after:w-[5px] after:h-[5px] after:border-t after:border-r after:border-t-green after:rotate-45" />
+                    <a href="/enroll" className="inline-flex items-center gap-2 font-mono text-[10px]  font-semibold p-3 rounded-xl tracking-[0.14em] uppercase text-t-green hover:gap-3 transition-all duration-200">
+                      Enroll to unlock 
+                      <span className="w-4 h-[1.5px] bg-t-green relative after:content-[''] after:absolute after:right-0 after:-top-[2px] after:w-[5px] after:h-[5px] after:border-t after:border-r after:border-t-green after:rotate-45" />
                     </a>
-                    <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-slate/30">Premium</span>
+                    <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-gold">Premium</span>
                   </div>
                 </div>
               </div>
@@ -296,7 +319,7 @@ export default function FoundationPage() {
           <div className="border-l-[3px] border-t-green pl-7">
             <span className={`${eyebrow} block mb-4`}>Why this course exists</span>
             <p className="font-display italic leading-[1.55] text-white/70" style={{ fontSize: "clamp(17px,2vw,22px)" }}>
-              For the doctor who feels like they are practising infertility in fragments. Who learned physiology a decade ago and has never formally returned to it. Who treats patients confidently enough, but quietly wonders if they are reading the cycle the way the best specialists do. Foundation exists for that doctor. Not to teach new information, but to rebuild the framework that everything else sits on.
+              For the doctor who feels they are practising infertility in fragments. Who learned physiology a decade ago and has never formally returned to it. Who treats patients confidently enough, but quietly wonders if they are reading the cycle the way the best specialists do. The Foundation Series exists for that doctor, not to teach new information but to rebuild the framework that everything else sits on.
             </p>
           </div>
         </div>
@@ -342,23 +365,23 @@ export default function FoundationPage() {
                     Secure your seat in the inaugural batch.
                   </h3>
                   <p className="text-[13px] leading-[1.65] text-slate mb-5">
-                    Join Dr. Sunita live for all five Foundation lectures. Limited seats.
+                    Join Dr. Sunita live for all five Foundation lectures. Seats are limited so the cohort stays small enough for direct teaching.
                   </p>
 
-                  <div className="bg-[#edf6f0] border border-t-green/20 rounded-[3px] px-4 py-3 mb-5">
+                  <div className="bg-[#edf6f0] border border-t-green/40 rounded-[3px] px-4 py-3 mb-5">
                     <div className="font-display font-semibold text-[28px] text-navy leading-none mb-0.5">
-                      [ Price ]
+                      Rs 3,996 Only
                     </div>
-                    <div className="font-mono text-[11px] text-slate/60 tracking-wide">Foundation Series · Tier I</div>
+                    <div className="font-mono text-[11px] py-2 tracking-wide">Full Foundation Series · Tier I</div>
                   </div>
 
-                  <a href="#inquiry" className="w-full flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638] text-white py-3 font-body font-semibold text-[13px] tracking-[0.03em] transition-colors duration-250 group mb-2.5 rounded-[3px]">
+                  <button type="button" onClick={() => navigate("/foundation/enroll")} className="w-full flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638] text-white py-3 font-body font-semibold text-[13px] tracking-[0.03em] transition-colors duration-250 group mb-2.5 rounded-[3px]">
                     Enroll Now
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">→</span>
-                  </a>
-                  <a href="#inquiry" className="w-full flex items-center justify-center text-t-green border border-t-green/35 hover:border-t-green hover:bg-[#edf6f0] py-3 font-body font-medium text-[13px] transition-all duration-200 rounded-[3px]">
+                  </button>
+                  <button type="button" onClick={() => navigate("/foundation/enroll")} className="w-full flex items-center justify-center text-t-green border border-t-green/35 hover:border-t-green hover:bg-[#edf6f0] py-3 font-body font-medium text-[13px] transition-all duration-200 rounded-[3px]">
                     Ask a question first
-                  </a>
+                  </button>
 
                   <ul className="mt-5 pt-5 border-t border-[#d8ede0] space-y-2.5">
                     {enrollPerks.map((p) => (
@@ -379,20 +402,53 @@ export default function FoundationPage() {
         </div>
       </section>
 
-      {/* ── INQUIRY FORM ─────────────────────────────────────── */}
-      <section id="inquiry" className="bg-[#071410] pt-16 pb-20">
+      {/* ── REGISTER SECTION ─────────────────────────────────── */}
+      <section id="register" className="bg-[#071410] pt-16 pb-20">
         <div className="max-w-[1180px] mx-auto px-5 sm:px-8 md:px-12">
-          <div className="text-center mb-10">
-            <span className="font-mono text-[10px] tracking-[0.26em] uppercase text-t-green block mb-2.5">Register interest</span>
-            <h2 className="font-display font-medium text-white leading-[1.15]" style={{ fontSize: "clamp(24px,3vw,36px)" }}>
-              Join the Foundation Series
-            </h2>
-          </div>
-          <div className="max-w-[560px] mx-auto">
-            <RegistrationForm hideHeading noPadding />
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-10 lg:gap-16 items-start">
+
+            {/* Left — context */}
+            <div className="lg:pt-2">
+              <span className="font-mono text-[9px] tracking-[0.26em] uppercase text-t-green block mb-3">Register Now</span>
+              <h2 className="font-display font-medium text-white leading-[1.15] mb-4" style={{ fontSize: "clamp(24px,3vw,38px)" }}>
+                Join the Foundation Series.
+              </h2>
+              <p className="text-[14px] text-white/45 leading-[1.7] mb-8 max-w-[38ch]">
+                Reach out with any question about the programme, eligibility, or schedule. We respond to every enquiry.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { icon: "📅", text: "Wednesdays · 8:00 PM IST" },
+                  { icon: "🖥", text: "Live on Zoom — attend from anywhere" },
+                  { icon: "🎓", text: "Certificate on completion" },
+                  { icon: "💬", text: "Interactive Q&A every session" },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center gap-3">
+                    <span className="text-[16px]">{item.icon}</span>
+                    <span className="text-[13px] text-white/50">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-t-green/10">
+                <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-t-green/50 mb-2">Series begins</p>
+                <p className="font-display text-[22px] text-white/80">15 July 2026</p>
+              </div>
+            </div>
+
+            {/* Right — form */}
+            <div className="bg-[#0a1c13] border border-t-green/20 rounded-[4px] overflow-hidden shadow-[0_0_0_1px_rgba(33,134,78,0.05),0_24px_60px_-10px_rgba(0,0,0,0.5)]">
+              <div className="h-[2px] bg-gradient-to-r from-t-green/15 via-t-green to-t-green/15" />
+              <div className="p-6 sm:p-7">
+                <span className="font-mono text-[12px] mb-2 tracking-[0.26em] uppercase text-t-green block text-center mb-1.5">Foundation Series · Tier I</span>
+                <RegistrationForm hideHeading noPadding />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
+
     </>
   );
 }
