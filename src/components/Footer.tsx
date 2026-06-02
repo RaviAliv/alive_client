@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { COURSE } from "../lib/config";
 
 const COURSES = [
-  { to: "/foundation", label: "Foundation Series" },
-  { to: "/courses",    label: "Core (coming soon)" },
-  { to: "/courses",    label: "Advanced (coming soon)" },
-  { to: "/courses",    label: "Masterclass (coming soon)" },
+  { to: "/course/foundation",  label: "Foundation Series" },
+  { to: "/course/core",        label: "Core Series" },
+  { to: "/course/advanced",    label: "Advanced Series" },
+  { to: "/course/masterclass", label: "Masterclass Series" },
 ];
 
 const ACADEMY = [

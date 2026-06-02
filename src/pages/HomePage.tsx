@@ -142,11 +142,11 @@ export default function HomePage() {
               Five live lectures that rebuild how you read a fertility cycle
             </h1>
             <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
-             From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them
+              From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them
             </p>
             <div className="flex gap-2.5 flex-wrap justify-center md:justify-start mb-6">
               <Link
-                to="/foundation"
+                to="/course/foundation"
                 className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em]   text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
               >
                 Reserve Your Seat <span className={arrow}>&rarr;</span>
@@ -155,7 +155,7 @@ export default function HomePage() {
                 to="/faculty"
                 className="inline-flex items-center gap-2 px-6 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy group"
               >
-               See the Curriculum <span className={arrow}>&rarr;</span>
+                See the Curriculum <span className={arrow}>&rarr;</span>
               </Link>
             </div>
             <div className="flex gap-3 flex-wrap justify-center md:justify-start font-mono text-[10px] text-gold tracking-[0.15em] uppercase">
@@ -242,7 +242,7 @@ export default function HomePage() {
                 title: "Foundation",
                 desc: "Mastering the absolute basics of reproductive medicine. Five live lectures rebuilding the biological foundations every clinical decision rests on.",
                 lectures: "5 Lectures",
-                to: "/foundation",
+                to: "/course/foundation",
                 cta: "Explore",
                 live: true,
               },
@@ -257,8 +257,8 @@ export default function HomePage() {
                 title: "Core",
                 desc: "Simple, highly effective infertility treatments. Five lectures on evaluation, ovulation induction, IUI workflow, and the hidden pelvic drivers.",
                 lectures: "5 Lectures",
-                to: "/courses",
-                cta: "Coming Soon",
+                to: "/course/core",
+                cta: "Explore",
                 live: false,
               },
               {
@@ -272,8 +272,8 @@ export default function HomePage() {
                 title: "Advanced",
                 desc: "IVF practising tips and tactical execution. Seven lectures on stimulation, OHSS prevention, retrieval, embryology, and transfer mechanics.",
                 lectures: "7 Lectures",
-                to: "/courses",
-                cta: "Coming Soon",
+                to: "/course/advanced",
+                cta: "Explore",
                 live: false,
               },
               {
@@ -287,8 +287,8 @@ export default function HomePage() {
                 title: "Masterclass",
                 desc: "In-depth, singular subject mastery. Ten deep-dives on the highest-complexity cases: implantation failure, recurrent loss, and endometriosis.",
                 lectures: "10 Lectures",
-                to: "/courses",
-                cta: "Coming Soon",
+                to: "/course/masterclass",
+                cta: "Explore",
                 live: false,
               },
             ].map((c) => (
@@ -358,9 +358,8 @@ export default function HomePage() {
                 type="button"
                 onClick={() => scrollToTier(i)}
                 aria-label={`Go to tier ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === activeTier ? "w-6 bg-gold" : "w-2 bg-gold/40"
-                }`}
+                className={`h-2 rounded-full transition-all duration-300 ${i === activeTier ? "w-6 bg-gold" : "w-2 bg-gold/40"
+                  }`}
               />
             ))}
           </div>
@@ -381,10 +380,10 @@ export default function HomePage() {
           <div className="text-center max-w-[840px] mx-auto mb-5 md:mb-7">
             <span className={`${eyebrowGold} block mb-2`}>The Faculty</span>
             <p className="font-mono text-[11px] tracking-[0.20em] uppercase text-ivory/70 mb-2">
-             Built for the doctor who wants to think clearly, not just learn more
+              Built for the doctor who wants to think clearly, not just learn more
             </p>
             <h2 className="font-display font-medium italic text-gold-light text-[clamp(22px,3.4vw,40px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
-              Founder and faculty, Academy of SRT.
+              Founder and faculty, Academy of SRT
             </h2>
             <div className="mt-4 w-12 h-px bg-gold mx-auto" />
           </div>
@@ -401,18 +400,19 @@ export default function HomePage() {
             </div>
 
             {/* Right: single cohesive panel */}
-            <div className="relative flex flex-col justify-center bg-[rgba(10,14,22,0.5)] backdrop-blur-sm border border-gold/20 px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-7">
+            <div className="relative flex flex-col
+             justify-center bg-[rgba(10,14,22,0.5)] backdrop-blur-sm border border-gold/20 px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-7">
               <p className="text-[15px] leading-[1.65] mb-4 max-w-[58ch]">
                 Dr. Sunita Tandulwadkar has spent over thirty-five years in IVF, endoscopy, and reproductive medicine. She heads the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune, founded Solo Clinic IVF, and co-founded ALIV Stem Cell Research.
-She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lecture in the Academy is taught by her, in the same voice and the same method she uses with her own patients.
+                She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lecture in the Academy is taught by her, in the same voice and the same method she uses with her own patients.
               </p>
 
               {/* Stat grid — 3 cols on sm+, 2 cols on xs with 3rd spanning full */}
               <div className="grid grid-cols-3 gap-px bg-gold/20 border border-gold/20 mb-4">
                 {[
                   { num: "35+", label: "Years Practice" },
-                  { num: "39",  label: "Books Authored" },
-                  { num: "106+",label: "Peer Papers"    },
+                  { num: "39", label: "Books Authored" },
+                  { num: "106+", label: "Peer Papers" },
                 ].map((s) => (
                   <div
                     key={s.label}
@@ -491,7 +491,7 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
             <VideoCard key={c.h} h={c.h} p={c.p} />
           ))}
         </div>
-        
+
       </section>
       {/* WHY JOIN */}
       <section className=" pt-[clamp(50px,8vw,40px)] pb-[clamp(60px,10vw,120px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
@@ -532,9 +532,8 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
             <img
               src={row.src}
               alt={row.eb}
-              className={`w-full  h-auto rounded-xl ${
-                row.reverse ? "md:order-2" : ""
-              }`}
+              className={`w-full  h-auto rounded-xl ${row.reverse ? "md:order-2" : ""
+                }`}
             />
             <div>
               <span className="text-md text-[#F7DB7D] font-mono  uppercase text-bold py-4 ">{row.eb}</span>
@@ -547,12 +546,12 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
             </div>
           </div>
         ))}
-       
+
       </section>
       {/* ENROLLMENT CTA */}
       <section className="bg-white py-[clamp(34px,4vw,62px)] px-[clamp(20px,4vw,80px)]">
-  <div
-    className="
+        <div
+          className="
       relative
       overflow-hidden
       max-w-[1100px]
@@ -563,54 +562,54 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
       bg-cover
       bg-center
     "
-  >
-    {/* Dark Overlay */}
-    <div className="absolute inset-0 bg-[rgba(11,18,32,0.82)] " />
-
-    {/* Decorative corner accents */}
-    <div className="absolute top-8 left-8 w-14 h-14 border-t border-l border-gold/40 hidden md:block z-[2]" />
-    <div className="absolute bottom-8 right-8 w-14 h-14 border-b border-r border-gold/40 hidden md:block z-[2]" />
-
-    {/* Content */}
-    <div className="relative z-[3] max-w-[880px] mx-auto text-center px-[clamp(24px,5vw,56px)] py-[clamp(40px,6vw,70px)] text-ivory">
-      
-      <span className="inline-block font-mono text-[10px] sm:text-[12px] font-medium tracking-[0.15em] sm:tracking-[0.3em] uppercase text-gold mb-4 whitespace-nowrap">
-        Now Enrolling &middot; 15 July 2026
-      </span>
-
-      <h2 className="font-display font-medium text-[clamp(26px,3.6vw,40px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
-        The first batch begins on 15 July. Reserve your seat.
-        <span className="italic text-gold-light">
-          {" "}
-        </span>
-      </h2>
-
-      <p className="text-[15px] leading-[1.7] text-ivory/80 max-w-[56ch] mx-auto mb-7">
-        The Foundation Series runs live, every Wednesday at 8 PM IST.
-        Live Q&amp;A in every session. Seats are limited so the cohort
-        stays small enough for direct teaching.
-      </p>
-
-      <div className="flex flex-wrap gap-3 justify-center">
-        <Link
-          to="/foundation"
-          className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
         >
-          Reserve Your Seat →
-        </Link>
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-[rgba(11,18,32,0.82)] " />
 
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-2 px-7 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy"
-        >
-          Speak to Our Team →
-        </Link>
-      </div>
-    </div>
-  </div>
-</section>
+          {/* Decorative corner accents */}
+          <div className="absolute top-8 left-8 w-14 h-14 border-t border-l border-gold/40 hidden md:block z-[2]" />
+          <div className="absolute bottom-8 right-8 w-14 h-14 border-b border-r border-gold/40 hidden md:block z-[2]" />
 
-      
+          {/* Content */}
+          <div className="relative z-[3] max-w-[880px] mx-auto text-center px-[clamp(24px,5vw,56px)] py-[clamp(40px,6vw,70px)] text-ivory">
+
+            <span className="inline-block font-mono text-[10px] sm:text-[12px] font-medium tracking-[0.15em] sm:tracking-[0.3em] uppercase text-gold mb-4 whitespace-nowrap">
+              Now Enrolling &middot; 15 July 2026
+            </span>
+
+            <h2 className="font-display font-medium text-[clamp(26px,3.6vw,40px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
+              The first batch begins on 15 July. Reserve your seat.
+              <span className="italic text-gold-light">
+                {" "}
+              </span>
+            </h2>
+
+            <p className="text-[15px] leading-[1.7] text-ivory/80 max-w-[56ch] mx-auto mb-7">
+              The Foundation Series runs live, every Wednesday at 8 PM IST.
+              Live Q&amp;A in every session. Seats are limited so the cohort
+              stays small enough for direct teaching.
+            </p>
+
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link
+                to="/course/foundation"
+                className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
+              >
+                Reserve Your Seat →
+              </Link>
+
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-7 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy"
+              >
+                Speak to Our Team →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       {/* PATHWAY */}
       {/* <section className="relative bg-black text-ivory py-[clamp(80px,10vw,140px)] overflow-hidden before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:w-[220px] before:bg-[url('/images/pathway-decor.webp')] before:bg-center before:bg-cover before:bg-no-repeat before:opacity-55 before:pointer-events-none before:[mask-image:linear-gradient(90deg,black_35%,transparent_100%)] after:content-[''] after:absolute after:top-0 after:bottom-0 after:right-0 after:w-[220px] after:bg-[url('/images/pathway-decor.webp')] after:bg-center after:bg-cover after:bg-no-repeat after:opacity-55 after:pointer-events-none after:-scale-x-100 after:[mask-image:linear-gradient(90deg,black_35%,transparent_100%)]">
@@ -781,7 +780,7 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
                 </div>
               </div>
             </div>
-            <Link to="/foundation" className={btnPrimary}>
+            <Link to="/course/foundation" className={btnPrimary}>
               Enroll in the Foundation Series <span className={arrow}>&rarr;</span>
             </Link>
             <div className="font-mono text-[10px] tracking-[0.15em] text-slate mt-[18px] uppercase opacity-70">
@@ -835,7 +834,7 @@ She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lectu
         </div>
       </section> */}
 
-      
+
     </>
   );
 }

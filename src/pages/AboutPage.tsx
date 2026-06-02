@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import RegistrationForm from "../components/RegistrationForm";
 
 const YT_VIDEO = "QkiegbAnFqc";
 
@@ -463,12 +462,12 @@ export default function AboutPage() {
                 {[
                   { label: "Format",   value: "Live on Zoom · Every Wednesday" },
                   { label: "Time",     value: "8:00 PM IST"                    },
-                  { label: "Duration", value: "Five lectures · 5 weeks"         },
+                  { label: "Duration", value: "Five lectures · 5 weeks"        },
                   { label: "Starts",   value: "15 July 2026"                   },
                 ].map((row) => (
                   <div
                     key={row.label}
-                    className="flex items-baseline gap-6  border-b border-border-warm py-3.5"
+                    className="flex items-baseline gap-6 border-b border-border-warm py-3.5"
                   >
                     <dt className="font-mono text-[13px] tracking-[0.22em] uppercase text-gold w-24 shrink-0">
                       {row.label}
@@ -479,15 +478,75 @@ export default function AboutPage() {
               </dl>
 
               <Link
-                to="/foundation"
-                className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em]   text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
+                to="/course/foundation"
+                className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
               >
-                Reserve Your Seat  <span className={arrow}  >→</span>
+                Explore Foundation <span className={arrow}>→</span>
               </Link>
             </div>
 
-            <div className="w-full mt-15">
-              <RegistrationForm hideHeading noPadding />
+            {/* ── Right: Foundation course card ── */}
+            <div className="relative">
+              <div className="absolute -inset-3 border border-gold/30 pointer-events-none hidden md:block" />
+              <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b-2 border-r-2 border-gold pointer-events-none hidden md:block" />
+
+              <div className="relative bg-cream border border-border-warm overflow-hidden shadow-[0_30px_60px_-30px_rgba(30,42,68,0.28)]">
+                {/* Top accent ribbon */}
+                <div className="h-[3px] bg-t-green" />
+
+                {/* Image + letter badge */}
+                <div className="relative">
+                  <div className="relative h-[240px] overflow-hidden">
+                    <img
+                      src="/images/Foundation.webp"
+                      alt="The Foundation Series"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
+                    <span className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory bg-t-green border border-white/30 before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-white before:animate-pulse">
+                      Enrolling
+                    </span>
+
+                    <span className="absolute bottom-3 right-4 font-mono text-[10px] tracking-[0.22em] uppercase text-gold-light">
+                      Tier I
+                    </span>
+                  </div>
+
+                  <div className="absolute -bottom-7 left-6 z-[2] flex items-stretch shadow-[0_10px_25px_-5px_rgba(0,0,0,0.4)]">
+                    <div className="relative w-14 h-14 flex items-center justify-center font-display font-semibold text-[28px] text-ivory border-2 border-gold bg-t-green">
+                      F
+                    </div>
+                    <div className="flex items-center bg-cream border-y-2 border-r-2 border-gold -ml-px px-1">
+                      <span className="font-display font-semibold text-[22px] leading-none tracking-[0.01em] text-t-green">
+                        oundation
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="pt-12 pb-7 px-6">
+                  <h3 className="font-display font-medium text-[26px] text-navy mb-3 leading-[1.15]">
+                    The Foundation Series
+                  </h3>
+                  <p className="text-[14px] leading-[1.7] text-slate mb-5">
+                    Mastering the absolute basics of reproductive medicine.
+                    Five live lectures rebuilding the biological foundations
+                    every clinical decision rests on, from the HPO axis through
+                    to female fertility diagnostics.
+                  </p>
+
+          
+                  <Link
+                    to="/course/foundation"
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-semibold text-[14px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_8px_20px_-6px_rgba(168,121,40,0.5)] group"
+                  >
+                    Book my seat
+                    <span className={arrow}>→</span>
+                  </Link>
+                </div>
+              </div>
             </div>
 
           </div>

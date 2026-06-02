@@ -1,5 +1,4 @@
 import { useNavigate, Link } from "react-router-dom";
-import RegistrationForm from "../components/RegistrationForm";
 import { VIDEOS, COURSE } from "../lib/config";
 
 const LECTURE_THUMBS = [
@@ -92,7 +91,7 @@ export default function FoundationPage() {
               {/* Desktop-only button — hidden on mobile */}
               <button
                 type="button"
-                onClick={() => navigate("/foundation/enroll")}
+                onClick={() => navigate("/course/foundation/enroll")}
                 className="hidden lg:inline-flex group items-center gap-2.5 bg-t-green hover:bg-[#196638] text-white px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-colors duration-200 rounded-[3px]"
               >
                 Register My Seat
@@ -144,7 +143,7 @@ export default function FoundationPage() {
               {/* Mobile-only button — below video */}
               <button
                 type="button"
-                onClick={() => navigate("/foundation/enroll")}
+                onClick={() => navigate("/course/foundation/enroll")}
                 className="lg:hidden mt-5 w-full flex items-center justify-center gap-2.5 bg-t-green hover:bg-[#196638] text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-colors duration-200 rounded-[3px] group"
               >
                 Register My Seat
@@ -221,7 +220,7 @@ export default function FoundationPage() {
                     {l.body}
                   </p>
                   <div className="mt-4 pt-4 border-t border-[#e2f0e7] flex items-center justify-between">
-                    <Link to="/foundation/enroll" className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold p-3 rounded-xl tracking-[0.14em] uppercase text-t-green hover:gap-3 transition-all duration-200">
+                    <Link to="/course/foundation/enroll" className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold p-3 rounded-xl tracking-[0.14em] uppercase text-t-green hover:gap-3 transition-all duration-200">
                       Enroll to unlock
                       <span className="w-4 h-[1.5px] bg-t-green relative after:content-[''] after:absolute after:right-0 after:-top-[2px] after:w-[5px] after:h-[5px] after:border-t after:border-r after:border-t-green after:rotate-45" />
                     </Link>
@@ -374,11 +373,11 @@ export default function FoundationPage() {
                     <div className="font-mono text-[11px] py-2 tracking-wide">Full Foundation Series · Tier I</div>
                   </div>
 
-                  <button type="button" onClick={() => navigate("/foundation/enroll")} className="w-full flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638] text-white py-3 font-body font-semibold text-[13px] tracking-[0.03em] transition-colors duration-250 group mb-2.5 rounded-[3px]">
+                  <button type="button" onClick={() => navigate("/course/foundation/enroll")} className="w-full flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638] text-white py-3 font-body font-semibold text-[13px] tracking-[0.03em] transition-colors duration-250 group mb-2.5 rounded-[3px]">
                     Enroll Now
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">→</span>
                   </button>
-                  <button type="button" onClick={() => navigate("/foundation/enroll")} className="w-full flex items-center justify-center text-t-green border border-t-green/35 hover:border-t-green hover:bg-[#edf6f0] py-3 font-body font-medium text-[13px] transition-all duration-200 rounded-[3px]">
+                  <button type="button" onClick={() => navigate("/course/foundation/enroll")} className="w-full flex items-center justify-center text-t-green border border-t-green/35 hover:border-t-green hover:bg-[#edf6f0] py-3 font-body font-medium text-[13px] transition-all duration-200 rounded-[3px]">
                     Ask a question first
                   </button>
 
@@ -435,12 +434,89 @@ export default function FoundationPage() {
               </div>
             </div>
 
-            {/* Right — form */}
+            {/* Right — direct contact panel */}
             <div className="bg-[#0a1c13] border border-t-green/20 rounded-[4px] overflow-hidden shadow-[0_0_0_1px_rgba(33,134,78,0.05),0_24px_60px_-10px_rgba(0,0,0,0.5)]">
               <div className="h-[2px] bg-gradient-to-r from-t-green/15 via-t-green to-t-green/15" />
-              <div className="p-6 sm:p-7">
-                <span className="font-mono text-[12px] mb-2 tracking-[0.26em] uppercase text-t-green block text-center mb-1.5">Foundation Series · Tier I</span>
-                <RegistrationForm hideHeading noPadding />
+              <div className="p-6 sm:p-8">
+                <span className="font-mono text-[11px] tracking-[0.26em] uppercase text-t-green block text-center mb-1.5">Foundation Series · Tier I</span>
+                <h3 className="font-display text-white text-center text-[24px] leading-tight mb-1">
+                  Talk to the Academy team.
+                </h3>
+                <p className="text-center text-[13px] text-white/55 leading-[1.6] mb-6">
+                  Direct line to the people who will be teaching the cohort. No forms, no funnels.
+                </p>
+
+                <div className="space-y-3 mb-6">
+                  <a
+                    href="tel:+919876543210"
+                    className="group flex items-center justify-between gap-4 border border-t-green/25 bg-t-green/[0.04] hover:bg-t-green/[0.12] hover:border-t-green/55 px-4 py-3 rounded-[3px] transition-colors duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 rounded-full bg-t-green/15 border border-t-green/30 flex items-center justify-center text-t-green">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                      </span>
+                      <div>
+                        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-t-green/70 mb-0.5">Phone</p>
+                        <p className="font-display text-[16px] text-white leading-none">+91 98765 43210</p>
+                      </div>
+                    </div>
+                    <span className="text-t-green/60 group-hover:translate-x-0.5 transition-transform">→</span>
+                  </a>
+
+                  <a
+                    href="https://wa.me/919876543210"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-4 border border-t-green/25 bg-t-green/[0.04] hover:bg-t-green/[0.12] hover:border-t-green/55 px-4 py-3 rounded-[3px] transition-colors duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 rounded-full bg-t-green/15 border border-t-green/30 flex items-center justify-center text-t-green">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
+                          <path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1c-.2.3-.8 1-1 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.1-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z" />
+                        </svg>
+                      </span>
+                      <div>
+                        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-t-green/70 mb-0.5">WhatsApp</p>
+                        <p className="font-display text-[16px] text-white leading-none">Chat with us</p>
+                      </div>
+                    </div>
+                    <span className="text-t-green/60 group-hover:translate-x-0.5 transition-transform">→</span>
+                  </a>
+
+                  <a
+                    href="mailto:hello@staracademy.in"
+                    className="group flex items-center justify-between gap-4 border border-t-green/25 bg-t-green/[0.04] hover:bg-t-green/[0.12] hover:border-t-green/55 px-4 py-3 rounded-[3px] transition-colors duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 rounded-full bg-t-green/15 border border-t-green/30 flex items-center justify-center text-t-green">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                          <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                      </span>
+                      <div>
+                        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-t-green/70 mb-0.5">Email</p>
+                        <p className="font-display text-[16px] text-white leading-none break-all">hello@staracademy.in</p>
+                      </div>
+                    </div>
+                    <span className="text-t-green/60 group-hover:translate-x-0.5 transition-transform">→</span>
+                  </a>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => navigate("/course/foundation/enroll")}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638] text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase rounded-[3px] transition-colors duration-200 group"
+                >
+                  Reserve My Seat
+                  <span className="inline-block group-hover:translate-x-0.5 transition-transform duration-150">→</span>
+                </button>
+
+                <p className="mt-4 text-center font-mono text-[9px] tracking-[0.22em] uppercase text-white/35">
+                  Replies within 1 working day
+                </p>
               </div>
             </div>
 

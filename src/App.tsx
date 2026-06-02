@@ -8,6 +8,9 @@ import FacultyPage from "./pages/FacultyPage";
 import CoursesPage from "./pages/CoursesPage";
 import FoundationPage from "./pages/FoundationPage";
 import FoundationEnrollPage from "./pages/FoundationEnrollPage";
+import CorePage from "./pages/CorePage";
+import AdvancedPage from "./pages/AdvancedPage";
+import MasterclassPage from "./pages/MasterclassPage";
 import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
 import Login from "./pages/Login";
@@ -32,8 +35,14 @@ export default function App() {
           <Route path="about" element={<AboutPage />} />
           <Route path="faculty" element={<FacultyPage />} />
           <Route path="courses" element={<CoursesPage />} />
-          <Route path="foundation" element={<FoundationPage />} />
-          <Route path="foundation/enroll" element={<FoundationEnrollPage />} />
+          <Route path="course/foundation" element={<FoundationPage />} />
+          <Route path="course/foundation/enroll" element={<FoundationEnrollPage />} />
+          <Route path="course/core" element={<CorePage />} />
+          <Route path="course/advanced" element={<AdvancedPage />} />
+          <Route path="course/masterclass" element={<MasterclassPage />} />
+          <Route path="foundation" element={<Navigate to="/course/foundation" replace />} />
+          <Route path="foundation/enroll" element={<Navigate to="/course/foundation/enroll" replace />} />
+          <Route path="core" element={<Navigate to="/course/core" replace />} />
           <Route path="faq" element={<FAQPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />

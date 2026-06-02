@@ -162,7 +162,7 @@ export default function FoundationEnrollPage() {
             <span className="font-mono text-[12px] tracking-[0.26em] uppercase text-t-green block mb-0.5">Foundation Series · Tier I</span>
             <h1 className="font-display font-medium text-[18px] text-white leading-none">Complete Your Enrolment</h1>
           </div>
-          <Link to="/foundation"
+          <Link to="/course/foundation"
             className="font-mono text-[9.5px] tracking-[0.18em] uppercase text-white hover:text-t-green transition-colors">
             ← Back to Course
           </Link>
@@ -182,7 +182,7 @@ export default function FoundationEnrollPage() {
             <p className="text-[13.5px] text-white/45 leading-[1.7] mb-7">
               We've received your registration and will be in touch to confirm your seat and payment details.
             </p>
-            <Link to="/foundation"
+            <Link to="/course/foundation"
               className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.18em] uppercase text-t-green border border-t-green/30 px-5 py-2.5 hover:bg-t-green hover:text-white transition-colors rounded-[3px]">
               ← Back to Foundation
             </Link>

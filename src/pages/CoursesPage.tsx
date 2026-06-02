@@ -248,6 +248,13 @@ const faqs = [
   },
 ];
 
+const slugByLetter: Record<string, string> = {
+  S: "foundation",
+  T: "core",
+  A: "advanced",
+  R: "masterclass",
+};
+
 const accentText = {
   "t-green": "text-t-green",
   "t-gold": "text-t-gold",
@@ -297,7 +304,7 @@ export default function CoursesPage() {
               strategy. Masterclass builds judgment for the hardest cases
             </p>
             <Link
-              to="/foundation"
+              to="/course/foundation"
               className="inline-flex items-center gap-2.5 px-7 py-3.5 font-body font-bold text-[15px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.5)] group"
             >
               Explore the Foundation Series
@@ -370,7 +377,7 @@ export default function CoursesPage() {
                   )}
 
                   {/* Tier label */}
-                  <span className="absolute top-4 right-4 font-mono text-[9px] tracking-[0.22em] uppercase text-white/40">
+                  <span className="absolute top-4 right-4 font-mono text-[9px] tracking-[0.22em] uppercase text-gold-deep">
                     {c.tier.split("·")[0].trim()}
                   </span>
 
@@ -430,20 +437,19 @@ export default function CoursesPage() {
                     </a>
                     {c.live ? (
                       <Link
-                        to="/foundation"
+                        to={`/course/${slugByLetter[c.letter]}`}
                         className="inline-flex items-center gap-1.5 px-4 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 group/btn"
                       >
                         Enroll Now
                         <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
                       </Link>
                     ) : (
-                      <button
-                        type="button"
-                        onClick={() => setEnquiryLabel(c.title)}
+                      <Link
+                        to={`/course/${slugByLetter[c.letter]}`}
                         className="inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-[10px] tracking-[0.18em] uppercase text-gold-deep border border-gold-deep/40 hover:border-gold-deep transition-colors duration-200"
                       >
-                        Enquire →
-                      </button>
+                        Explore →
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -558,24 +564,23 @@ export default function CoursesPage() {
                 <div className="flex flex-col gap-3 pt-[22px] border-t border-white/8">
                   {c.live ? (
                     <Link
-                      to="/foundation"
+                      to={`/course/${slugByLetter[c.letter]}`}
                       className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-bold text-[14px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 group/cta"
                     >
                       Enroll Now
                       <span className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">&rarr;</span>
                     </Link>
                   ) : (
-                    <button
-                      type="button"
-                      onClick={() => setEnquiryLabel(c.title)}
+                    <Link
+                      to={`/course/${slugByLetter[c.letter]}`}
                       className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-medium text-[14px] tracking-[0.02em] border border-gold/40 text-gold rounded-[2px] transition-colors duration-300 hover:border-gold hover:bg-gold/5 group/cta"
                     >
-                      Enquire Now
+                      Explore Course
                       <span className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">&rarr;</span>
-                    </button>
+                    </Link>
                   )}
                   <Link
-                    to={c.live ? "/foundation" : "/courses"}
+                    to={`/course/${slugByLetter[c.letter]}`}
                     className="text-center font-mono text-[10.5px] tracking-[0.18em] uppercase text-gold/50 py-1.5 transition-colors hover:text-gold"
                   >
                     See full {c.title.replace("The ", "").replace(" Series", "")} page &rarr;
@@ -683,7 +688,7 @@ export default function CoursesPage() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap mb-9">
             <Link
-              to="/foundation"
+              to="/course/foundation"
               className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-gold rounded-[2px] bg-gold text-navy transition-all duration-300 hover:bg-gold-light group"
             >
               Enrol in the Foundation Series

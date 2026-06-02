@@ -67,7 +67,7 @@ export default function FacultyPage() {
               </div>
 
               <Link
-                to="/foundation"
+                to="/course/foundation"
                 className={`inline-flex items-center gap-2.5 px-6 py-3 font-body font-bold text-[14px] tracking-[0.02em] border border-gold text-navy rounded-[2px] transition-all duration-300 hover:brightness-110 group ${goldGradient}`}
               >
                 Explore the Foundation Series
@@ -235,7 +235,7 @@ export default function FacultyPage() {
       </section>
 
       {/* ── TIMELINE ──────────────────────────────────────────── */}
-      <section className="py-[clamp(50px,8vw,90px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
+      <section className="py-[clamp(50px,8vw,60px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
 
           <div className="text-center max-w-[640px] mx-auto mb-12">
@@ -328,18 +328,18 @@ export default function FacultyPage() {
 
           <div className="text-center mb-10">
             <span className={`${eyebrow} block mb-3`}>Historic Moment</span>
-            <h2 className="font-display font-medium text-[clamp(24px,3.5vw,38px)] leading-[1.1] tracking-[-0.015em] text-navy mb-2">
+            <h2 className="font-display font-medium text-[clamp(24px,3.5vw,28px)] leading-[1.1] tracking-[-0.015em] text-navy mb-2">
               A breakthrough that placed Indian reproductive medicine
             </h2>
             <p className="font-display font-medium italic text-[clamp(20px,2.8vw,32px)] leading-[1.1] text-gold-deep">
-              on the world map.
+              on the world map
             </p>
           </div>
 
           <div className="bg-cream border border-border-warm overflow-hidden">
             <div className="h-[3px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)]" />
 
-            <div className="px-[clamp(24px,5vw,56px)] py-10">
+            <div className="px-[clamp(24px,5vw,156px)] py-10">
               <div className="text-center mb-8">
                 <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] uppercase text-gold-deep border border-gold-deep/40 px-4 py-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-gold-deep" />
@@ -351,9 +351,9 @@ export default function FacultyPage() {
                 The day India delivered its first stem cell baby
               </h3>
 
-              <blockquote className="border-l-2 border-gold pl-6 mb-8 max-w-[52ch] mx-auto">
-                <p className="font-display italic text-[clamp(14px,1.3vw,17px)] text-navy/75 leading-[1.65]">
-                  It was the first time in India that a child had been brought into the world through the use of autologous stem cell therapy in fertility. It was also the first time in the world for a woman of 45.
+              <blockquote className="border-l-2 border-gold pl-6 mb-8 max-w-[502ch] mx-auto">
+                <p className="font-display italic text-[clamp(14px,1.3vw,17px)] text-navy/85 leading-[1.65]">
+                  It was the first time in India that a child had been brought into the world through the use of autologous stem cell therapy in fertility. It was also the first time in the world for a woman of 45
                 </p>
               </blockquote>
 
@@ -369,8 +369,8 @@ export default function FacultyPage() {
                 ))}
               </div>
 
-              <p className="text-[14px] leading-[1.7] text-slate text-center max-w-[52ch] mx-auto">
-                The procedure was led by Dr. Sunita and a team at her institutions. The technique she developed has since informed the regenerative work that continues at ALIV.
+              <p className="text-[14px] leading-[1.7] text-slate text-center max-w-[502ch] mx-auto">
+                The procedure was led by Dr. Sunita and a team at her institutions. The technique she developed has since informed the regenerative work that continues at ALIV
               </p>
 
               <div className="mt-8 pt-6 border-t border-border-warm text-center">
@@ -552,10 +552,10 @@ export default function FacultyPage() {
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link
-                to="/foundation/enroll"
+                to="/course/foundation/enroll"
                 className={`inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-[2px] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] transition-all duration-300 group ${goldGradient}`}
               >
-                Register My Seat
+                Book My Seat
                 <span className={arrow}>&rarr;</span>
               </Link>
               <Link
