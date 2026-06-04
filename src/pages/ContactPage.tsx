@@ -211,7 +211,7 @@ export default function ContactPage() {
                     </span>
                     <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-gold/70">{c.label}</span>
                   </div>
-                  <p className="font-display text-[18px] text-ivory leading-tight mb-1 break-all">{c.value}</p>
+                  <p className="font-mono text-[18px] text-ivory leading-tight mb-1 break-all">{c.value}</p>
                   <p className="text-[12px] text-ivory/55 mb-4">{c.hint}</p>
                   <span className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-gold border-b border-gold/30 pb-0.5 group-hover:text-gold-light group-hover:border-gold transition-colors">
                     {c.cta}
@@ -239,8 +239,8 @@ export default function ContactPage() {
               </div>
 
               <div className="p-6 md:p-7 flex flex-col">
-                <span className="font-mono text-[8px] tracking-[0.24em] uppercase text-gold/80 mb-2">✦ Find us</span>
-                <h1 className="font-display text-[15px] text-ivory leading-[1.2] mb-3">Start Academy· Pune</h1>
+                <span className="font-mono text-[11px] tracking-[0.24em] uppercase text-gold/80 mb-2">✦ Find us</span>
+                <h1 className="font-display text-[15px] text-ivory leading-[1.2] mb-3">STAR ACADEMY ·  PUNE</h1>
                 <p className="font-display text-[20px] text-ivory leading-[1.3] mb-3"> 6th Floor, ALIV - Regenerative Wellness</p>
                 <p className="text-[13px] text-ivory/65 leading-[1.6] mb-5">
                   Bund Garden, Pune 411001 · Maharashtra, India

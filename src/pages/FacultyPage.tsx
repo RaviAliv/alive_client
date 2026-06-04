@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { VIDEOS } from "../lib/config";
 
 const goldGradient = "bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)]";
-const eyebrow = "font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-gold-deep";
-const eyebrowGold = "font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-gold";
+const eyebrow = "font-mono text-[12px] font-medium tracking-[0.28em] uppercase text-gold-deep";
+const eyebrowGold = "font-mono text-[15px] font-medium tracking-[0.28em] uppercase text-gold";
 const arrow = "inline-block transition-transform duration-300 group-hover:translate-x-1";
 
 export default function FacultyPage() {
@@ -135,7 +135,7 @@ export default function FacultyPage() {
       </section>
 
       {/* ── CREDENTIALS ───────────────────────────────────────── */}
-      <section className="py-[clamp(50px,8vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.82),rgba(248,245,239,0.82)),url('/images/marble.webp')] bg-cover bg-center">
+      <section className="py-[clamp(50px,8vw,60px)] bg-[linear-gradient(rgba(248,245,239,0.82),rgba(248,245,239,0.82)),url('/images/marble.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
 
           <div className="text-center max-w-[640px] mx-auto mb-12">
@@ -323,7 +323,7 @@ export default function FacultyPage() {
       </section>
 
       {/* ── BREAKTHROUGH ──────────────────────────────────────── */}
-      <section className="py-[clamp(50px,8vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.82),rgba(248,245,239,0.82)),url('/images/marble.webp')] bg-cover bg-center">
+      <section className="py-[clamp(50px,8vw,60px)] bg-[linear-gradient(rgba(248,245,239,0.82),rgba(248,245,239,0.82)),url('/images/marble.webp')] bg-cover bg-center">
         <div className="max-w-[860px] mx-auto px-[clamp(20px,4vw,80px)]">
 
           <div className="text-center mb-10">
@@ -387,7 +387,7 @@ export default function FacultyPage() {
       </section>
 
       {/* ── PUBLICATIONS ──────────────────────────────────────── */}
-      <section className="py-[clamp(50px,8vw,90px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
+      <section className="py-[clamp(50px,8vw,60px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
 
           <div className="text-center max-w-[640px] mx-auto mb-12">
@@ -456,7 +456,7 @@ export default function FacultyPage() {
       </section>
 
       {/* ── AWARDS ────────────────────────────────────────────── */}
-      <section className="py-[clamp(50px,8vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.82),rgba(248,245,239,0.82)),url('/images/marble.webp')] bg-cover bg-center">
+      <section className="py-[clamp(50px,8vw,60px)] bg-[linear-gradient(rgba(248,245,239,0.82),rgba(248,245,239,0.82)),url('/images/marble.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
 
           <div className="text-center max-w-[640px] mx-auto mb-12">
@@ -482,23 +482,46 @@ export default function FacultyPage() {
             ))}
           </div>
 
-          <div className="max-w-[640px] mx-auto divide-y divide-border-warm border-t border-border-warm">
-            {[
-              { title: "Bharat Gaurav Puraskar", detail: "2019" },
-              { title: "Best Medical Practice Award", detail: "European Medical Association · 2016" },
-              { title: "Letter of Appreciation from the President of India", detail: "2012" },
-            ].map((award) => (
-              <div key={award.title} className="flex flex-wrap justify-between items-baseline py-5 gap-3">
-                <span className="font-display font-medium text-[18px] text-navy">{award.title}</span>
-                <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-gold-deep">{award.detail}</span>
+          <div className="max-w-[1080px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch">
+
+            {/* Image — natural size, no upscaling */}
+            <div className="relative bg-[rgba(248,245,239,0.6)] border border-border-warm flex items-center justify-center p-4">
+              <img
+                src="/images/medals.webp"
+                alt="Awards & medals received by Dr. Sunita Tandulwadkar"
+                className="w-full h-auto object-contain max-h-[420px]"
+                style={{ imageRendering: "auto" }}
+              />
+              {/* gold accent strip */}
+              <div className="absolute bottom-0 inset-x-0 h-[3px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)]" />
+            </div>
+
+            {/* Awards list */}
+            <div className="flex flex-col justify-center">
+              <span className={`${eyebrow} block mb-5`}>Also Recognised</span>
+              <div className="divide-y divide-border-warm border-t border-border-warm">
+                {[
+                  { title: "Bharat Gaurav Puraskar", detail: "2019" },
+                  { title: "Best Medical Practice Award", detail: "European Medical Association · 2016" },
+                  { title: "Letter of Appreciation from the President of India", detail: "2012" },
+                ].map((award) => (
+                  <div key={award.title} className="flex flex-wrap justify-between items-baseline py-5 gap-3 group hover:pl-2 transition-all duration-200">
+                    <span className="font-display font-medium text-[clamp(16px,1.4vw,19px)] text-navy group-hover:text-gold-deep transition-colors duration-200">
+                      {award.title}
+                    </span>
+                    <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-gold-deep shrink-0">
+                      {award.detail}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── WHY SHE TEACHES ───────────────────────────────────── */}
-      <section className="py-[clamp(50px,8vw,90px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center overflow-hidden">
+      <section className="py-[clamp(50px,8vw,60px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center overflow-hidden">
         <div className="relative max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
 
           <div className="text-center mb-10">

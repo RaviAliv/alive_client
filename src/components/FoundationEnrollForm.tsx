@@ -249,7 +249,7 @@ export default function FoundationEnrollForm({ onSuccess }: { onSuccess?: (name:
       {error && <p className="text-[12px] text-red-400 bg-red-900/20 border border-red-400/20 rounded-[3px] px-3 py-2">{error}</p>}
 
       <button type="submit" disabled={submitting}
-        className="w-full flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 font-mono text-[10.5px] font-bold tracking-[0.18em] uppercase transition-colors duration-200 rounded-[3px] group">
+        className="w-full flex items-center justify-center gap-2 bg-t-green hover:bg-[#196638]   disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 font-mono text-[10.5px] font-bold tracking-[0.18em] uppercase transition-colors duration-200 rounded-[3px] group">
         {submitting ? (
           <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Submitting…</>
         ) : (

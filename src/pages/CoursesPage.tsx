@@ -290,7 +290,7 @@ export default function CoursesPage() {
           <div>
             <div className="flex items-center gap-3 mb-5">
               <span className="w-8 h-px bg-gold/60" />
-              <span className="font-mono text-[11px] font-medium tracking-[0.28em] uppercase text-gold">
+              <span className="font-mono text-[15px] font-medium tracking-[0.28em] uppercase text-gold">
                 The Pathway
               </span>
             </div>
@@ -332,10 +332,10 @@ export default function CoursesPage() {
       </section>
 
       {/* COURSE CARDS GRID */}
-      <section className="pt-[clamp(60px,7vw,100px)] pb-[clamp(50px,7vw,80px)] bg-[linear-gradient(rgba(248,245,239,0.88),rgba(248,245,239,0.88)),url('/images/marble.webp')] bg-cover bg-center">
+      <section className="pt-[clamp(60px,7vw,60px)] pb-[clamp(50px,7vw,60px)] bg-[linear-gradient(rgba(248,245,239,0.88),rgba(248,245,239,0.88)),url('/images/marble.webp')] bg-cover bg-center">
         <div className="max-w-[1100px] mx-auto px-[clamp(20px,4vw,80px)]">
           <div className="text-center mb-12 max-w-[620px] mx-auto">
-            <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
+            <span className="inline-block font-mono text-[15px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
               Four Tiers
             </span>
             <h2 className="font-display font-medium text-[clamp(28px,3.4vw,42px)] leading-[1.1] text-navy mb-3">
