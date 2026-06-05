@@ -245,78 +245,51 @@ export default function FoundationEnrollPage() {
                 </div>
 
                 {/* ── Bundle button — TOP ── */}
-                {!isBundle ? (
-                  <button
-                    type="button"
-                    onClick={() => setSelected(LECTURES.map((l) => l.id))}
-                    className="w-full mb-5 flex items-center gap-4 px-4 py-4 transition-all group hover:brightness-105 active:scale-[0.99]"
-                    style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`, border: `1px solid ${ACCENT}`, cursor: "pointer" }}
+                <button
+                  type="button"
+                  onClick={() => setSelected(isBundle ? [] : LECTURES.map((l) => l.id))}
+                  className="w-full mb-5 flex items-center gap-4 px-4 py-4 transition-all hover:brightness-105 active:scale-[0.99]"
+                  style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`, border: `1px solid ${ACCENT}`, cursor: "pointer" }}
+                >
+                  {/* +/− icon circle */}
+                  <div
+                    className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-200"
+                    style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.3)" }}
                   >
-                    {/* Plus icon circle */}
-                    <div
-                      className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
-                      style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.3)" }}
-                    >
+                    {isBundle ? (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                      </svg>
+                    ) : (
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
                         <line x1="12" y1="5" x2="12" y2="19"/>
                         <line x1="5" y1="12" x2="19" y2="12"/>
                       </svg>
-                    </div>
-
-                    {/* Text block */}
-                    <div className="flex-1 text-left">
-                      <p className="text-white font-semibold text-[14px] leading-none mb-1">
-                        Enroll All 5 Lectures
-                      </p>
-                      <p className="font-mono text-[10px] tracking-wide" style={{ color: "rgba(255,255,255,0.6)" }}>
-                        ₹{BUNDLE_PRICE.toLocaleString("en-IN")} bundle&nbsp;
-                        <span className="line-through" style={{ color: "rgba(255,255,255,0.35)" }}>
-                          ₹{(PRICE_EACH * 5).toLocaleString("en-IN")}
-                        </span>
-                      </p>
-                    </div>
-
-                    {/* Save pill */}
-                    <div
-                      className="shrink-0 text-center px-3 py-1.5"
-                      style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)" }}
-                    >
-                      <p className="font-mono text-[8px] tracking-[0.14em] uppercase text-white/70 leading-none mb-0.5">Save</p>
-                      <p className="font-display font-medium text-white text-[15px] leading-none">₹{BUNDLE_SAVE.toLocaleString("en-IN")}</p>
-                    </div>
-                  </button>
-                ) : (
-                  <div
-                    className="w-full mb-5 flex items-center justify-between px-4 py-3"
-                    style={{ background: `${ACCENT}10`, border: `1.5px solid ${ACCENT}40` }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                        style={{ background: ACCENT }}
-                      >
-                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                          <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <span className="text-[12px] font-semibold block leading-none mb-0.5" style={{ color: "#111827" }}>
-                          Bundle applied
-                        </span>
-                        <span className="font-mono text-[10px]" style={{ color: "#6b7280" }}>
-                          ₹{BUNDLE_PRICE.toLocaleString("en-IN")} total · you save ₹{BUNDLE_SAVE.toLocaleString("en-IN")}
-                        </span>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setSelected([])}
-                      className="font-mono text-[9px] tracking-[0.14em] uppercase text-gray-400 hover:text-red-500 transition-colors"
-                    >
-                      Remove
-                    </button>
+                    )}
                   </div>
-                )}
+
+                  {/* Text block */}
+                  <div className="flex-1 text-left">
+                    <p className="text-white font-semibold text-[14px] leading-none mb-1">
+                      {isBundle ? "All 5 Lectures Selected" : "Enroll All 5 Lectures"}
+                    </p>
+                    <p className="font-mono text-[10px] tracking-wide" style={{ color: "rgba(255,255,255,0.6)" }}>
+                      ₹{BUNDLE_PRICE.toLocaleString("en-IN")} bundle&nbsp;
+                      <span className="line-through" style={{ color: "rgba(255,255,255,0.35)" }}>
+                        ₹{(PRICE_EACH * 5).toLocaleString("en-IN")}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Save pill */}
+                  <div
+                    className="shrink-0 text-center px-3 py-1.5"
+                    style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)" }}
+                  >
+                    <p className="font-mono text-[8px] tracking-[0.14em] uppercase text-white/70 leading-none mb-0.5">Save</p>
+                    <p className="font-display font-medium text-white text-[15px] leading-none">₹{BUNDLE_SAVE.toLocaleString("en-IN")}</p>
+                  </div>
+                </button>
 
                 {/* ── Lecture accordion ── */}
                 <div className="mb-5" style={{ border: "1.5px solid #d1d5db", borderRadius: 3 }}>

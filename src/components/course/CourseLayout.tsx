@@ -80,8 +80,8 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
             <span className={`font-mono text-[10px] tracking-[0.22em] uppercase ${theme.textAccent} opacity-80`}>{course.tierLabel}</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
-            <div className="lg:w-[400px] shrink-0">
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_3fr] gap-8 lg:gap-12 lg:items-center">
+            <div>
               <div className="inline-flex items-center gap-2 border border-[var(--accent-25)] bg-[var(--accent-10)] px-3 py-1.5 rounded-full mb-4">
                 <span className={`w-1.5 h-1.5 rounded-full ${theme.bgAccent} animate-pulse`} />
                 <span className={`font-mono text-[10px] tracking-[0.2em] uppercase ${theme.textAccent}`}>{course.statusLabel}</span>
@@ -117,7 +117,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
               </ActionButton>
             </div>
 
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0">
               <div className="relative">
                 <div className="absolute -inset-6 bg-[var(--accent-08)] blur-[60px] rounded-full pointer-events-none" />
 
@@ -347,17 +347,17 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
       {/* ── PROGRESSION ARGUMENT (optional) ─────────────────── */}
       {course.progression && (
         <section className="py-8  md:py-10" style={{ background: theme.darkBg }}>
-          <div className="max-w-[1180px] mx-auto  px-5 sm:px-8 md:px-12">
-            <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <div className="max-w-[1180px]  px-5 sm:px-8 md:px-12">
+            <div style={{ maxWidth: 880, margin: "0 auto" }}>
               <span className={`${eyebrowCls} block mb-4`}>{course.progression.eyebrow}</span>
-              <h2 className="font-display font-medium text-white leading-[1.16] mb-8" style={{ fontSize: "clamp(22px,3vw,34px)", maxWidth: "42ch" }}>
+              <h2 className="font-display font-medium text-white leading-[1.16] mb-5" style={{ fontSize: "clamp(22px,4vw,34px)", maxWidth: "82ch" }}>
                 {course.progression.heading}
               </h2>
               {course.progression.paragraphs.map((p, i) => (
-                <p key={i} className="text-white/75 leading-[1.72] mb-5 max-w-[64ch]" style={{ fontSize: "1.0625rem" }}>{p}</p>
+                <p key={i} className="text-white/75 leading-[1.72] mb-5 max-w-[84ch]" style={{ fontSize: "1.0625rem" }}>{p}</p>
               ))}
               <p
-                className="font-display italic text-[1.2rem] leading-[1.55] mt-8 pt-6 max-w-[62ch]"
+                className="font-display italic text-[1.2rem] leading-[1.55] mt-8 pt-6 max-w-[84ch]"
                 style={{ color: `${theme.accentHex}cc`, borderTop: `1px solid ${theme.accentHex}25` }}
               >
                 {course.progression.closingQuote}
@@ -478,7 +478,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                   // Border: active & done = tier colour; future = light gray
                   const borderColor = isFuture ? "#d1d5db" : color;
                   // Dot: active = solid tier; done = lighter tier; future = white with gray border
-                  const dotBg      = isActive ? color : isDone ? `${color}55` : "#e9eaeb";
+                  const dotBg      = isActive ? color : isDone ? color : "#e9eaeb";
                   const dotBorder  = isActive ? color : isDone ? color         : "#c8cacb";
                   // Label (tier name)
                   const labelColor = isActive ? color : isDone ? color         : "#6b7280";
@@ -534,34 +534,18 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
         );
       })()}
 
-      {/* ── SPECIALIST ARGUMENT (optional) ──────────────────── */}
-      {course.specialist && (
-        <section className="py-16 md:py-20" style={{ background: theme.darkBg }}>
-          <div className="max-w-[1180px] mx-auto px-5 sm:px-8 md:px-12">
-            <div style={{ maxWidth: 780, margin: "0 auto" }}>
-              <span className={`${eyebrowCls} block mb-4`}>{course.specialist.eyebrow}</span>
-              <h2 className="font-display font-medium text-white leading-[1.16] mb-8" style={{ fontSize: "clamp(22px,3vw,34px)", maxWidth: "36ch" }}>
-                {course.specialist.heading}
-              </h2>
-              {course.specialist.paragraphs.map((p, i) => (
-                <p key={i} className="text-white/75 leading-[1.72] mb-5 max-w-[64ch]" style={{ fontSize: "1.0625rem" }}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
   
 
       {/* ── WHY QUOTE (optional) ─────────────────────────────── */}
       {course.whyQuote && (
-        <section className="py-20 md:py-24" style={{ background: theme.lightBg }}>
-          <div className="max-w-[760px] mx-auto px-5 sm:px-8 md:px-12 text-center">
-            <div className="w-14 h-px mx-auto mb-8" style={{ background: "#c5a46d" }} />
-            <p className="font-display italic leading-[1.55] text-navy" style={{ fontSize: "clamp(1.15rem,1.85vw,1.5rem)" }}>
+        <section className="py-10 md:py-14 bg-gray-300">
+          <div className="max-w-[860px] mx-auto px-5 sm:px-8 md:px-12 text-center">
+            <div className="w-14 h-px mx-auto mb-4" style={{ background: "#c5a46d" }} />
+            <p className="font-display italic leading-[1.55] text-navy" style={{ fontSize: "clamp(0.15rem,1.85vw,1.3rem)" }}>
               {course.whyQuote}
             </p>
-            <div className="w-14 h-px mx-auto mt-8" style={{ background: "#c5a46d" }} />
+            <div className="w-14 h-px mx-auto mt-4" style={{ background: "#c5a46d" }} />
           </div>
         </section>
       )}

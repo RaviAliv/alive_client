@@ -20,9 +20,9 @@ export const advancedConfig: CourseConfig = {
   status: "waitlist",
   statusLabel: "Opens after Core",
 
-  subtitle: "The IVF protocols, taught at the level a specialist has to defend them.",
+  subtitle: "The IVF protocol layer of reproductive medicine",
   description:
-    "Seven live lectures with Dr. Sunita Tandulwadkar. Designed for the doctor who is already running cycles and is now ready to refine the decisions inside them. The stimulation protocol that fits this patient. The retrieval that resists you. The embryo grade you are not sure how to read. The transfer that will not go cleanly. The implantation that keeps failing for reasons no one can name. The decisions a specialist is expected to make, taught by a specialist who has made them across three decades.",
+    "Seven live lectures with Dr. Sunita Tandulwadkar. Covering the protocol-level decisions inside an IVF cycle, from stimulation and retrieval to embryology, transfer, and implantation. Designed for the doctor who already runs cycles and is ready to refine the decisions inside them.",
   badges: ["7 Lectures", "Live Q&A", "Protocol Sheets", "Certificate"],
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Advanced Series · Intro",
@@ -59,9 +59,10 @@ export const advancedConfig: CourseConfig = {
     eyebrow: "Why This Order",
     heading: "You don't learn to defend a protocol until you've learned to read the cycle underneath it.",
     paragraphs: [
-      "Foundation taught the biology. The HPO axis, the ovarian cycle, the molecular dialogue of implantation. The reader who finishes Foundation knows the cycle the way a specialist sees it.",
-      "Core taught what to do clinically with that knowledge. The borderline semen analysis. The uneven oocyte. The IUI cycle that could go three ways. The reader who finishes Core has the judgment to make the clinical call.",
-      "Advanced is the third layer. The doctor with the biology and the clinical judgment now has to make protocol-level decisions, and defend them, on cycles that do not behave the way the protocol predicted. Which stimulation. How to prevent OHSS in a patient you cannot afford to lose. How to retrieve from an ovary that hides behind the bowel. How to read an embryology report. How to recover a transfer that is going wrong while it is going wrong. This is the layer where the specialist is built.",
+      "Foundation teaches the biology. The reader who finishes it sees the cycle the way a specialist does.",
+      "Core teaches what to do with that biology. The reader who finishes it has the judgment to make the clinical call.",
+      "Advanced teaches the protocol-level decisions, and how to defend them when a cycle does not behave. The reader who finishes it can hold a cycle together when it starts to come apart.",
+      "Masterclass is where the protocol runs out. The reader who finishes it can reason through the cases that have no standard answer."
     ],
     closingQuote: "The Academy teaches in sequence because a specialist is built in sequence. Skipping the order means making protocol decisions on cycles you cannot read.",
   },

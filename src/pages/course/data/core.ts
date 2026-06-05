@@ -18,9 +18,9 @@ export const coreConfig: CourseConfig = {
   status: "waitlist",
   statusLabel: "Opens after Foundation",
 
-  subtitle: "The clinical decisions, taught at the level a fertility doctor actually makes them",
+  subtitle: "The clinical decisions layer of reproductive medicine",
   description:
-    "Five live lectures with Dr. Sunita Tandulwadkar. Designed for the doctor who has the biology straight, and is now ready to think clinically — about the cases a textbook does not make decisions for you on.",
+    "Five live lectures with Dr. Sunita Tandulwadkar. Covering the everyday clinical decisions in fertility care, from male factor and oocyte quality to ovulation induction, IUI, and the inflammatory drivers behind poor outcomes. Designed for the doctor who has the biology straight and is ready to reason through the cycle",
   badges: ["5 Lectures", "Live Q&A", "Certificate"],
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Core Series · Intro",
@@ -59,6 +59,16 @@ export const coreConfig: CourseConfig = {
     rightLabel: "Waitlist Open",
     rightSub: "First notified, first enrolled",
     cta: "Notify Me",
+  },
+
+  progression: {
+    eyebrow: "Why This Order",
+    heading: "Foundation is the biology. Core is what you do with it.",
+    paragraphs: [
+      "Foundation rebuilds the framework. How an oocyte matures. What the luteal phase is telling you. The molecular dialogue of implantation. The reader who finishes Foundation knows the cycle, again, the way a specialist sees it.",
+      "Core is what happens next. The doctor who has the biology straight now has to make decisions in front of a patient who is not the textbook patient. The semen analysis is borderline. The oocyte quality is uneven. The IUI cycle could go three different ways. The infection is chronic and silent. Core is the layer where biology becomes judgment.",
+    ],
+    closingQuote: "This is why the Academy teaches in sequence. Skipping the order is how doctors end up with confidence they have not earned, and questions they cannot answer when the case stops behaving.",
   },
 
   whyTitle: "Why this course exists",

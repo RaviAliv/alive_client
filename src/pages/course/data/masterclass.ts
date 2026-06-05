@@ -23,9 +23,9 @@ export const masterclassConfig: CourseConfig = {
   status: "waitlist",
   statusLabel: "Opens after Advanced",
 
-  subtitle: "The cases that broke the protocol. Taught by the doctor who has worked through them.",
+  subtitle: "The complex-case layer of reproductive medicine",
   description:
-    "Ten live lectures with Dr. Sunita Tandulwadkar. Built for the senior reproductive medicine specialist whose practice has reached the cases that do not respond to the standard playbook. Recurrent implantation failure. Recurrent pregnancy loss. Unexplained infertility. Severe male factor. Diminished ovarian reserve. The case files that have moved through three specialists and three protocols, and still keep coming back. Masterclass is for the doctor who is ready to think the way Dr. Sunita thinks when those files land on her desk.",
+    "Ten live lectures with Dr. Sunita Tandulwadkar. Covering the hardest cases in reproductive medicine, from recurrent implantation failure and pregnancy loss to diminished ovarian reserve and severe male factor. Designed for the doctor working where protocols run out and judgment takes over",
   badges: ["10 Lectures", "Live Q&A", "Case-Driven", "Certificate"],
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Masterclass Series · Intro",

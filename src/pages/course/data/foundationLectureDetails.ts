@@ -10,7 +10,7 @@ export type LectureDetailData = {
   duration: string;
   platform: string;
   ytShortsId?: string;
-  cfVideoId?: string; // Cloudflare Stream video ID (paid members only)
+  cfVideoId?: string;
   lectureNotes?: {
     intro: string;
     sections: { heading: string; body: string[] }[];
@@ -20,6 +20,7 @@ export type LectureDetailData = {
   formatTitle: string;
   formatBody: string[];
   formatAttrs: string[];
+  outcomes: string[];
   logisticsTitle: string;
   whatsIncluded: { key: string; value: string }[];
   logisticsTrailing: string;
@@ -41,7 +42,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
     duration: "90 minutes",
     platform: "Live on Zoom",
     ytShortsId: "8Nh9_MUYC2M",
-    cfVideoId: "dummy-cf-stream-id-foundation-01", // replace with real Cloudflare Stream ID
+    cfVideoId: "dummy-cf-stream-id-foundation-01",
     lectureNotes: {
       intro:
         "This lecture traces the ovarian cycle from its neuroendocrine origins to the moment of ovulation, building a clinical framework that most fertility practitioners were never formally taught.",
@@ -96,6 +97,12 @@ export const foundationLectureDetails: LectureDetailData[] = [
       "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    outcomes: [
+      "Read the ovarian cycle as a system with internal dependencies, not a sequence of isolated values",
+      "Map the HPO axis from hypothalamic GnRH pulses through follicular development to ovulation",
+      "Understand exactly what drives the LH surge and identify what disrupts it clinically",
+      "Distinguish a cycle that has failed at the signal from one that has failed at the response",
+    ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
       { key: "Live", value: "Attendance with Dr. Sunita" },
@@ -103,6 +110,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
       { key: "Replay", value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Clinical protocol sheet" },
       { key: "Certificate", value: "On completion of all five Foundation lectures" },
+      {key : "Participation Certificate", value: "On completion of each lectures"}
     ],
     logisticsTrailing:
       "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
@@ -135,6 +143,12 @@ export const foundationLectureDetails: LectureDetailData[] = [
       "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    outcomes: [
+      "Understand the physiology that determines when a follicle is ready to rupture",
+      "Choose trigger agent and timing based on mechanism, not protocol habit",
+      "Recognise the clinical patterns when follicular rupture fails despite a normal trigger",
+      "Adapt the ovulation induction approach to what a specific patient's cycle is showing",
+    ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
       { key: "Live", value: "Attendance with Dr. Sunita" },
@@ -174,6 +188,12 @@ export const foundationLectureDetails: LectureDetailData[] = [
       "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    outcomes: [
+      "Read progesterone levels as a diagnostic signal, not just a support threshold",
+      "Distinguish luteal phase insufficiency from deeper ovulatory dysfunction",
+      "Apply luteal phase support with clinical rationale matched to the specific patient",
+      "Use corpus luteum quality to inform clinical thinking about the next cycle",
+    ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
       { key: "Live", value: "Attendance with Dr. Sunita" },
@@ -213,6 +233,12 @@ export const foundationLectureDetails: LectureDetailData[] = [
       "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    outcomes: [
+      "Understand endometrial receptivity as an active molecular state, not a passive thickness measurement",
+      "Map the embryo-endometrium dialogue that determines whether implantation proceeds",
+      "Identify the clinical patterns of implantation failure and what they indicate about where the dialogue broke",
+      "Approach transfer preparation as setting the conditions for a conversation, not hitting a timing window",
+    ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
       { key: "Live", value: "Attendance with Dr. Sunita" },
@@ -252,6 +278,12 @@ export const foundationLectureDetails: LectureDetailData[] = [
       "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    outcomes: [
+      "Structure a fertility workup around a clinical hypothesis before the first test is ordered",
+      "Know which commonly ordered investigations discriminate between diagnoses — and which do not",
+      "Build the diagnostic sequence that gets from presentation to diagnosis with fewer tests and more certainty",
+      "Distinguish purposeful diagnostic medicine from reflex over-investigation",
+    ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
       { key: "Live", value: "Attendance with Dr. Sunita" },
