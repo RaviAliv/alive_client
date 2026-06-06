@@ -99,15 +99,15 @@ export default function Login() {
   };
 
   return (
-    <section className="bg-ivory min-h-[calc(100vh-80px)] flex items-center justify-center py-[clamp(8px,4vw,68px)] px-[clamp(10px,2vw,60px)]">
+    <section className="bg-ivory min-h-[calc(100vh-80px)] flex items-center justify-center py-[clamp(8px,4vw,29px)] px-[clamp(10px,2vw,60px)]">
       <div className="w-full max-w-[720px] mx-auto bg-white rounded-2xl shadow-[0_20px_50px_-20px_rgba(30,42,68,0.18)] border border-border-warm overflow-hidden grid grid-cols-1 md:grid-cols-5">
         {/* Left brand panel */}
         <div className="relative bg-navy text-white p-8 hidden md:flex flex-col justify-center md:col-span-2">
           <img
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef"
+            src="./images/SignUp.webp"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            className="absolute inset-0 w-full h-full object-cover "
           />
           <div className="relative z-10">
             <span className="inline-block font-mono text-[10px] tracking-[0.26em] uppercase text-gold-light mb-3">

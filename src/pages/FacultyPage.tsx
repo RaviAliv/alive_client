@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { VIDEOS } from "../lib/config";
+import { VIDEOS, ENROLL_URL } from "../lib/config";
 
-const goldGradient = "bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)]";
 const eyebrow = "font-mono text-[12px] font-medium tracking-[0.28em] uppercase text-gold-deep";
 const eyebrowGold = "font-mono text-[15px] font-medium tracking-[0.28em] uppercase text-gold";
 const arrow = "inline-block transition-transform duration-300 group-hover:translate-x-1";
@@ -68,7 +67,7 @@ export default function FacultyPage() {
 
               <Link
                 to="/course/foundation"
-                className={`inline-flex items-center gap-2.5 px-6 py-3 font-body font-bold text-[14px] tracking-[0.02em] border border-gold text-navy rounded-[2px] transition-all duration-300 hover:brightness-110 group ${goldGradient}`}
+                className={`inline-flex items-center gap-2.5 px-6 py-3 font-body font-bold text-[14px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group`}
               >
                 Explore the Foundation Series
                 <span className={arrow}>&rarr;</span>
@@ -548,7 +547,7 @@ export default function FacultyPage() {
 
             <div>
               <img
-                src="/images/mam.webp"
+                src="/images/faculty.webp"
                 alt="Dr. Sunita Tandulwadkar teaching"
                 className="w-full h-auto rounded-[4px] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.5)]"
               />
@@ -574,13 +573,15 @@ export default function FacultyPage() {
               The Foundation Series runs live, every Wednesday at 8 PM IST. Five lectures that rebuild how you read a fertility cycle.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link
-                to="/course/foundation/enroll"
-                className={`inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-[2px] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] transition-all duration-300 group ${goldGradient}`}
+              <a
+                href={ENROLL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-[2px] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group`}
               >
                 Book My Seat
                 <span className={arrow}>&rarr;</span>
-              </Link>
+              </a>
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 px-6 py-3 font-body font-medium text-[14px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-[2px] transition-all duration-300 hover:bg-gold-light hover:text-navy group"

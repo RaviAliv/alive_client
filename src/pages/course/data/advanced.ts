@@ -1,4 +1,5 @@
 import type { CourseConfig } from "../../../components/course/types";
+import { ENROLL_URL } from "../../../lib/config";
 
 const LECTURE_THUMBS = [
   "/images/Advanced.webp",
@@ -26,7 +27,7 @@ export const advancedConfig: CourseConfig = {
   badges: ["7 Lectures", "Live Q&A", "Protocol Sheets", "Certificate"],
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Advanced Series · Intro",
-  primaryCta: { type: "anchor", target: "#register", label: "Notify Me When Advanced Opens" },
+  primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Advanced Opens" },
 
   lectureEyebrow: "The Curriculum",
   lectureTitle: "Seven lectures, where the cycle stops being predictable",
@@ -117,7 +118,7 @@ export const advancedConfig: CourseConfig = {
   asideDescription: "Advanced opens after the first Core cohort closes. Leave your details and we will write to you when enrolment opens, with the full schedule and pricing.",
   asidePrice: "Pricing TBA",
   asidePriceSub: "Advanced Series · Tier III",
-  asidePrimaryCta: { type: "anchor", target: "#register", label: "Notify Me" },
+  asidePrimaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me" },
   asideSecondaryCta: { type: "navigate", target: "/course/foundation", label: "Start with Foundation" },
   perks: [
     "Seven live lectures with Dr. Sunita",
@@ -141,5 +142,5 @@ export const advancedConfig: CourseConfig = {
   panelEyebrow: "Advanced Series · Tier III",
   panelTitle: "Talk to the Academy team.",
   panelDescription: "Direct line to the people who will be teaching the cohort. No forms, no funnels.",
-  panelCta: { type: "navigate", target: "/contact", label: "Notify Me When Advanced Opens" },
+  panelCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Advanced Opens" },
 };

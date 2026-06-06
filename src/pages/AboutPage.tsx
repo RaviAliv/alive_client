@@ -149,7 +149,7 @@ export default function AboutPage() {
                 </Link>
                 <Link
                   to="/faculty"
-                  className="group inline-flex items-center gap-2 px-6 py-3 border border-gold/60  font-mono text-[11px] tracking-[0.16em] uppercase transition-all hover:bg-gold hover:text-navy rounded-lg"
+                  className="group text-white inline-flex items-center gap-2 px-6 py-3 border border-gold/60  font-mono text-[11px] tracking-[0.16em] uppercase transition-all hover:bg-gold hover:text-navy rounded-lg"
                 >
                   Meet the Faculty <span className={arrow}>→</span>
                 </Link>
@@ -540,7 +540,7 @@ export default function AboutPage() {
           
                   <Link
                     to="/course/foundation"
-                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-semibold text-[14px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_8px_20px_-6px_rgba(168,121,40,0.5)] group"
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-semibold text-[14px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
                   >
                     Book my seat
                     <span className={arrow}>→</span>

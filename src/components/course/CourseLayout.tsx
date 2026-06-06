@@ -45,8 +45,14 @@ function ActionButton({
 }) {
   const navigate = useNavigate();
   if (action.type === "anchor") {
+    const external = action.target.startsWith("http");
     return (
-      <a href={action.target} className={className} style={style}>
+      <a
+        href={action.target}
+        className={className}
+        style={style}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
         {children}
       </a>
     );
@@ -551,15 +557,15 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
       )}
 
       {/* ── REGISTER ─────────────────────────────────────────── */}
-      <section id="register" className="pt-16 pb-20" style={{ background: theme.darkBg }}>
+      <section id="register" className="pt-10 pb-10" style={{ background: theme.darkBg }}>
         <div className="max-w-[1180px] mx-auto px-5 sm:px-8 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-10 lg:gap-16 items-center">
             <div className="lg:pt-2">
-              <span className={`font-mono text-[9px] tracking-[0.26em] uppercase ${theme.textAccent} block mb-3`}>{course.registerEyebrow}</span>
+              <span className={`font-mono text-[12px] tracking-[0.26em] uppercase ${theme.textAccent} block mb-3`}>{course.registerEyebrow}</span>
               <h2 className="font-display font-medium text-white leading-[1.15] mb-4" style={{ fontSize: "clamp(24px,3vw,38px)" }}>
                 {course.registerTitle}
               </h2>
-              <p className="text-[14px] text-white/45 leading-[1.7] mb-8 max-w-[38ch]">{course.registerDescription}</p>
+              <p className="text-[14px] text-white/45 leading-[1.7] mb-8 max-w-[48ch]">{course.registerDescription}</p>
               <div className="space-y-3">
                 {course.registerItems.map((item) => (
                   <div key={item.text} className="flex items-center gap-3">

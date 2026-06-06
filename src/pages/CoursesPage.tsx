@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Accordion from "../components/Accordion";
 import EnquiryModal from "../components/EnquiryModal";
-import { VIDEOS } from "../lib/config";
+import { VIDEOS, ENROLL_URL } from "../lib/config";
 
 type Lecture = { num: string; title: string; body: string };
 
@@ -227,7 +227,7 @@ const faqs = [
     a: "The tiers are designed as a progression, but entry is flexible. Doctors can begin at the tier that best matches their current stage of practice. If you are unsure where to start, our team will help you choose.",
   },
   {
-    q: "Can I enrol in more than one tier at a time?",
+    q: "Can I enroll in more than one tier at a time?",
     a: "Yes. The complete pathway is designed to be taken in sequence, but doctors can enrol in multiple tiers as they launch. Each tier runs as a scheduled batch, so timing depends on the launch sequence.",
   },
   {
@@ -305,7 +305,7 @@ export default function CoursesPage() {
             </p>
             <Link
               to="/course/foundation"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 font-body font-bold text-[15px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.5)] group"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 font-body font-bold text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
             >
               Explore the Foundation Series
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
@@ -429,28 +429,22 @@ export default function CoursesPage() {
 
                   {/* CTAs */}
                   <div className="flex items-center gap-3 flex-wrap">
-                    <a
-                      href={`#tier-${c.letter}`}
-                      className={`inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-[10px] tracking-[0.18em] uppercase border transition-colors duration-200 ${accentText[c.accent]} border-current hover:text-gray-500`}
+                    <Link
+                      to={`/course/${slugByLetter[c.letter]}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-[10px] tracking-[0.18em] uppercase text-gold-deep border border-gold-deep/40 hover:border-gold-deep transition-colors duration-200"
                     >
-                      Curriculum ↓
+                      Explore →
+                    </Link>
+                    <a
+                      href={ENROLL_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] transition-all duration-300 hover:brightness-110 group/btn"
+                    >
+                      Enroll Now
+                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
                     </a>
-                    {c.live ? (
-                      <Link
-                        to={`/course/${slugByLetter[c.letter]}`}
-                        className="inline-flex items-center gap-1.5 px-4 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 group/btn"
-                      >
-                        Enroll Now
-                        <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
-                      </Link>
-                    ) : (
-                      <Link
-                        to={`/course/${slugByLetter[c.letter]}`}
-                        className="inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-[10px] tracking-[0.18em] uppercase text-gold-deep border border-gold-deep/40 hover:border-gold-deep transition-colors duration-200"
-                      >
-                        Explore →
-                      </Link>
-                    )}
+                    
                   </div>
                 </div>
               </div>
@@ -565,7 +559,7 @@ export default function CoursesPage() {
                   {c.live ? (
                     <Link
                       to={`/course/${slugByLetter[c.letter]}`}
-                      className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-bold text-[14px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 group/cta"
+                      className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-bold text-[14px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group/cta"
                     >
                       Enroll Now
                       <span className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">&rarr;</span>
@@ -635,7 +629,7 @@ export default function CoursesPage() {
             {/* Right — image */}
             <div className="relative">
               <img
-                src="/images/mam.webp"
+                src="/images/course_faculty.webp"
                 alt="Dr. Sunita Tandulwadkar"
                 className="w-full h-auto object-cover shadow-[0_24px_60px_-12px_rgba(30,42,68,0.25)]"
               />
@@ -689,9 +683,9 @@ export default function CoursesPage() {
           <div className="flex gap-4 justify-center flex-wrap mb-9">
             <Link
               to="/course/foundation"
-              className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-gold rounded-[2px] bg-gold text-navy transition-all duration-300 hover:bg-gold-light group"
+              className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
             >
-              Enrol in the Foundation Series
+              Enroll in the Foundation Series
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                 &rarr;
               </span>

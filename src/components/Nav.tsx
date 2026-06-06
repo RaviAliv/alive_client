@@ -100,7 +100,7 @@ export default function Nav() {
         ) : (
           <Link
             to="/login"
-            className={`hidden md:inline-flex flex-shrink-0 items-center gap-2.5 px-4 py-2 font-body font-bold text-[15px] tracking-[0.02em] border border-gold text-navy rounded-[2px] transition-all duration-300 ease-in-out hover:brightness-110 group ${goldGradient}`}
+            className={`hidden md:inline-flex flex-shrink-0 items-center gap-2.5 px-4 py-2 font-body font-bold text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group`}
           >
             Login
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>

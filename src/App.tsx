@@ -10,6 +10,7 @@ import FoundationPage from "./pages/course/FoundationPage";
 import FoundationLecturePage from "./pages/course/FoundationLecturePage";
 import FoundationEnrollPage from "./pages/FoundationEnrollPage";
 import CorePage from "./pages/course/CorePage";
+import CoreLecturePage from "./pages/course/CoreLecturePage";
 import AdvancedPage from "./pages/course/AdvancedPage";
 import MasterclassPage from "./pages/course/MasterclassPage";
 import FAQPage from "./pages/FAQPage";
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="course/foundation/enroll" element={<FoundationEnrollPage />} />
           <Route path="course/foundation/lecture/:num" element={<FoundationLecturePage />} />
           <Route path="course/core" element={<CorePage />} />
+          <Route path="course/core/lecture/:num" element={<CoreLecturePage />} />
           <Route path="course/advanced" element={<AdvancedPage />} />
           <Route path="course/masterclass" element={<MasterclassPage />} />
           <Route path="foundation" element={<Navigate to="/course/foundation" replace />} />

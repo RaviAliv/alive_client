@@ -1,4 +1,5 @@
 import type { CourseConfig } from "../../../components/course/types";
+import { ENROLL_URL } from "../../../lib/config";
 
 const LECTURE_THUMBS = [
   "/images/Foundation.webp",
@@ -24,7 +25,7 @@ export const coreConfig: CourseConfig = {
   badges: ["5 Lectures", "Live Q&A", "Certificate"],
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Core Series · Intro",
-  primaryCta: { type: "anchor", target: "#register", label: "Notify Me When Core Opens" },
+  primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Core Opens" },
 
   lectureEyebrow: "The Curriculum",
   lectureTitle: "Five lectures, where biology meets the patient",
@@ -32,11 +33,11 @@ export const coreConfig: CourseConfig = {
   lectureCardLink: "Opens after Foundation",
   lectureCardTier: "Tier II",
   lectures: [
-    { id: "lecture-1", label: "Lecture One",   no: "01", title: "Severe Male Factor and the Limits of Routine Workup", body: "When oligoasthenoteratozoospermia is the diagnosis on paper, the clinical question is what to do next. How to read a poor semen analysis with precision, what is salvageable, and when to stop trying to optimize what cannot be optimized.", duration: "90 min · Live", thumb: LECTURE_THUMBS[0] },
-    { id: "lecture-2", label: "Lecture Two",   no: "02", title: "Oocyte Quality and the Follicular Microenvironment",   body: "Why some oocytes look right and behave wrong. The bioenergetic picture of the ovary, the early signs of reproductive aging, and what can and cannot be done to reprogram outcomes.",                                                       duration: "90 min · Live", thumb: LECTURE_THUMBS[1] },
-    { id: "lecture-3", label: "Lecture Three", no: "03", title: "Ovulation Induction for IUI, Read Like a Clinician",   body: "The protocols are well known. The judgment is not. How to choose induction agents and dosing for the specific patient, not the average one.",                                                                                                duration: "90 min · Live", thumb: LECTURE_THUMBS[2] },
-    { id: "lecture-4", label: "Lecture Four",  no: "04", title: "IUI Monitoring and Outcome Optimization",              body: "The cycle does not end when the trigger is given. How to monitor an IUI cycle in real time, what the follicle and endometrium are telling you on each scan.",                                                                                duration: "90 min · Live", thumb: LECTURE_THUMBS[3] },
-    { id: "lecture-5", label: "Lecture Five",  no: "05", title: "Pelvic Infections and the Chronic Inflammation Cascade", body: "The diagnosis that gets missed because no one is looking for it. How chronic pelvic inflammation quietly shapes implantation, ovulation, and tubal function.",                                                                              duration: "90 min · Live", thumb: LECTURE_THUMBS[4] },
+    { id: "lecture-1", label: "Lecture One",   no: "01", title: "Severe Male Factor and the Limits of Routine Workup", body: "When oligoasthenoteratozoospermia is the diagnosis on paper, the clinical question is what to do next. How to read a poor semen analysis with precision, what is salvageable, and when to stop trying to optimize what cannot be optimized.", duration: "90 min · Live", thumb: LECTURE_THUMBS[0], detailPath: "/course/core/lecture/01" },
+    { id: "lecture-2", label: "Lecture Two",   no: "02", title: "Oocyte Quality and the Follicular Microenvironment",   body: "Why some oocytes look right and behave wrong. The bioenergetic picture of the ovary, the early signs of reproductive aging, and what can and cannot be done to reprogram outcomes.",                                                       duration: "90 min · Live", thumb: LECTURE_THUMBS[1], detailPath: "/course/core/lecture/02" },
+    { id: "lecture-3", label: "Lecture Three", no: "03", title: "Ovulation Induction for IUI, Read Like a Clinician",   body: "The protocols are well known. The judgment is not. How to choose induction agents and dosing for the specific patient, not the average one.",                                                                                                duration: "90 min · Live", thumb: LECTURE_THUMBS[2], detailPath: "/course/core/lecture/03" },
+    { id: "lecture-4", label: "Lecture Four",  no: "04", title: "IUI Monitoring and Outcome Optimization",              body: "The cycle does not end when the trigger is given. How to monitor an IUI cycle in real time, what the follicle and endometrium are telling you on each scan.",                                                                                duration: "90 min · Live", thumb: LECTURE_THUMBS[3], detailPath: "/course/core/lecture/04" },
+    { id: "lecture-5", label: "Lecture Five",  no: "05", title: "Pelvic Infections and the Chronic Inflammation Cascade", body: "The diagnosis that gets missed because no one is looking for it. How chronic pelvic inflammation quietly shapes implantation, ovulation, and tubal function.",                                                                              duration: "90 min · Live", thumb: LECTURE_THUMBS[4], detailPath: "/course/core/lecture/05" },
   ],
 
   pathway: {
@@ -90,7 +91,7 @@ export const coreConfig: CourseConfig = {
   asideDescription: "Core opens after the first Foundation cohort closes. Leave your details and we will write to you when enrolment opens, with full schedule and pricing.",
   asidePrice: "Pricing TBA",
   asidePriceSub: "Core Series · Tier II",
-  asidePrimaryCta: { type: "anchor", target: "#register", label: "Notify Me" },
+  asidePrimaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me" },
   asideSecondaryCta: { type: "navigate", target: "/course/foundation", label: "See Foundation first" },
   perks: [
     "Five live lectures with Dr. Sunita",
@@ -114,5 +115,5 @@ export const coreConfig: CourseConfig = {
   panelEyebrow: "Core Series · Tier II",
   panelTitle: "Talk to the Academy team.",
   panelDescription: "Direct line to the people who will be teaching the cohort. No forms, no funnels.",
-  panelCta: { type: "navigate", target: "/contact", label: "Notify Me When Core Opens" },
+  panelCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Core Opens" },
 };

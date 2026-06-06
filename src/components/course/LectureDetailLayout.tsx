@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import type { LectureDetailData } from "../../pages/course/data/foundationLectureDetails";
+import { ENROLL_URL } from "../../lib/config";
 
 export type LectureDetailConfig = {
   accent: string;
@@ -26,14 +26,8 @@ export default function LectureDetailLayout({
   config: LectureDetailConfig;
   allLectures: CalendarEntry[];
 }) {
-  const { accent, accentDark, darkBg, lightBg, courseSlug, courseName, tierLabel, enrollPath, totalLectures, ordinals } = config;
+  const { accent, accentDark, darkBg, lightBg, courseSlug, courseName, tierLabel, totalLectures, ordinals } = config;
 
-  const [isLg, setIsLg] = useState(() => typeof window !== "undefined" && window.innerWidth >= 1024);
-  useEffect(() => {
-    const check = () => setIsLg(window.innerWidth >= 1024);
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   const ReelFrame = () => (
     <div style={{ position: "relative", width: 268, height: 476, border: "1px solid #c5a46d", background: "#000", overflow: "hidden", flexShrink: 0 }}>
@@ -59,14 +53,16 @@ export default function LectureDetailLayout({
   );
 
   const EnrollBtn = ({ className, label = "Reserve My Seat" }: { className?: string; label?: string }) => (
-    <Link
-      to={enrollPath}
+    <a
+      href={ENROLL_URL}
+      target="_blank"
+      rel="noopener noreferrer"
       className={`inline-flex items-center gap-2.5 px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.2em] uppercase transition-all duration-200 hover:brightness-110 group ${className ?? ""}`}
       style={{ background: `linear-gradient(180deg, ${accent} 0%, ${accentDark} 100%)`, color: "#fff", border: `1px solid ${accent}` }}
     >
       {label}
       <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
-    </Link>
+    </a>
   );
 
   return (
@@ -283,7 +279,7 @@ export default function LectureDetailLayout({
       </section>
 
       {/* ── 5. CERTIFICATION ─────────────────────────────────────── */}
-      <section className="py-16 md:py-15 overflow-hidden" style={{ background: darkBg }}>
+      <section className="py-10 md:py-10 overflow-hidden" style={{ background: darkBg }}>
         <div className="max-w-[1080px] mx-auto px-5 sm:px-8 md:px-4">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_580px] gap-10 lg:gap-16 items-center">
             {/* Left: text */}
@@ -439,28 +435,28 @@ export default function LectureDetailLayout({
                   <div className="flex flex-col items-center" style={{ minWidth: 48 }}>
                     <div className="w-10 h-10 rounded-full flex items-center justify-center font-mono text-[10px] font-bold mb-2 transition-all duration-200"
                       style={{
-                        background: isCurrent ? accent : isDone ? `${accent}18` : "transparent",
-                        border: `2px solid ${isCurrent ? accent : isDone ? `${accent}55` : `${accent}28`}`,
-                        color: isCurrent ? "#fff" : isDone ? accent : `${accent}55`,
+                        background: isCurrent ? accent : isDone ? `${accent}25` : "transparent",
+                        border: `2px solid ${isCurrent ? accent : isDone ? `${accent}80` : `${accent}70`}`,
+                        color: isCurrent ? "#fff" : isDone ? accent : `${accent}cc`,
                         boxShadow: isCurrent ? `0 0 0 5px ${accent}18` : "none",
                       }}>
                       {cal.num}
                     </div>
                     <span className="font-mono text-[8px] tracking-[0.14em] uppercase text-center"
-                      style={{ color: isCurrent ? accent : "#b0b8b4" }}>
+                      style={{ color: isCurrent ? accent : "#6b7280" }}>
                       {cal.dateShort.split(" ").slice(1, 3).join(" ")}
                     </span>
                   </div>
                   {i < allLectures.length - 1 && (
-                    <div style={{ flex: 1, height: 2, marginBottom: 22, background: isDone ? accent : `${accent}20` }} />
+                    <div style={{ flex: 1, height: 2, marginBottom: 22, background: isDone ? accent : `${accent}55` }} />
                   )}
                 </div>
               );
             })}
           </div>
 
-          {/* Cards */}
-          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${totalLectures} gap-3 mb-10`}>
+          {/* Cards — 5-col on desktop, 2-col on tablet, 1-col on mobile */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-10">
             {allLectures.map((cal) => {
               const isCurrent = cal.num === lecture.num;
               return (
@@ -510,7 +506,7 @@ export default function LectureDetailLayout({
         <div className="max-w-[1160px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr]">
             <div className="relative" style={{ minHeight: 320, maxHeight: 480 }}>
-              <img src="/images/mam.webp" alt="Dr. Sunita Tandulwadkar"
+              <img src="/images/lacture_faculty.webp" alt="Dr. Sunita Tandulwadkar"
                 className="w-full h-full object-cover object-top"
                 style={{ minHeight: 320, maxHeight: 480, display: "block" }} />
               <div className="absolute inset-0"
@@ -578,12 +574,14 @@ export default function LectureDetailLayout({
                 Join Dr. Sunita Tandulwadkar live. {lecture.date} · {lecture.time} · {lecture.platform}.
               </p>
               <div className="flex flex-wrap items-center gap-5 mb-4">
-                <Link to={enrollPath}
+                <a href={ENROLL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 px-8 py-4 font-mono text-[10.5px] font-semibold tracking-[0.22em] uppercase transition-all duration-200 hover:brightness-110 group"
                   style={{ background: `linear-gradient(180deg, ${accent} 0%, ${accentDark} 100%)`, color: "#fff", border: `1px solid ${accent}` }}>
                   Reserve My Seat
                   <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
-                </Link>
+                </a>
                 <span className="font-mono text-[9px] tracking-[0.2em] uppercase font-bold" style={{ color: accent }}>
                   Limited Seats
                 </span>

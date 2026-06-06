@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const CONTACT = {
-  phone: "+91 98765 43210",
-  phoneHref: "tel:+919876543210",
-  whatsapp: "+91 98765 43210",
-  whatsappHref: "https://wa.me/919876543210",
-  email: "hello@staracademy.in",
-  emailHref: "mailto:hello@staracademy.in",
+  phone: "+91 xxxxx xxxxx",
+  phoneHref: "tel:+91xxxxxxxxxx",
+  whatsapp: "+91 xxxxx xxxxx",
+  whatsappHref: "https://wa.me/91xxxxxxxxxx",
+  email: "xyz@staracademy.in",
+  emailHref: "mailto:xyz@staracademy.in",
   address: "6th Floor, Bund Garden, Pune",
   hours: "Mon – Sat · 10 AM – 6 PM IST",
   mapShortUrl: "https://share.google/XjDvADxB5FtvKmyX1",
@@ -269,7 +269,7 @@ export default function ContactPage() {
                   href={CONTACT.mapShortUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group mt-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] rounded-xl bg-gradient-to-r from-[#a77926] via-[#f7db7d] to-[#a87928] text-navy hover:brightness-110 hover:shadow-[0_12px_28px_-10px_rgba(247,219,125,0.55)] transition-all duration-300"
+                  className="group mt-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] rounded-xl border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]"
                 >
                   <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -294,8 +294,8 @@ export default function ContactPage() {
                   Stay close to the practice.
                 </h2>
               </div>
-              <p className="text-[12.5px] text-ivory/55 max-w-[300px]">
-                Clinical clips, lecture highlights, and announcements.
+              <p className="text-[12.5px] text-ivory/55 max-w-[800px]">
+                Clinical clips, lecture highlights, and announcements
               </p>
             </div>
 
@@ -373,7 +373,7 @@ export default function ContactPage() {
                 </p>
                 <Link
                   to="/course/foundation"
-                  className="group inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[12.5px] tracking-[0.02em] rounded-xl bg-gradient-to-r from-[#a77926] via-[#f7db7d] to-[#a87928] text-navy hover:brightness-110 hover:shadow-[0_12px_28px_-10px_rgba(247,219,125,0.55)] transition-all duration-300"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[12.5px] tracking-[0.02em] rounded-xl border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
                 >
                   View the Foundation Series
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

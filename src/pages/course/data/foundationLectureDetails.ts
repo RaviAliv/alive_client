@@ -29,6 +29,7 @@ export type LectureDetailData = {
 };
 
 export const foundationLectureDetails: LectureDetailData[] = [
+  /* ── LECTURE 01 ─────────────────────────────────────────────── */
   {
     num: "01",
     title: "The Complete Arc of the Ovarian Cycle",
@@ -105,12 +106,12 @@ export const foundationLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live", value: "Attendance with Dr. Sunita" },
-      { key: "Q&A", value: "Interactive segment at the end of every lecture" },
-      { key: "Replay", value: "Six weeks of access after the live cohort closes" },
+      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
+      { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Clinical protocol sheet" },
       { key: "Certificate", value: "On completion of all five Foundation lectures" },
-      {key : "Participation Certificate", value: "On completion of each lectures"}
+      { key: "Participation Certificate", value: "On completion of each lecture" },
     ],
     logisticsTrailing:
       "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
@@ -119,23 +120,25 @@ export const foundationLectureDetails: LectureDetailData[] = [
     facultyBio:
       "President of ISAR for 2026 to 2028. Past President of FOGSI for 2025. Head of OBGYN and Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune. Founder of Solo Clinic IVF & OBGYN. Three decades inside the same set of clinical questions. Every Foundation lecture is taught by her, live, in her own voice.",
   },
+
+  /* ── LECTURE 02 — from lacture2.html ────────────────────────── */
   {
     num: "02",
     title: "Ovulation, Triggering, and Timing",
-    headline: "Ovulation is a decision.",
-    tagline: "When to trigger, what makes it succeed or fail, and how to adapt when the textbook playbook breaks.",
+    headline: "The trigger is the decision the cycle waits for.",
+    tagline: "Why the moment you trigger matters more than the protocol that came before it.",
     heroBody:
-      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. The physiology of ovulation in clinical practice. From molecular dynamics to clinical application — why ovulation works the way it does, when to trigger, what makes a trigger succeed or fail, and how to adapt when the textbook playbook breaks down in front of a real patient.",
+      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. The biology of the LH surge. The exact thresholds that decide whether a follicle is ready. The patient-specific decisions that have replaced the universal 18mm rule. The hormonal signals that tell you to trigger now, wait, or pivot the entire cycle. Built for the doctor who wants to understand the trigger the way a senior reproductive specialist understands it, as the decision that determines the outcome of everything that came before.",
     date: "Wednesday, 22 July 2026",
     dateShort: "Wed, 22 Jul 2026",
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
-    whatItIsTitle: "A clinical map of ovulation and how to work with it.",
+    whatItIsTitle: "The decision that ends the cycle, taught the way it actually gets made.",
     whatItIsBody: [
-      "Ovulation is the pivot point of every cycle. The decision to trigger, the choice of agent, the timing of insemination — all of it rests on understanding why ovulation works the way it does.",
-      "This lecture rebuilds that understanding from the physiology outward. How the LH surge is generated and sustained. What the follicle needs before it will rupture. Why triggers succeed in some patients and fail in others. The clinical patterns that emerge when the ovulatory mechanism is disrupted.",
-      "The doctor who finishes this lecture does not guess at trigger timing. They understand it.",
+      "Most fertility doctors were taught the trigger as a checklist. The lead follicle reaches 18mm. You administer hCG. You wait thirty-six hours. The cycle proceeds. The rule was simple, universal, and for years it was good enough.",
+      "This lecture explains why it is no longer good enough. The biology of the trigger has not changed, but our understanding of it has. Patient age, the underlying infertility factor, the proportion of follicles in the cohort, the progesterone level on trigger day, and the protocol used to get there all change what the right trigger looks like for the patient in front of you. The 18mm rule was a generalisation. The lecture teaches you the precision underneath it.",
+      "The doctor who finishes this lecture reads a triggering decision the way a senior reproductive specialist reads it. They see the cohort, not just the lead follicle. They know what the progesterone level is telling them. They understand when a dual trigger is the answer and when it is not. They know when to wait, when to trigger, and when to pivot the entire cycle.",
     ],
     formatTitle: "Live with Dr. Sunita. Not a recording you watch alone.",
     formatBody: [
@@ -151,152 +154,159 @@ export const foundationLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live", value: "Attendance with Dr. Sunita" },
-      { key: "Q&A", value: "Interactive segment at the end of every lecture" },
-      { key: "Replay", value: "Six weeks of access after the live cohort closes" },
+      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
+      { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Clinical protocol sheet" },
       { key: "Certificate", value: "On completion of all five Foundation lectures" },
+      { key: "Participation Certificate", value: "On completion of each lecture" },
     ],
     logisticsTrailing:
       "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
     whyQuote:
-      "For the clinician who has triggered hundreds of cycles and still finds some of them surprising. For the doctor who wants to understand not just when to trigger, but why the trigger works — and what it means when it doesn't. This lecture is for the practitioner who wants to stop guessing and start understanding.",
+      "For the doctor who has been triggering cycles on the 18mm rule for years, and quietly wondering why some cycles work and others do not when the rule has been followed. For the doctor who has read the newer papers on dual trigger and patient-specific sizing and is not quite sure how to translate them into Monday morning. For the senior clinician who knows that the trigger decision is one of the most consequential moments in the cycle, and is ready to make it with the precision a senior reproductive specialist brings. This lecture is for that doctor, taught by someone who has refined this decision across thirty-five years of clinical practice.",
     facultyBio:
       "President of ISAR for 2026 to 2028. Past President of FOGSI for 2025. Head of OBGYN and Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune. Founder of Solo Clinic IVF & OBGYN. Three decades inside the same set of clinical questions. Every Foundation lecture is taught by her, live, in her own voice.",
   },
+
+  /* ── LECTURE 03 — from lacture3.html ────────────────────────── */
   {
     num: "03",
     title: "Reading the Luteal Phase as a Clinical Signal",
-    headline: "The luteal phase does not lie.",
-    tagline: "The corpus luteum as a diagnostic compass, and how to support it intelligently.",
+    headline: "One question decides every luteal protocol you will ever write.",
+    tagline: "Advanced luteal phase support, reduced to a single physiological decision and the protocols that follow from it.",
     heroBody:
-      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. The luteal phase as a diagnostic compass, not a checkbox. Current understanding of luteal phase support. How to recognise what a luteal phase is telling you, and how to support it intelligently in the right patient.",
+      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. The whole of luteal management in ART collapses into one question asked before any prescription: is a corpus luteum present, or absent? Everything else follows from the answer. You will leave able to place any cycle in front of you — IUI, fresh IVF, natural FET, programmed FET — on the correct side of that line, and to defend the protocol that line demands.",
     date: "Wednesday, 29 July 2026",
     dateShort: "Wed, 29 Jul 2026",
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
-    whatItIsTitle: "The luteal phase as a clinical lens, not a footnote.",
+    whatItIsTitle: "The Corpus Luteum as a Clinical Compass",
     whatItIsBody: [
-      "The luteal phase is treated as an afterthought in most clinical practice. Progesterone support is prescribed routinely. The corpus luteum is not examined as a diagnostic signal.",
-      "This lecture changes that. How the corpus luteum forms, what it produces, and what its output reveals about the quality of the ovulation that preceded it. The clinical patterns of luteal phase insufficiency. How to distinguish a luteal phase that needs support from one that reveals a deeper problem.",
-      "The doctor who finishes this lecture reads the luteal phase as a window into the entire cycle.",
+      "Most luteal phase support is taught as a list of drugs and doses. This lecture teaches it as a decision tree. The whole of luteal management in ART collapses into one question asked before any prescription: is a corpus luteum present, or absent? Everything else follows from the answer. You will leave able to place any cycle in front of you, IUI, fresh IVF, natural FET, programmed FET, on the correct side of that line, and to defend the protocol that line demands.",
+      "Why progesterone is secreted in pulses, why those pulses cannot be replicated by a tablet, and what the luteo-placental shift actually hands over. How stimulation, retrieval, and GnRH analogues dismantle a luteal phase that nature built, and why that makes support non-negotiable in some cycles and optional in others.",
+      "Corpus luteum present versus absent, and why this single distinction reorganises every protocol you have been taught as a separate rule. When to stop support — which most clinics get wrong — and the evidence for stopping at a positive test in CL-present cycles.",
     ],
-    formatTitle: "Live with Dr. Sunita. Not a recording you watch alone.",
+    formatTitle: "The decision tree only works on your case.",
     formatBody: [
-      "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. Every doctor in the cohort is present in the same session. Every question asked is answered in the moment, by her, on the call.",
-      "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
+      "This runs live for one reason. The luteal decision tree becomes useful when you can bring your own difficult case to it and get an answer in the room. Recordings stay on the site for six weeks after each session, but the live Q&A is the part you cannot get later.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
-      "Read progesterone levels as a diagnostic signal, not just a support threshold",
-      "Distinguish luteal phase insufficiency from deeper ovulatory dysfunction",
-      "Apply luteal phase support with clinical rationale matched to the specific patient",
-      "Use corpus luteum quality to inform clinical thinking about the next cycle",
+      "Triage any ART cycle by corpus luteum status in under a minute, and know which protocol that triage commits you to",
+      "Know exactly when luteal support is mandatory, when it is individualised, and when continuing it past a positive test is doing nothing",
+      "Read a low pre-transfer serum progesterone in an HRT cycle and execute a rescue protocol instead of accepting a poor outcome",
+      "Recognise progesterone resistance in special populations and know why a one-size protocol fails them",
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live", value: "Attendance with Dr. Sunita" },
-      { key: "Q&A", value: "Interactive segment at the end of every lecture" },
-      { key: "Replay", value: "Six weeks of access after the live cohort closes" },
-      { key: "Materials", value: "Clinical protocol sheet" },
-      { key: "Certificate", value: "On completion of all five Foundation lectures" },
+      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
+      { key: "Replay",    value: "Six weeks of access on the website" },
+      { key: "Materials", value: "Session slides provided" },
+      { key: "Certificate", value: "Certificate of Completion" },
+      { key: "Participation Certificate", value: "On completion of each lecture" },
     ],
     logisticsTrailing:
       "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
     whyQuote:
-      "For the doctor who prescribes progesterone support reflexively, without asking what the luteal phase is actually saying. For the clinician who wants to read the second half of the cycle with the same precision they bring to the first. This lecture is for the practitioner ready to treat the luteal phase as data.",
+      "A ten-year worldwide survey found that 65% of clinics still continue luteal support to ten to twelve weeks in fresh cycles where the embryo has already rescued the corpus luteum. We are not short of progesterone. We are short of the one question that tells us when it matters.",
     facultyBio:
-      "President of ISAR for 2026 to 2028. Past President of FOGSI for 2025. Head of OBGYN and Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune. Founder of Solo Clinic IVF & OBGYN. Three decades inside the same set of clinical questions. Every Foundation lecture is taught by her, live, in her own voice.",
+      "This lecture is taught by Dr. Sunita Tandulwadkar, who has built and run one of India's busiest IVF and endoscopy practices for three decades. She is President of ISAR (2026 to 2028) and immediate past President of FOGSI. The luteal decisions in this session are not drawn from a guideline summary. They are drawn from the cycles she has managed, the rescues she has run, and the cases that taught her where the textbook stops.",
   },
+
+  /* ── LECTURE 04 — from lacture4.html ────────────────────────── */
   {
     num: "04",
     title: "The Molecular Dialogue of Implantation",
-    headline: "Implantation is a conversation.",
-    tagline: "Implantation as a conversation between embryo and endometrium, not a timing problem.",
+    headline: "A good embryo is necessary. It is not enough.",
+    tagline: "Improving implantation in IVF by getting the three things that actually move it right, before reaching for the add-ons that mostly do not.",
     heroBody:
-      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. Implantation is not a timing problem. It is a conversation between the embryo and the endometrium. Understand how endometrial receptivity and embryonic signalling actually work, and why this changes the way you think about implantation failure.",
+      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. Implantation is a conversation between embryo and endometrium, and a single failed transfer rarely has a single cause. This lecture treats implantation as a system with three levers that move it — embryo competence, uterine readiness, transfer quality — and a fourth that governs all of them: restraint.",
     date: "Wednesday, 5 August 2026",
     dateShort: "Wed, 5 Aug 2026",
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
-    whatItIsTitle: "Implantation as a dialogue, not a deadline.",
+    whatItIsTitle: "Improving Implantation in IVF",
     whatItIsBody: [
-      "Most clinical thinking about implantation is organised around timing. The window of implantation. The day of transfer. The thickness of the endometrium.",
-      "This lecture reorganises that thinking around the dialogue. What the endometrium must express for implantation to succeed. What the embryo must signal for the endometrium to respond. Where that dialogue breaks down, and what the clinical patterns of failure tell you about where it broke.",
-      "The doctor who finishes this lecture sees implantation failure differently. Not as a timing miss, but as a conversation that stopped before it should have.",
+      "Implantation is a conversation between embryo and endometrium, and a single failed transfer rarely has a single cause. This lecture treats implantation as a system with three levers that move it (embryo competence, uterine readiness, transfer quality) and a fourth that governs all of them, restraint. You will leave able to work a failed cycle in order, deciding whether the next step improves biology, improves execution, or only adds cost.",
+      "Why embryo competence is set long before transfer, what selection tools can and cannot tell you, and where newer ranking methods help rather than overstate certainty. Why thickness alone does not prove receptivity, what synchrony and pathology actually decide, and what a thin or difficult lining should trigger.",
+      "Why an atraumatic, ultrasound-guided transfer is a high-impact skill, and how a technically avoidable poor transfer can erase every biological gain. How to separate standard care from selective use from investigational, and why repeated failure should trigger structured reassessment, not serial empiric add-ons.",
     ],
-    formatTitle: "Live with Dr. Sunita. Not a recording you watch alone.",
+    formatTitle: "Recurrent implantation failure is a case, not a slide.",
     formatBody: [
-      "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. Every doctor in the cohort is present in the same session. Every question asked is answered in the moment, by her, on the call.",
-      "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
+      "This runs live because the hardest part of implantation is sequencing the workup on a real patient who keeps failing. Bring the case you cannot crack and work it in order, in the room. Recordings stay on the site for six weeks after each session, but the live reasoning is the part you cannot get later.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
-      "Understand endometrial receptivity as an active molecular state, not a passive thickness measurement",
-      "Map the embryo-endometrium dialogue that determines whether implantation proceeds",
-      "Identify the clinical patterns of implantation failure and what they indicate about where the dialogue broke",
-      "Approach transfer preparation as setting the conditions for a conversation, not hitting a timing window",
+      "Work a failed transfer in a fixed order — embryo, then uterus, then transfer, then add-ons — instead of escalating at random",
+      "Read embryo selection tools for what they prove and counsel patients on selective use without overstating certainty",
+      "Reassess a thin or difficult endometrium by cause before reaching for investigational interventions",
+      "Sort any proposed add-on into standard, selective, or investigational, and document the rationale and consent that each demands",
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live", value: "Attendance with Dr. Sunita" },
-      { key: "Q&A", value: "Interactive segment at the end of every lecture" },
-      { key: "Replay", value: "Six weeks of access after the live cohort closes" },
-      { key: "Materials", value: "Clinical protocol sheet" },
-      { key: "Certificate", value: "On completion of all five Foundation lectures" },
+      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
+      { key: "Replay",    value: "Six weeks of access on the website" },
+      { key: "Materials", value: "Session slides provided" },
+      { key: "Certificate", value: "Certificate of participation" },
+      { key: "Participation Certificate", value: "On completion of each lecture" },
     ],
     logisticsTrailing:
       "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
     whyQuote:
-      "For the IVF doctor who has watched good embryos transferred into prepared endometria, and still not understood why implantation failed. For the clinician who wants to think about the endometrium not as a passive recipient but as an active participant. This lecture is for the practitioner ready to take the molecular dialogue seriously.",
+      "When a transfer fails, the temptation is to add something. Another test, another drug, another package. The harder discipline, and the one that helps more patients, is to ask whether we are improving the biology, improving the execution, or only adding cost.",
     facultyBio:
-      "President of ISAR for 2026 to 2028. Past President of FOGSI for 2025. Head of OBGYN and Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune. Founder of Solo Clinic IVF & OBGYN. Three decades inside the same set of clinical questions. Every Foundation lecture is taught by her, live, in her own voice.",
+      "This lecture is taught by Dr. Sunita Tandulwadkar, who has built and run one of India's busiest IVF and endoscopy practices for three decades. She is President of ISAR (2026 to 2028) and immediate past President of FOGSI. The restraint in this session is earned, not theoretical. It comes from years of deciding, case by case, when an intervention is worth offering and when it is only adding cost to a patient already carrying enough.",
   },
+
+  /* ── LECTURE 05 — from lacture5.html ────────────────────────── */
   {
     num: "05",
     title: "The Precision Diagnostic Roadmap",
-    headline: "Good diagnostics start before the first test.",
-    tagline: "How to evaluate a fertility patient with precision, not breadth.",
+    headline: "The goal is not to collect tests. It is to find the one that changes the plan.",
+    tagline: "A structured female fertility work-up: what to do first, what to reserve for selected patients, and when to stop investigating and start treating.",
     heroBody:
-      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. What to test, what to skip, and how to interpret every result in the full clinical context. The diagnostic philosophy that separates efficient practice from exhaustive over-investigation.",
+      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. A modern work-up is layered, not shotgun. From a high-quality baseline scan through 3D imaging, hysteroscopy, and genetics, with the judgment to escalate only when the next test will actually change management. You will leave able to run the work-up from basic to advanced, not from expensive to exhaustive.",
     date: "Wednesday, 12 August 2026",
     dateShort: "Wed, 12 Aug 2026",
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
-    whatItIsTitle: "A diagnostic framework built on clinical precision.",
+    whatItIsTitle: "The Female Fertility Work-Up",
     whatItIsBody: [
-      "Most fertility workups are too broad. They are organised around what is available to order, not around what the patient in front of you actually needs. The result is over-investigation, delayed diagnosis, and patient anxiety without clinical clarity.",
-      "This lecture is a framework for doing the opposite. How to map the clinical presentation to the right investigative pathway. What the commonly ordered tests actually reveal, and what they do not. The sequence of reasoning that gets you to a diagnosis with fewer tests and more certainty.",
-      "The doctor who finishes this lecture evaluates a fertility patient with purpose. They know what they are looking for before they order the first test.",
+      "A modern work-up is layered, not shotgun. You start broad, identify the phenotype, then go deeper only where the history or imaging points you. This lecture gives you that sequence, from a high-quality baseline scan through 3D imaging, hysteroscopy, and genetics, and the judgment to escalate only when the next test will actually change management. You will leave able to run the work-up from basic to advanced, not from expensive to exhaustive.",
+      "How history — the most underused diagnostic test — separates the ovulatory, tubal, endometriosis, low-reserve, uterine, and unexplained pathways on day one. Why a high-quality baseline ultrasound is the pivot of the modern work-up, and how to order hormones to answer a question rather than as a ritual.",
+      "When 3D imaging, expert pelvic mapping, hysteroscopy, MRI, and genetics earn their place, and when they are screening rituals that mislead. The most important fertility skill: recognising when another test will not change the plan, and time has become more valuable than more diagnostics.",
     ],
-    formatTitle: "Live with Dr. Sunita. Not a recording you watch alone.",
+    formatTitle: "The work-up is a series of judgment calls.",
     formatBody: [
-      "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. Every doctor in the cohort is present in the same session. Every question asked is answered in the moment, by her, on the call.",
-      "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
+      "This runs live because the work-up is not a checklist, it is a sequence of decisions on a specific patient. Bring the case where you are unsure what to order next, or whether to order anything at all, and work the escalation in the room. Recordings stay on the site for six weeks after each session, but the live reasoning is the part you cannot get later.",
     ],
     formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
-      "Structure a fertility workup around a clinical hypothesis before the first test is ordered",
-      "Know which commonly ordered investigations discriminate between diagnoses — and which do not",
-      "Build the diagnostic sequence that gets from presentation to diagnosis with fewer tests and more certainty",
-      "Distinguish purposeful diagnostic medicine from reflex over-investigation",
+      "Triage any new patient into a phenotype from history and a baseline scan, and know which pathway that commits you to",
+      "Order hormones and reserve testing to answer a defined question, and avoid the reflex panels that do not change management",
+      "Escalate to 3D imaging, hysteroscopy, MRI, or genetics only when the phenotype justifies it, and counsel the patient on why",
+      "Recognise the point where investigation should stop and treatment should begin, and move promptly when time is the deciding factor",
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live", value: "Attendance with Dr. Sunita" },
-      { key: "Q&A", value: "Interactive segment at the end of every lecture" },
-      { key: "Replay", value: "Six weeks of access after the live cohort closes" },
-      { key: "Materials", value: "Clinical protocol sheet" },
-      { key: "Certificate", value: "On completion of all five Foundation lectures" },
+      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
+      { key: "Replay",    value: "Six weeks of access on the website" },
+      { key: "Materials", value: "Session slides provided" },
+      { key: "Certificate", value: "Certificate of participation" },
+      { key: "Participation Certificate", value: "On completion of each lecture" },
     ],
     logisticsTrailing:
       "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
     whyQuote:
-      "For the doctor who orders a full panel for every patient and waits for the results to tell them what to think. For the clinician who wants to arrive at the investigation with a hypothesis already formed. For the practitioner ready to practise diagnostic medicine, not diagnostic cataloguing.",
+      "Unexplained infertility is a diagnosis of exclusion, not a diagnosis of exhaustion. The best work-up is not the most thorough one. It is the one that shortens the time to the right treatment.",
     facultyBio:
-      "President of ISAR for 2026 to 2028. Past President of FOGSI for 2025. Head of OBGYN and Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune. Founder of Solo Clinic IVF & OBGYN. Three decades inside the same set of clinical questions. Every Foundation lecture is taught by her, live, in her own voice.",
+      "This lecture is taught by Dr. Sunita Tandulwadkar, who has built and run one of India's busiest IVF and endoscopy practices for three decades. She is President of ISAR (2026 to 2028) and immediate past President of FOGSI. Her work spans both the imaging and the surgery this work-up leads to, which is why the sequence she teaches is built around the one question that matters: will this test change what you do next?",
   },
 ];

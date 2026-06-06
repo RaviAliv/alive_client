@@ -1,5 +1,5 @@
 import type { CourseConfig } from "../../../components/course/types";
-import { COURSE } from "../../../lib/config";
+import { COURSE, ENROLL_URL } from "../../../lib/config";
 
 const LECTURE_THUMBS = [
   "/images/Foundation.webp",
@@ -26,8 +26,8 @@ export const foundationConfig: CourseConfig = {
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Foundation Series · Intro",
   primaryCta: {
-    type: "navigate",
-    target: "/course/foundation/enroll",
+    type: "anchor",
+    target: ENROLL_URL,
     label: "Register My Seat",
   },
 
@@ -86,8 +86,8 @@ export const foundationConfig: CourseConfig = {
     "Join Dr. Sunita live for all five Foundation lectures. Seats are limited so the cohort stays small enough for direct teaching.",
   asidePrice: "Rs 3,996 Only",
   asidePriceSub: "Full Foundation Series · Tier I",
-  asidePrimaryCta: { type: "navigate", target: "/course/foundation/enroll", label: "Enroll Now" },
-  asideSecondaryCta: { type: "navigate", target: "/course/foundation/enroll", label: "Ask a question first" },
+  asidePrimaryCta: { type: "anchor", target: ENROLL_URL, label: "Enroll Now" },
+  asideSecondaryCta: { type: "anchor", target: ENROLL_URL, label: "Ask a question first" },
   perks: [
     "Five live lectures with Dr. Sunita",
     "Live Q&A in every session",
@@ -110,5 +110,5 @@ export const foundationConfig: CourseConfig = {
   panelEyebrow: "Foundation Series · Tier I",
   panelTitle: "Talk to the Academy team.",
   panelDescription: "Direct line to the people who will be teaching the cohort. No forms, no funnels.",
-  panelCta: { type: "navigate", target: "/course/foundation/enroll", label: "Reserve My Seat" },
+  panelCta: { type: "anchor", target: ENROLL_URL, label: "Reserve My Seat" },
 };

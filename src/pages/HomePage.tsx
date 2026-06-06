@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
-import RegistrationForm from "../components/RegistrationForm";
-import { VIDEOS } from "../lib/config";
+import { VIDEOS, ENROLL_URL } from "../lib/config";
 
 const eyebrow =
   "inline-block font-mono text-[14px] font-medium tracking-[0.26em] uppercase text-gold-deep";
@@ -135,7 +134,7 @@ export default function HomePage() {
           className="md:hidden absolute inset-0 w-full h-full object-cover opacity-50"
         />
         <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/90 via-black/65 to-black/45 md:bg-gradient-to-r md:from-[rgba(10,14,22,0.85)] md:via-[rgba(10,14,22,0.25)] md:to-transparent" />
-        <div className="relative z-[2] max-w-[1280px] mx-auto pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
+        <div className="relative z-[2] max-w-[1280px] mx-auto pt-16 md:pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
           <div className="max-w-[640px] mx-auto md:mx-0 text-center md:text-left">
             <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
             <h1 className="font-display font-medium text-[clamp(20px,3.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
@@ -145,12 +144,14 @@ export default function HomePage() {
               From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them
             </p>
             <div className="flex gap-2.5 flex-wrap justify-center md:justify-start mb-6">
-              <Link
-                to="/course/foundation"
+              <a
+                href={ENROLL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em]   text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
               >
                 Reserve Your Seat <span className={arrow}>&rarr;</span>
-              </Link>
+              </a>
               <Link
                 to="/faculty"
                 className="inline-flex items-center gap-2 px-6 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy group"
@@ -340,7 +341,7 @@ export default function HomePage() {
                   </div>
                   <Link
                     to={c.to}
-                    className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold text-navy rounded-[2px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_8px_20px_-6px_rgba(168,121,40,0.5)]"
+                    className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]  "
                   >
                     {c.cta}
                     <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
@@ -366,9 +367,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="bg-[url('/images/white_background.webp')] bg-cover bg-center py-[clamp(40px,7vw,80px)]">
+      {/* <div className="bg-[url('/images/white_background.webp')] bg-cover bg-center py-[clamp(40px,7vw,80px)]">
         <RegistrationForm />
-      </div>
+      </div> */}
 
       {/* FACULTY SHORT */}
       <section className="relative bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center text-ivory py-[clamp(38px,7vw,60px)] overflow-hidden">
@@ -591,12 +592,14 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link
-                to="/course/foundation"
+              <a
+                href={ENROLL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
               >
                 Reserve Your Seat →
-              </Link>
+              </a>
 
               <Link
                 to="/contact"

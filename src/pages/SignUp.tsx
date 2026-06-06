@@ -272,7 +272,7 @@ export default function SignUp() {
   }
 
   return (
-    <section className="relative bg-ivory min-h-[calc(100vh-60px)] flex items-center py-[clamp(16px,3vw,36px)] px-[clamp(20px,2vw,60px)] overflow-hidden">
+    <section className="relative bg-ivory min-h-[calc(100vh-60px)] flex items-center py-[clamp(13px,4vw,25px)] px-[clamp(20px,2vw,60px)] overflow-hidden">
       {/* soft decorative glow */}
       <div
         aria-hidden="true"
@@ -283,14 +283,14 @@ export default function SignUp() {
         className="absolute -bottom-40 -left-24 w-[320px] h-[320px] rounded-full bg-navy/5 blur-[120px] pointer-events-none"
       />
 
-      <div className="relative w-full max-w-[940px] mx-auto bg-white rounded-[20px] shadow-[0_30px_70px_-30px_rgba(30,42,68,0.32)] border border-border-warm overflow-hidden grid grid-cols-1 md:grid-cols-5">
+      <div className="relative w-full max-w-[840px] mx-auto bg-white rounded-[20px] shadow-[0_30px_70px_-30px_rgba(30,42,68,0.32)] border border-border-warm overflow-hidden grid grid-cols-1 md:grid-cols-5">
         {/* Left brand panel */}
-        <div className="relative bg-navy text-white p-10 hidden md:flex flex-col justify-between md:col-span-2 overflow-hidden">
+        <div className="relative bg-navy text-white p-10 hidden md:flex flex-col justify-center md:col-span-2 overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+            src="./images/Login.webp"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover opacity-[0.18]"
+            className="absolute inset-0 w-full h-full object-cover "
           />
           <div className="absolute inset-0 bg-gradient-to-b from-navy/40 via-navy/70 to-navy" />
           <div className="relative z-10">
@@ -301,7 +301,7 @@ export default function SignUp() {
               Begin a stepwise journey in infertility &amp; IVF.
             </h2>
             <p className="text-sm leading-relaxed text-white/80">
-              Create your account to enrol in the four-tier STAR pathway, taught
+              Create your account to enroll in the four-tier STAR pathway, taught
               live by Dr. Sunita Tandulwadkar.
             </p>
           </div>
@@ -322,7 +322,7 @@ export default function SignUp() {
         </div>
 
         {/* Right form panel */}
-        <div className="p-7 sm:p-9 md:p-10 md:col-span-3">
+        <div className="p-5 sm:p-9 md:p-5 md:col-span-3">
           <h1 className="font-display text-[clamp(26px,3vw,32px)] font-medium text-navy mb-1 leading-tight">
             Create your account
           </h1>

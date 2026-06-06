@@ -1,3 +1,7 @@
+/* ─── Enrollment ─────────────────────────────────────────── */
+export const ENROLL_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSduQDFdV0zpJH03gFnB6TX0VtXO8etDndnhII_pzLW5o-lHUQ/viewform";
+
 /* ─── Course schedule ─────────────────────────────────────── */
 export const COURSE = {
   startDate:       "15 July 2026",

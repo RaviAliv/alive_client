@@ -1,4 +1,5 @@
 import type { CourseConfig } from "../../../components/course/types";
+import { ENROLL_URL } from "../../../lib/config";
 
 const LECTURE_THUMBS = [
   "/images/Masterclass.webp",
@@ -29,7 +30,7 @@ export const masterclassConfig: CourseConfig = {
   badges: ["10 Lectures", "Live Q&A", "Case-Driven", "Certificate"],
   videoId: "QkiegbAnFqc",
   videoBadgeLabel: "Masterclass Series · Intro",
-  primaryCta: { type: "anchor", target: "#register", label: "Notify Me When Masterclass Opens" },
+  primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Masterclass Opens" },
 
   lectureEyebrow: "The Curriculum",
   lectureTitle: "Ten lectures, where the textbook stops being useful.",
@@ -126,7 +127,7 @@ export const masterclassConfig: CourseConfig = {
   asideDescription: "Masterclass opens after the Advanced cohort closes. Leave your details and we will write to you when enrolment opens, with full schedule and pricing.",
   asidePrice: "Pricing TBA",
   asidePriceSub: "Masterclass Series · Tier IV",
-  asidePrimaryCta: { type: "anchor", target: "#register", label: "Notify Me" },
+  asidePrimaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me" },
   asideSecondaryCta: { type: "navigate", target: "/course/foundation", label: "Start with Foundation" },
   perks: [
     "Ten live lectures with Dr. Sunita",
@@ -150,5 +151,5 @@ export const masterclassConfig: CourseConfig = {
   panelEyebrow: "Masterclass Series · Tier IV",
   panelTitle: "Talk to the Academy team.",
   panelDescription: "Reach out with any question about Masterclass, the pathway, or how the four programmes relate to each other. We respond to every enquiry.",
-  panelCta: { type: "navigate", target: "/contact", label: "Notify Me When Masterclass Opens" },
+  panelCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Masterclass Opens" },
 };
