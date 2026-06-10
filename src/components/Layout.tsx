@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Nav from "./Nav";
 import Footer from "./Footer";
+import ActivityLoginPrompt from "./ActivityLoginPrompt";
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -25,6 +26,8 @@ export default function Layout() {
           </button>
         </div>
       )}
+
+      <ActivityLoginPrompt />
 
       <main>
         <div key={pathname} className="animate-fade-in">

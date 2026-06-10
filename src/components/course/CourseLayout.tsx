@@ -23,15 +23,6 @@ function accentVars(accentHex: string): React.CSSProperties {
   };
 }
 
-function LockIcon({ size = 14 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  );
-}
-
 function ActionButton({
   action,
   className,
@@ -106,6 +97,25 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
               <h2 className="font-display text-2xl pb-2 italic leading-[1.55] text-white">{course.subtitle}</h2>
               <p className="text-[14px] text-white/55 leading-[1.65] mb-5">{course.description}</p>
 
+              {/* Mobile-only video — sits between description and badges */}
+              <div className="lg:hidden mb-5 relative rounded-[3px] overflow-hidden border border-[var(--accent-20)]"
+                style={{ boxShadow: `0 0 60px ${theme.accentHex}1c` }}>
+                <div className="h-[2px] bg-gradient-to-r from-[var(--accent-15)] via-[var(--accent)] to-[var(--accent-15)]" />
+                <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${course.videoId}?rel=0&modestbranding=1&color=white`}
+                    title={`Dr. Sunita Tandulwadkar — ${course.title}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full border-0"
+                  />
+                </div>
+                <div className="px-4 py-2 flex items-center justify-between border-t border-[var(--accent-10)]" style={{ background: theme.videoFrameBg }}>
+                  <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-white/30">Dr. Sunita Tandulwadkar</span>
+                  <span className={`font-mono text-[9px] tracking-[0.18em] uppercase ${theme.textAccent} opacity-40`}>STAR Academy</span>
+                </div>
+              </div>
+
               <div className="flex flex-wrap gap-2 mb-6">
                 {course.badges.map((t) => (
                   <span key={t} className="font-mono text-[10.2px] tracking-[0.18em] uppercase text-white/40 border border-white/30 px-3 py-1.5">
@@ -116,14 +126,22 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
 
               <ActionButton
                 action={course.primaryCta}
-                className={`hidden lg:inline-flex group items-center gap-2.5 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 rounded-[3px] shadow-[0_4px_16px_-4px_var(--accent-40)] hover:shadow-[0_8px_24px_-4px_var(--accent-55)] hover:cursor-pointer`}
+                className={`group items-center gap-2.5 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 rounded-[3px] shadow-[0_4px_16px_-4px_var(--accent-40)] hover:shadow-[0_8px_24px_-4px_var(--accent-55)] hover:cursor-pointer lg:inline-flex hidden`}
+              >
+                {course.primaryCta.label}
+                <span className="inline-block group-hover:translate-x-1 transition-transform duration-150">→</span>
+              </ActionButton>
+              {/* Mobile CTA — below the badges */}
+              <ActionButton
+                action={course.primaryCta}
+                className={`lg:hidden w-full flex items-center justify-center gap-2.5 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 rounded-[3px] group shadow-[0_4px_16px_-4px_var(--accent-40)]`}
               >
                 {course.primaryCta.label}
                 <span className="inline-block group-hover:translate-x-1 transition-transform duration-150">→</span>
               </ActionButton>
             </div>
 
-            <div className="min-w-0">
+            <div className="hidden lg:block min-w-0">
               <div className="relative">
                 <div className="absolute -inset-6 bg-[var(--accent-08)] blur-[60px] rounded-full pointer-events-none" />
 
@@ -177,16 +195,18 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
         <div className="max-w-[1180px] mx-auto px-5 sm:px-8 md:px-12">
           <div className="text-center max-w-[520px] mx-auto mb-10">
             <span className={`${eyebrowCls} block mb-3`}>{course.lectureEyebrow}</span>
-            <h2 className="font-display font-medium text-[clamp(26px,3.5vw,38px)] leading-[1.12] text-navy">{course.lectureTitle}</h2>
+            <h2 className="font-display font-medium text-[clamp(20px,2vw,38px)] leading-[1.12] text-navy">{course.lectureTitle}</h2>
             <p className="mt-2.5 text-[14px] text-slate">{course.lectureNote}</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {course.lectures.map((l) => (
+            {course.lectures.map((l, i) => {
+              const isLastOdd = course.lectures.length % 2 !== 0 && i === course.lectures.length - 1;
+              return (
               <div
                 key={l.id}
                 id={l.id}
-                className="group relative flex flex-col overflow-hidden transition-all duration-400 hover:-translate-y-1 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.22)]"
+                className={`group relative flex flex-col overflow-hidden transition-all duration-400 hover:-translate-y-1 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.22)]${isLastOdd ? " sm:col-span-2 sm:max-w-[calc(50%-12px)] sm:mx-auto sm:w-full" : ""}`}
                 style={{
                   background: theme.darkBg,
                   border: `1px solid ${theme.cardBorder}`,
@@ -215,29 +235,6 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                     style={{ background: `linear-gradient(to top, ${theme.darkBg}e6 0%, ${theme.darkBg}55 50%, ${theme.darkBg}22 100%)` }}
                   />
 
-                  {/* Top badges row */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-[1]">
-                    {/* <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/55 bg-black/40 backdrop-blur-sm px-2.5 py-1.5 border border-white/10">
-                      {l.label}
-                    </span> */}
-                    <span
-                      className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.16em] uppercase text-white px-2.5 py-1.5"
-                      style={{ background: theme.accentHex }}
-                    >
-                      <LockIcon size={9} />
-                      Paid
-                    </span>
-                  </div>
-
-                  {/* Center lock */}
-                  <div className="absolute inset-0 flex items-center justify-center z-[1]">
-                    <div
-                      className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-[var(--accent-35)] transition-transform duration-300 group-hover:scale-110"
-                    >
-                      <LockIcon size={18} />
-                    </div>
-                  </div>
-
                   {/* Duration bottom-left */}
                   <div className="absolute bottom-3.5 left-4 z-[1]">
                     <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-white/50">{l.duration}</span>
@@ -261,7 +258,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                     {l.label}
                   </span>
 
-                  <h3 className="font-display font-semibold text-[clamp(18px,1.8vw,21px)] leading-[1.25] text-white mb-2.5">
+                  <h3 className="font-display font-semibold text-[clamp(18px,1.8vw,2px)] leading-[1.25] text-white mb-2.5">
                     {l.title}
                   </h3>
 
@@ -276,7 +273,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                   >
                     <ActionButton
                       action={course.primaryCta}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 font-mono text-[9.5px] tracking-[0.16em] uppercase text-white transition-all duration-200 hover:brightness-110"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-3 font-bold text-[11px] tracking-[0.16em] uppercase text-white transition-all duration-200 hover:brightness-110"
                       style={{ background: theme.accentHex } as React.CSSProperties}
                     >
                       Enroll
@@ -284,7 +281,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                     {l.detailPath && (
                       <Link
                         to={l.detailPath}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 font-mono text-[9.5px] tracking-[0.16em] uppercase border transition-colors duration-200 hover:opacity-80"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 py-3 font-bold text-[11px] tracking-[0.16em] uppercase border transition-colors duration-200 hover:opacity-80"
                         style={{ color: theme.accentHex, borderColor: `${theme.accentHex}50` }}
                       >
                         Explore Now
@@ -293,7 +290,8 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Ribbon */}
@@ -387,7 +385,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
               <div>
                 {course.fullCurriculum.map((l) => (
                   <div key={l.num} className="grid grid-cols-[48px_1fr] gap-4 py-5 border-b last:border-0" style={{ borderColor: theme.cardBorder }}>
-                    <div className={`font-display font-bold text-[34px] ${theme.textAccent} leading-none pt-1 select-none`}>{l.num}</div>
+                    <div className="font-display font-bold text-[34px] leading-none pt-1 select-none bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] bg-clip-text text-transparent">{l.num}</div>
                     <div>
                       <h4 className="font-display font-medium text-[19px] text-navy mb-1.5 leading-[1.25]">{l.title}</h4>
                       <p className="text-[13.5px] leading-[1.65] text-slate">{l.body}</p>

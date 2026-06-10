@@ -2,7 +2,7 @@ import type { CourseConfig } from "../../../components/course/types";
 import { COURSE, ENROLL_URL } from "../../../lib/config";
 
 const LECTURE_THUMBS = [
-  "/images/Foundation.webp",
+  "/images/F1.webp",
   "/images/embryo.webp",
   "/images/jugment.webp",
   "/images/mam2.webp",

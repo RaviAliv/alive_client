@@ -19,7 +19,7 @@
   --color-t-blue: #1E5AA6;
   --color-t-red: #C8102E;
 
-  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-display: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 

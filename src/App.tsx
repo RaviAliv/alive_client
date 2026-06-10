@@ -20,6 +20,7 @@ import SignUp from "./pages/SignUp";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import RegistrationPage from "./pages/RegistrationPage";
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="core" element={<Navigate to="/course/core" replace />} />
           <Route path="faq" element={<FAQPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="registration" element={<RegistrationPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

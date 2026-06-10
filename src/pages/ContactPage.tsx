@@ -91,7 +91,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="-mt-20 bg-[#0A0E16] text-ivory">
+    <div className="-mt-20 text-ivory bg-[linear-gradient(rgba(6,8,14,0.85),rgba(6,8,14,0.85)),url('/images/header_footer.webp')] bg-cover bg-center bg-fixed">
       <div className="relative">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_-5%,rgba(197,164,109,0.20),transparent_55%),radial-gradient(circle_at_85%_25%,rgba(30,42,68,0.65),transparent_60%)]"

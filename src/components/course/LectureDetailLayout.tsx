@@ -547,7 +547,7 @@ export default function LectureDetailLayout({
         <div className="relative max-w-[840px] mx-auto px-5 sm:px-8 md:px-12 text-center">
           <div className="w-8 h-px mx-auto mb-10" style={{ background: "#c5a46d" }} />
           <p className="font-display italic leading-[1.65] text-white/80"
-            style={{ fontSize: "clamp(1.15rem,1.9vw,1.5rem)" }}>
+            style={{ fontSize: "clamp(1.15rem,0.4vw,1.5rem)" }}>
             {lecture.whyQuote}
           </p>
           <div className="w-8 h-px mx-auto mt-10" style={{ background: "#c5a46d" }} />
@@ -605,8 +605,8 @@ export default function LectureDetailLayout({
                     borderBottom: i < 2        ? `1px solid ${accent}` : "none",
                     background:   i % 2 !== 0  ? `${accent}08`        : "#ffffff",
                   }}>
-                  <span className="font-display font-medium leading-none mb-1.5"
-                    style={{ fontSize: "clamp(1.5rem,2.2vw,1.9rem)", color: "#111827" }}>
+                  <span className="font-display font-semibold leading-none mb-1.5 bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] bg-clip-text text-transparent"
+                    style={{ fontSize: "clamp(1.6rem,2.4vw,2.1rem)" }}>
                     {stat.n}
                   </span>
                   <span className="font-mono text-[8.5px] tracking-[0.2em] uppercase" style={{ color: accent }}>

@@ -285,7 +285,7 @@ export default function CoursesPage() {
     <>
       {/* HERO: text left, video right */}
       <section className="relative -mt-5 bg-[linear-gradient(rgba(10,14,22,0.88),rgba(10,14,22,0.88)),url('/images/header_footer.webp')] bg-cover bg-center overflow-hidden">
-        <div className="relative z-[1] max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] pt-[clamp(100px,12vw,60px)] pb-[clamp(60px,8vw,100px)] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+        <div className="relative z-[1] max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] pt-14 md:pt-[clamp(60px,10vw,100px)] pb-10 md:pb-[clamp(50px,8vw,90px)] grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
           {/* Left: text */}
           <div>
             <div className="flex items-center gap-3 mb-5">
@@ -297,15 +297,16 @@ export default function CoursesPage() {
             <h1 className="font-display font-medium text-[clamp(34px,4.2vw,56px)] leading-[1.05] text-ivory mb-5 tracking-[-0.015em]">
               A stepwise curriculum in infertility and IVF
             </h1>
-            <p className="text-[16px] leading-[1.7] text-ivory/60 mb-8 max-w-[52ch]">
+            <p className="text-[16px] leading-[1.7] text-ivory/60 mb-5 max-w-[52ch]">
               The STAR pathway is a four-tier academic journey, taught live by
               Dr. Sunita Tandulwadkar. Foundation rebuilds the fundamentals
               Core sharpens first-line treatment workflow. Advanced refines IVF
               strategy. Masterclass builds judgment for the hardest cases
             </p>
+            {/* Hidden on mobile — shown below the video instead */}
             <Link
               to="/course/foundation"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 font-body font-bold text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
+              className="hidden md:inline-flex items-center gap-2.5 px-7 py-3.5 font-body font-bold text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
             >
               Explore the Foundation Series
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
@@ -313,20 +314,30 @@ export default function CoursesPage() {
           </div>
 
           {/* Right: video */}
-          <div className="relative w-full overflow-hidden border border-gold/25 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.7)]">
-            <div className="relative w-full pt-[56.25%] bg-black">
-              <iframe
-                src={`https://www.youtube.com/embed/${VIDEOS.foundationIntro}?rel=0&modestbranding=1`}
-                title="Dr. Sunita Tandulwadkar — STAR Academy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 w-full h-full border-0"
-              />
+          <div className="flex flex-col gap-4">
+            <div className="relative w-full overflow-hidden border border-gold/25 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.7)]">
+              <div className="relative w-full pt-[56.25%] bg-black">
+                <iframe
+                  src={`https://www.youtube.com/embed/${VIDEOS.foundationIntro}?rel=0&modestbranding=1`}
+                  title="Dr. Sunita Tandulwadkar — STAR Academy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              </div>
+              <div className="flex items-center justify-between border-t border-gold/20 bg-black/75 backdrop-blur-sm px-5 py-3">
+                <p className="font-display italic text-ivory text-[13px] leading-none">Dr. Sunita Tandulwadkar</p>
+                <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-gold/50">STAR Academy</span>
+              </div>
             </div>
-            <div className="flex items-center justify-between border-t border-gold/20 bg-black/75 backdrop-blur-sm px-5 py-3">
-              <p className="font-display italic text-ivory text-[13px] leading-none">Dr. Sunita Tandulwadkar</p>
-              <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-gold/50">STAR Academy</span>
-            </div>
+            {/* Mobile-only button — shown below the video */}
+            <Link
+              to="/course/foundation"
+              className="md:hidden w-full flex items-center justify-center gap-2.5 px-7 py-3.5 font-body font-bold text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
+            >
+              Explore the Foundation Series
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -338,11 +349,11 @@ export default function CoursesPage() {
             <span className="inline-block font-mono text-[15px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
               Four Tiers
             </span>
-            <h2 className="font-display font-medium text-[clamp(28px,3.4vw,42px)] leading-[1.1] text-navy mb-3">
-              From Foundation to Masterclass.
+            <h2 className="font-display font-medium text-[clamp(28px,3.4vw,38px)] leading-[1.1] text-navy mb-3">
+              From Foundation to Masterclass
             </h2>
             <p className="text-[15px] text-slate leading-[1.65]">
-              Every tier stands on its own and builds the next.
+              Every tier stands on its own and builds the next
             </p>
           </div>
 
@@ -353,8 +364,8 @@ export default function CoursesPage() {
                 key={c.letter}
                 className="group relative flex flex-col bg-[#0d1117] border border-white/8 overflow-hidden transition-all duration-300 hover:border-white/18 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.7)]"
               >
-                {/* Image with overlaid info */}
-                <div className="relative h-[200px] sm:h-[230px] overflow-hidden shrink-0">
+                {/* Image with overlaid info — clicking navigates to the course page */}
+                <Link to={`/course/${slugByLetter[c.letter]}`} className="relative h-[200px] sm:h-[230px] overflow-hidden shrink-0 block cursor-pointer">
                   <img
                     src={c.img}
                     alt={c.title}
@@ -395,7 +406,7 @@ export default function CoursesPage() {
                       </h3>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Card body */}
                 <div className="flex flex-col flex-grow px-6 pt-5 pb-6">
@@ -429,22 +440,21 @@ export default function CoursesPage() {
 
                   {/* CTAs */}
                   <div className="flex items-center gap-3 flex-wrap">
+                    <a
+                      href={ENROLL_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] transition-all duration-300 group/btn"
+                    >
+                      Enroll Now
+                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
+                    </a>
                     <Link
                       to={`/course/${slugByLetter[c.letter]}`}
                       className="inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-[10px] tracking-[0.18em] uppercase text-gold-deep border border-gold-deep/40 hover:border-gold-deep transition-colors duration-200"
                     >
                       Explore →
                     </Link>
-                    <a
-                      href={ENROLL_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] transition-all duration-300 hover:brightness-110 group/btn"
-                    >
-                      Enroll Now
-                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
-                    </a>
-                    
                   </div>
                 </div>
               </div>
@@ -458,7 +468,7 @@ export default function CoursesPage() {
         <section
           key={c.letter}
           id={`tier-${c.letter}`}
-          className={`scroll-mt-[90px] border-t border-white/6 py-[clamp(56px,7vw,90px)] ${
+          className={`scroll-mt-[90px] border-t border-white/6 py-[clamp(56px,7vw,40px)] ${
             idx % 2 === 0
               ? "bg-[linear-gradient(rgba(8,12,20,0.86),rgba(8,12,20,0.86)),url('/images/navbar.webp')] bg-cover bg-center"
               : "bg-[linear-gradient(rgba(6,9,16,0.90),rgba(6,9,16,0.90)),url('/images/navbar.webp')] bg-cover bg-center"
@@ -466,7 +476,7 @@ export default function CoursesPage() {
         >
           <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
             {/* Section header */}
-            <header className="flex items-center gap-5 border-b border-white/8 pb-6 mb-9">
+            <header className="flex items-center gap-5 border-b border-white/8 pb-2 mb-9">
               <div
                 className={`flex-shrink-0 w-[60px] h-[60px] flex items-center justify-center font-display font-semibold text-[30px] text-ivory border border-gold ${
                   accentBg[c.accent]
@@ -493,7 +503,7 @@ export default function CoursesPage() {
               <span className="block font-mono text-[10px] tracking-[0.22em] uppercase text-gold/60 mb-2.5">
                 Why this course exists
               </span>
-              <p className="font-display italic text-[clamp(15px,1.4vw,19px)] leading-[1.5] text-ivory/75 max-w-[75ch]">
+              <p className="font-display italic text-[clamp(15px,1.4vw,15px)] leading-[1.5] text-ivory/75 max-w-[75ch]">
                 {c.why}
               </p>
             </div>
@@ -587,13 +597,13 @@ export default function CoursesPage() {
       ))}
 
       {/* FACULTY MINI-SECTION */}
-      <section className="py-[clamp(56px,8vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.88),rgba(248,245,239,0.88)),url('/images/marble.webp')] bg-cover bg-center border-t border-border-warm">
+      <section className="py-[clamp(56px,8vw,50px)] bg-[linear-gradient(rgba(248,245,239,0.88),rgba(248,245,239,0.88)),url('/images/marble.webp')] bg-cover bg-center border-t border-border-warm">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left — text */}
             <div>
-              <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
+              <span className="inline-block font-mono text-[15px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
                 The Faculty
               </span>
               <h2 className="font-display font-medium text-[clamp(26px,3vw,40px)] leading-[1.15] text-navy mb-5 tracking-[-0.015em]">
@@ -645,26 +655,26 @@ export default function CoursesPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-[linear-gradient(rgba(8,12,20,0.86),rgba(8,12,20,0.86)),url('/images/navbar.webp')] bg-cover bg-center border-t border-white/6 py-[clamp(56px,7vw,90px)]">
-        <div className="max-w-[720px] mx-auto px-[clamp(20px,4vw,80px)] text-center mb-12">
-          <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold mb-4">
+      <section className="bg-[linear-gradient(rgba(8,12,20,0.86),rgba(8,12,20,0.86)),url('/images/navbar.webp')] bg-cover bg-center border-t border-white/6 py-[clamp(56px,7vw,50px)]">
+        <div className="max-w-[720px] mx-auto px-[clamp(20px,4vw,50px)] text-center">
+          <span className="inline-block font-mono text-[15px] font-medium tracking-[0.26em] uppercase text-gold mb-4">
             Course Questions
           </span>
-          <h2 className="font-display font-medium text-[clamp(28px,3vw,40px)] leading-[1.12] text-ivory tracking-[-0.005em]">
-            What doctors ask before they enrol.
+          <h2 className="font-display font-medium text-[clamp(28px,3.7vw,35px)] leading-[1.12] text-ivory tracking-[-0.005em] mb-8">
+            What doctors ask before they enroll
           </h2>
         </div>
         <Accordion items={faqs} dark />
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-[clamp(80px,11vw,60px)] bg-black text-ivory text-center overflow-hidden">
+      <section className="relative py-[clamp(60px,11vw,40px)] bg-black text-ivory text-center overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,rgba(197,164,109,0.18)_0%,rgba(10,14,22,0)_55%),radial-gradient(ellipse_at_70%_60%,rgba(197,164,109,0.10)_0%,rgba(10,14,22,0)_65%)]"
         />
         <div className="relative z-[1] max-w-[820px] mx-auto px-[clamp(20px,4vw,80px)]">
-          <span className="inline-block font-mono text-[11px] font-medium tracking-[0.26em] uppercase text-gold mb-6">
+          <span className="inline-block font-mono text-[15px] font-medium tracking-[0.26em] uppercase text-gold mb-6">
             Begin the Pathway
           </span>
           <h2 className="font-display font-medium text-[clamp(38px,5vw,60px)] leading-[1.02] text-gold-light mb-7 tracking-[-0.015em]">

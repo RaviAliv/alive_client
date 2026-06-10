@@ -6,7 +6,7 @@ const CORE_CONFIG: LectureDetailConfig = {
   accent:        "#D4A621",
   accentDark:    "#A88516",
   darkBg:        "#1A1505",
-  lightBg:       "#fdf9ed",
+  lightBg:       "#e8ddc0",
   courseSlug:    "core",
   courseName:    "Core Series",
   tierLabel:     "Core Series · Tier II",

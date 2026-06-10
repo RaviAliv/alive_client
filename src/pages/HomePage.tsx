@@ -137,7 +137,7 @@ export default function HomePage() {
         <div className="relative z-[2] max-w-[1280px] mx-auto pt-16 md:pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
           <div className="max-w-[640px] mx-auto md:mx-0 text-center md:text-left">
             <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
-            <h1 className="font-display font-medium text-[clamp(20px,3.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
+            <h1 className="font-display font-medium text-[clamp(38px,0.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
               Five live lectures that rebuild how you read a fertility cycle
             </h1>
             <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
@@ -178,20 +178,20 @@ export default function HomePage() {
             <div className="text-center">
               <span className={` ${eyebrow}  mb-4`}>Why STAR Academy Exists</span>
               <h2 className="font-display font-medium text-[clamp(26px,5vw,40px)] leading-[1.05] tracking-[-0.015em] text-navy mb-9">
-                Infertility practice should not be learned in fragments.
+                Infertility practice should not be learned in fragments
               </h2>
             </div>
             <p className="text-[clamp(16px,1.15vw,18px)] leading-[1.7] text-slate mb-4">
               Today, most infertility education reaches Indian doctors as
               scattered webinars, disconnected lectures, and isolated topic
               updates. The discipline, one of the most clinically demanding in
-              gynecology, is rarely taught as one connected body of knowledge.
+              gynecology, is rarely taught as one connected body of knowledge
             </p>
             <p className="text-[clamp(16px,1.15vw,18px)] leading-[1.7] text-slate mb-4">
               STAR Academy was built to change that. A live, progressive
               academic pathway that takes clinicians from reproductive
               endocrinology through to advanced IVF decision-making, taught
-              directly by one of India's most respected pioneers in the field.
+              directly by one of India's most respected pioneers in the field
             </p>
             <div className="mt-9 font-display italic text-[clamp(20px,1.8vw,26px)] text-gold-deep pl-5 border-l-2 border-gold">
               Four tiers. One continuous pathway. Twenty-seven lectures.
@@ -225,7 +225,7 @@ export default function HomePage() {
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
           <div className="text-center max-w-[720px] mx-auto mb-12">
             <span className={`${eyebrowGold} mb-[18px]`}>The Pathway</span>
-            <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-ivory">
+            <h2 className="font-display font-medium text-[clamp(30px,3.8vw,38px)] leading-[1.1] text-ivory">
               Four tiers. One continuous academic pathway
             </h2>
           </div>
@@ -367,9 +367,32 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* <div className="bg-[url('/images/white_background.webp')] bg-cover bg-center py-[clamp(40px,7vw,80px)]">
-        <RegistrationForm />
-      </div> */}
+      {/* Separator strip */}
+      <div className="bg-ivory border-y border-gold/30 py-10 px-[clamp(20px,4vw,80px)]">
+        <div className="max-w-[1280px] mx-auto">
+          {/* Top ornament */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold/60" />
+            <span className="font-mono text-[12px] tracking-[0.32em] uppercase text-gold-deep">The Academy in Numbers</span>
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold/60" />
+          </div>
+          {/* Stats row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gold/40 border border-gold/40">
+            {[
+              { num: "27",   label: "Total Lectures",      sub: "Across 4 tiers"         },
+              { num: "4",    label: "Tiers in Pathway",    sub: "Foundation to Masterclass"},
+              { num: "35+",  label: "Years Experience",    sub: "Dr. Sunita Tandulwadkar" },
+              { num: "Live", label: "Every Session",       sub: "Interactive on Zoom"     },
+            ].map((s) => (
+              <div key={s.label} className="bg-ivory flex flex-col items-center justify-center py-4 px-4 text-center gap-1.5">
+                <span className="font-body font-bold text-[clamp(34px,3.8vw,42px)] leading-none text-navy tracking-tight">{s.num}</span>
+                <span className="font-mono text-[9.5px] font-semibold tracking-[0.24em] uppercase text-gold-deep mt-1">{s.label}</span>
+                <span className="font-body text-[11px] text-slate leading-snug">{s.sub}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* FACULTY SHORT */}
       <section className="relative bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center text-ivory py-[clamp(38px,7vw,60px)] overflow-hidden">
@@ -383,7 +406,7 @@ export default function HomePage() {
             <p className="font-mono text-[11px] tracking-[0.20em] uppercase text-ivory/70 mb-2">
               Built for the doctor who wants to think clearly, not just learn more
             </p>
-            <h2 className="font-display font-medium italic text-gold-light text-[clamp(22px,3.4vw,40px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
+            <h2 className="font-display font-medium italic text-gold-light text-[clamp(22px,3.4vw,30px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
               Founder and faculty, Academy of SRT
             </h2>
             <div className="mt-4 w-12 h-px bg-gold mx-auto" />
@@ -419,7 +442,7 @@ export default function HomePage() {
                     key={s.label}
                     className="bg-[rgba(10,14,22,0.7)] backdrop-blur-sm px-2 py-3 sm:px-3 text-center transition-colors duration-300 hover:bg-[rgba(10,14,22,0.85)]"
                   >
-                    <div className="font-display text-[clamp(20px,2vw,28px)] text-gold leading-none mb-1">
+                    <div className="font-display font-semibold text-[clamp(22px,2.2vw,32px)] leading-none mb-1 bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] bg-clip-text text-transparent">
                       {s.num}
                     </div>
                     <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.10em] sm:tracking-[0.16em] uppercase text-ivory/70 leading-snug">
@@ -464,7 +487,7 @@ export default function HomePage() {
       <section className="py-[clamp(48px,7vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center">
         <div className="max-w-[720px] mx-auto mb-5 text-center px-[clamp(20px,4vw,80px)]">
           <span className={`${eyebrow} mb-[18px]`}>The Academy</span>
-          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-navy mb-5">
+          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,38px)] leading-[1.1] text-navy mb-5">
             A doctor-led academic platform in infertility and IVF
           </h2>
           <p className="text-slate text-[17px] leading-[1.7]">
@@ -498,7 +521,7 @@ export default function HomePage() {
       <section className=" pt-[clamp(50px,8vw,40px)] pb-[clamp(60px,10vw,120px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[720px] mx-auto mb-20 text-center px-[clamp(20px,4vw,80px)]">
           <span className={`${eyebrowGold} block mb-[10px]`}>Why STAR Academy</span>
-          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,48px)] leading-[1.1] text-ivory">
+          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,43px)] leading-[1.1] text-ivory">
             Why doctors across India are choosing STAR
           </h2>
         </div>
