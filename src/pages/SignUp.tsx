@@ -5,9 +5,9 @@ import { apiPost } from "../lib/api";
 import { useAuth, type AuthUser } from "../context/AuthContext";
 
 const labelCls =
-  "flex items-center font-mono text-[10.5px] tracking-[0.1em]  uppercase mb-1.5";
+  "flex items-center font-bold text-[10.5px] tracking-[0.1em]  uppercase mb-1.5";
 const inputCls =
-  "w-full rounded-lg border border-border-warm bg-cream/50 py-2.5 pl-11 pr-3.5 font-body text-sm text-navy placeholder:text-slate/55 transition-all duration-200 focus:outline-none focus:border-gold focus:bg-white focus:ring-2 focus:ring-gold/25";
+  "w-full rounded-lg border border-border-warm bg-cream/50 py-2.5 pl-11 pr-3.5  text-sm text-navy placeholder:text-slate/55 transition-all duration-200 focus:outline-none focus:border-gold focus:bg-white focus:ring-2 focus:ring-gold/25";
 const errInputCls = "border-t-red focus:border-t-red focus:ring-t-red/20";
 
 const ROLES = [
@@ -297,7 +297,7 @@ export default function SignUp() {
             <span className="inline-block font-mono text-[10px] tracking-[0.26em] uppercase text-gold-light mb-4">
               Join STAR Academy
             </span>
-            <h2 className="font-display text-[30px] font-medium mb-3 leading-[1.15]">
+            <h2 className="text-[30px] font-medium mb-3 leading-[1.15]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
               Begin a stepwise journey in infertility &amp; IVF.
             </h2>
             <p className="text-sm leading-relaxed text-white/80">
@@ -323,7 +323,7 @@ export default function SignUp() {
 
         {/* Right form panel */}
         <div className="p-5 sm:p-9 md:p-5 md:col-span-3">
-          <h1 className="font-display text-[clamp(26px,3vw,32px)] font-medium text-navy mb-1 leading-tight">
+          <h1 className="text-[clamp(26px,3vw,32px)] font-medium text-navy mb-1 leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
             Create your account
           </h1>
           <p className="text-[13px] text-slate mb-5">

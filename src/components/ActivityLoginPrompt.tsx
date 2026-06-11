@@ -78,7 +78,7 @@ export default function ActivityLoginPrompt() {
           </h2>
 
           <p className="text-[13.5px] leading-[1.65] text-ivory/50 mb-7 max-w-[30ch] mx-auto">
-            Log in to access your enrolled courses, lecture materials, and updates from Dr. Sunita Tandulwadkar.
+            Login to access your enrolled courses, lecture materials, and updates from Dr. Sunita Tandulwadkar.
           </p>
 
           <div className="flex flex-col gap-2.5">
@@ -87,7 +87,7 @@ export default function ActivityLoginPrompt() {
               onClick={dismiss}
               className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-bold text-[14px] tracking-[0.02em] bg-[#A87928] hover:brightness-110 hover:shadow-[0_8px_22px_-6px_rgba(247,219,125,0.5)] text-black rounded-lg transition-all duration-200 group"
             >
-              Log In to Your Account
+              LogIn Your Account
               <span className="inline-block group-hover:translate-x-0.5 transition-transform">&rarr;</span>
             </Link>
             <Link
@@ -95,7 +95,7 @@ export default function ActivityLoginPrompt() {
               onClick={dismiss}
               className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 font-body font-medium text-[13.5px] tracking-[0.02em] border border-[rgba(197,164,109,0.3)] text-gold-light rounded-lg transition-all duration-200 hover:border-gold hover:bg-[rgba(197,164,109,0.06)]"
             >
-              Create a Free Account
+              Create Your Account
             </Link>
             <button
               type="button"

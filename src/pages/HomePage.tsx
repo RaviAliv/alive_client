@@ -135,9 +135,9 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/90 via-black/65 to-black/45 md:bg-gradient-to-r md:from-[rgba(10,14,22,0.85)] md:via-[rgba(10,14,22,0.25)] md:to-transparent" />
         <div className="relative z-[2] max-w-[1280px] mx-auto pt-16 md:pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
-          <div className="max-w-[640px] mx-auto md:mx-0 text-center md:text-left">
+          <div className="max-w-[540px] mx-auto md:mx-0 text-center md:text-left">
             <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
-            <h1 className="font-display font-medium text-[clamp(38px,0.6vw,46px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
+            <h1 className="font-arial font-medium text-[clamp(38px,0.2vw,36px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
               Five live lectures that rebuild how you read a fertility cycle
             </h1>
             <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">

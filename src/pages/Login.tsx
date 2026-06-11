@@ -5,9 +5,9 @@ import { apiPost } from "../lib/api";
 import { useAuth, type AuthUser } from "../context/AuthContext";
 
 const inputCls =
-  "w-full px-[15px] py-[13px] bg-white border border-border-warm font-body text-sm text-navy transition-colors focus:outline-none focus:border-gold";
+  "w-full px-[15px] py-[13px] bg-[rgba(255,255,255,0.06)] md:bg-white border border-[rgba(197,164,109,0.25)] md:border-border-warm font-body text-sm text-ivory md:text-navy placeholder:text-ivory/30 md:placeholder:text-slate/40 transition-colors focus:outline-none focus:border-gold md:focus:border-gold";
 const labelCls =
-  "block font-mono text-[10.5px] tracking-[0.2em] text-gold-deep uppercase mb-2";
+  "block font-bold text-[10.5px] tracking-[0.2em] text-gold/80 md:text-gold-deep uppercase mb-2";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -99,41 +99,36 @@ export default function Login() {
   };
 
   return (
-    <section className="bg-ivory min-h-[calc(100vh-80px)] flex items-center justify-center py-[clamp(8px,4vw,29px)] px-[clamp(10px,2vw,60px)]">
-      <div className="w-full max-w-[720px] mx-auto bg-white rounded-2xl shadow-[0_20px_50px_-20px_rgba(30,42,68,0.18)] border border-border-warm overflow-hidden grid grid-cols-1 md:grid-cols-5">
-        {/* Left brand panel */}
-        <div className="relative bg-navy text-white p-8 hidden md:flex flex-col justify-center md:col-span-2">
-          <img
-            src="./images/SignUp.webp"
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover "
-          />
-          <div className="relative z-10">
-            <span className="inline-block font-mono text-[10px] tracking-[0.26em] uppercase text-gold-light mb-3">
-              STAR Academy
-            </span>
-            <h2 className="font-display text-[28px] font-medium mb-3 leading-tight">
-              Welcome back to your learning journey.
-            </h2>
-            <p className="text-sm leading-relaxed text-white/85">
-              Sign in to access your enrolled courses, live sessions, and
-              learning resources from the STAR pathway.
-            </p>
+    <section className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-[#0A0E16] md:bg-ivory py-0 md:py-8 px-0 md:px-6 -mt-1">
+      <div className="w-full max-w-[720px] mx-auto overflow-hidden md:rounded-2xl md:shadow-[0_20px_50px_-20px_rgba(30,42,68,0.18)] md:border md:border-border-warm grid grid-cols-1 md:grid-cols-5">
+
+        {/* Mobile-only brand header */}
+        <div className="relative md:hidden overflow-hidden" style={{ minHeight: 180 }}>
+          <img src="/images/SignUp.webp" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0E16]/60 to-[#0A0E16]" />
+          <div className="relative z-10 px-6 pt-10 pb-6 text-center">
+            <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-gold/70 block mb-2">STAR Academy of SRT</span>
+            <h2 className="text-[26px] font-medium text-ivory leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Welcome back.</h2>
+            <p className="text-[12.5px] text-ivory/50 mt-1">Sign in to continue your learning journey</p>
           </div>
         </div>
 
-        {/* Right form panel */}
-        <div className="p-2 md:p-6 md:col-span-3">
-          <h1 className="font-display text-[clamp(26px,3vw,32px)] font-medium text-navy mb-1">
-            Sign in
-          </h1>
-          <p className="text-[13px] text-slate mb-6">
+        {/* Desktop left brand panel */}
+        <div className="relative bg-navy text-white p-4 hidden md:flex flex-col justify-center md:col-span-2">
+          <img src="/images/SignUp.webp" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
+          <div className="relative z-10">
+            <span className="inline-block font-mono text-[10px] tracking-[0.26em] uppercase text-gold-light mb-3">STAR Academy</span>
+            <h2 className="font-display text-[28px] font-medium mb-3 leading-tight">Welcome back to your learning journey.</h2>
+            <p className="text-sm leading-relaxed text-white/85">Sign in to access your enrolled courses, live sessions, and learning resources from the STAR pathway.</p>
+          </div>
+        </div>
+
+        {/* Form panel */}
+        <div className="bg-[#0A0E16] md:bg-white px-6   pb-8 md:col-span-3">
+          <h1 className="text-[26px] md:text-[32px] font-medium text-ivory md:text-navy mb-1 leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Sign in</h1>
+          <p className="text-[13px] text-ivory/50 md:text-slate mb-6">
             New here?{" "}
-            <Link
-              to="/signup"
-              className="text-gold-deep font-medium hover:text-navy transition-colors"
-            >
+            <Link to="/signup" className="text-gold font-medium hover:text-gold/80 md:hover:text-navy transition-colors">
               Create an account
             </Link>
           </p>
@@ -187,7 +182,7 @@ export default function Login() {
                   onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   aria-pressed={showPassword}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate hover:text-navy transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-ivory/40 md:text-slate hover:text-ivory md:hover:text-navy transition-colors"
                 >
                   {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </button>
@@ -205,38 +200,30 @@ export default function Login() {
                   type="checkbox"
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
-                  className="w-4 h-4 accent-navy"
+                  className="w-4 h-4 accent-gold"
                 />
-                <span className="text-[13px] text-slate">Remember me</span>
+                <span className="text-[13px] text-ivory/60 md:text-slate">Remember me</span>
               </label>
-              <Link
-                to="/forgot-password"
-                className="text-[13px] text-gold-deep hover:text-navy transition-colors"
-              >
+              <Link to="/forgot-password" className="text-[13px] text-gold/80 hover:text-gold md:text-gold-deep md:hover:text-navy transition-colors">
                 Forgot password?
               </Link>
-
             </div>
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full justify-center inline-flex items-center gap-2.5 px-7 py-2 font-body font-medium text-[15px] tracking-[0.02em] border border-navy rounded-[2px] cursor-pointer transition-all duration-300 bg-navy text-gold-light hover:bg-black hover:border-gold hover:text-gold disabled:opacity-60 disabled:cursor-not-allowed group"
+              className="w-full justify-center inline-flex items-center gap-2.5 px-5 py-2 font-body font-bold text-[15px] tracking-[0.02em] rounded-lg cursor-pointer transition-all duration-300 bg-[#A87928] text-black hover:brightness-110 hover:shadow-[0_8px_22px_-6px_rgba(247,219,125,0.4)] disabled:opacity-60 disabled:cursor-not-allowed group md:bg-navy md:text-gold-light md:rounded-[2px] md:hover:bg-black md:hover:border-gold md:border md:border-navy"
             >
               {submitting ? "Signing in…" : "Sign In"}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                &rarr;
-              </span>
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
             </button>
 
-            <div className="flex items-center gap-3 pt-1">
-              <span className="h-px flex-1 bg-border-warm" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate">
-                or
-              </span>
-              <span className="h-px flex-1 bg-border-warm" />
+            <div className="flex items-center gap-3 ">
+              <span className="h-px flex-1 bg-[rgba(197,164,109,0.2)] md:bg-border-warm" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ivory/30 md:text-slate">or</span>
+              <span className="h-px flex-1 bg-[rgba(197,164,109,0.2)] md:bg-border-warm" />
             </div>
-            <div className="flex justify-center">
+            <div className="w-full -mt-2 flex justify-center">
               <GoogleLogin
                 onSuccess={handleGoogle}
                 onError={() => setFormError("Google sign-in failed.")}
