@@ -21,6 +21,7 @@ import VerifyEmailPage from "./pages/VerifyEmailPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import RegistrationPage from "./pages/RegistrationPage";
+import VideoPage from "./pages/VideoPage";
 
 export default function App() {
   return (
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="faq" element={<FAQPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="registration" element={<RegistrationPage />} />
+          <Route path="video" element={<VideoPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

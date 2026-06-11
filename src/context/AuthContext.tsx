@@ -19,6 +19,7 @@ type AuthValue = {
   user: AuthUser;
   token: string | null;
   isLoggedIn: boolean;
+  initialized: boolean;            // true once localStorage has been read
   sessionKicked: boolean;          // true when another device logged in
   login: (token: string, user: AuthUser) => void;
   logout: () => void;
@@ -32,6 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token,         setToken]         = useState<string | null>(null);
   const [user,          setUser]          = useState<AuthUser>(null);
   const [sessionKicked, setSessionKicked] = useState(false);
+  const [initialized,   setInitialized]   = useState(false);
   const tokenRef = useRef<string | null>(null); // always mirrors token without closure issues
 
   // Restore session from localStorage on first load
@@ -46,6 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch {
       localStorage.removeItem(STORAGE_KEY);
+    } finally {
+      setInitialized(true);
     }
   }, []);
 
@@ -80,9 +84,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     validate();
 
+    // Poll every 60s to catch session invalidation even when tab stays focused
+    const interval = setInterval(validate, 60_000);
+
     const onFocus = () => validate();
     window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -116,7 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, isLoggedIn: !!token, sessionKicked, login, logout, clearKicked }}
+      value={{ user, token, isLoggedIn: !!token, initialized, sessionKicked, login, logout, clearKicked }}
     >
       {children}
     </AuthContext.Provider>
