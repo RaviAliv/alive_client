@@ -5,7 +5,7 @@ import Nav from "./Nav";
 import Footer from "./Footer";
 import ActivityLoginPrompt from "./ActivityLoginPrompt";
 
-const AUTH_PATHS = ["/login", "/signup"];
+const AUTH_PATHS = ["/login", "/signup", "/forgot-password", "/reset-password"];
 
 export default function Layout() {
   const { pathname } = useLocation();

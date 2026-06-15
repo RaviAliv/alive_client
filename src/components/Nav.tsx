@@ -25,13 +25,24 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [coursesExpanded, setCoursesExpanded] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
+  const { isLoggedIn, user } = useAuth();
+
+  const panelHref =
+    user?.systemRole === "superadmin" ? "/panel/super" :
+    user?.systemRole === "admin" ? "/panel/admin" :
+    "/panel/my-courses";
+
+  const roleLabel =
+    user?.systemRole === "superadmin" ? "Super Admin" :
+    user?.systemRole === "admin" ? "Admin" :
+    "Student";
+
+  const initials = user?.name
+    ? user.name.trim().split(/\s+/).slice(0, 2).map((w) => w[0].toUpperCase()).join("")
+    : "?";
 
   const isCoursesActive = pathname.startsWith("/courses") || pathname.startsWith("/course/");
 
@@ -178,13 +189,28 @@ export default function Nav() {
 
         {/* Desktop CTA */}
         {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className={`hidden md:inline-flex flex-shrink-0 items-center gap-2.5 px-4 py-2 font-body font-bold text-[15px] tracking-[0.02em] border border-gold text-navy rounded-[2px] cursor-pointer transition-all duration-300 ease-in-out hover:brightness-110 group ${goldGradient}`}
+          <Link
+            to={panelHref}
+            className="hidden md:flex items-center gap-2 flex-shrink-0 group"
           >
-            Logout
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
-          </button>
+            {user?.avatar && !avatarError ? (
+              <img
+                key={user.avatar}
+                src={user.avatar}
+                alt={user.name}
+                referrerPolicy="no-referrer"
+                onError={() => setAvatarError(true)}
+                className="w-9 h-9 rounded-full object-cover shrink-0 ring-2 ring-[rgba(197,164,109,0.45)] group-hover:ring-[rgba(197,164,109,0.9)] transition-all"
+              />
+            ) : (
+              <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-[13px] text-navy shrink-0 ring-2 ring-[rgba(197,164,109,0.45)] group-hover:ring-[rgba(197,164,109,0.9)] transition-all ${goldGradient}`}>
+                {initials}
+              </div>
+            )}
+            <span className={`font-body text-sm font-medium tracking-[0.03em] ${goldGradientText}`}>
+              {user?.name?.split(" ")[0]}
+            </span>
+          </Link>
         ) : (
           <Link
             to="/login"
@@ -313,14 +339,32 @@ export default function Nav() {
             ))}
           </ul>
 
-          <div className="mt-8">
+          <div className="mt-8 space-y-3">
             {isLoggedIn ? (
-              <button
-                onClick={handleLogout}
-                className={`w-full flex items-center justify-center gap-2.5 px-4 py-3.5 font-body font-bold text-[15px] tracking-[0.04em] border border-gold text-navy rounded-[2px] ${goldGradient}`}
+              <Link
+                to={panelHref}
+                className="flex items-center gap-3 p-4 rounded-xl border border-[rgba(197,164,109,0.2)] bg-white/[0.03] hover:bg-white/[0.06] transition-colors"
               >
-                Logout &rarr;
-              </button>
+                {user?.avatar && !avatarError ? (
+                  <img
+                    key={user.avatar}
+                    src={user.avatar}
+                    alt={user?.name}
+                    referrerPolicy="no-referrer"
+                    onError={() => setAvatarError(true)}
+                    className="w-11 h-11 rounded-full object-cover shrink-0"
+                  />
+                ) : (
+                  <div className={`w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm text-navy shrink-0 ${goldGradient}`}>
+                    {initials}
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="font-body text-[15px] font-semibold text-ivory truncate">{user?.name}</p>
+                  <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gold/70">{roleLabel}</span>
+                </div>
+                <span className="text-[#f7db7d] text-lg">&rarr;</span>
+              </Link>
             ) : (
               <Link
                 to="/login"

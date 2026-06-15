@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 
-type Status = "form" | "success" | "error";
+type Status = "form" | "success" | "invalid" | "network_error";
 
 export default function ResetPasswordPage() {
   const [params] = useSearchParams();
@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ password?: string; confirm?: string }>({});
   const [submitting, setSubmitting] = useState(false);
-  const [status, setStatus] = useState<Status>(token ? "form" : "error");
+  const [status, setStatus] = useState<Status>(token ? "form" : "invalid");
   const [errorMsg, setErrorMsg] = useState(token ? "" : "No reset token found in the link.");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -32,17 +32,18 @@ export default function ResetPasswordPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : {};
+      // Safely parse JSON — server may return HTML on proxy/nginx errors
+      let data: { message?: string } = {};
+      try { const t = await res.text(); if (t) data = JSON.parse(t); } catch { /* ignore */ }
       if (res.ok) {
         setStatus("success");
       } else {
-        setStatus("error");
-        setErrorMsg(data.message || "Reset failed.");
+        setStatus("invalid");
+        setErrorMsg(data.message || "This reset link has expired or already been used.");
       }
     } catch {
-      setStatus("error");
-      setErrorMsg("Could not reach the server. Please try again.");
+      // Network failure — the request may have still reached the server
+      setStatus("network_error");
     } finally {
       setSubmitting(false);
     }
@@ -79,7 +80,7 @@ export default function ResetPasswordPage() {
           </div>
         )}
 
-        {status === "error" && (
+        {status === "invalid" && (
           <div className="text-center">
             <div className="w-12 h-12 rounded-full border border-red-500/40 flex items-center justify-center mx-auto mb-6">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -101,6 +102,42 @@ export default function ResetPasswordPage() {
             >
               Request New Link →
             </Link>
+          </div>
+        )}
+
+        {status === "network_error" && (
+          <div className="text-center">
+            <div className="w-12 h-12 rounded-full border border-amber-500/40 flex items-center justify-center mx-auto mb-6">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#f59e0b" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <span className="font-mono text-[10px] tracking-[0.26em] uppercase text-amber-400 block mb-4">
+              Connection Issue
+            </span>
+            <h1 className="font-display font-medium text-[24px] text-ivory mb-3 leading-[1.15]">
+              Couldn't confirm reset.
+            </h1>
+            <p className="text-[14px] text-ivory/60 mb-3 leading-[1.65]">
+              Your password may have been updated — the request reached the server but the response was lost.
+            </p>
+            <p className="text-[13px] text-ivory/40 mb-8 leading-[1.65]">
+              Try signing in with your new password first.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-[linear-gradient(90deg,#b9842a,#f7db7d,#b9842a)] text-navy font-mono font-bold text-[11px] tracking-[0.16em] uppercase hover:brightness-110 transition-all"
+              >
+                Try Sign In →
+              </Link>
+              <Link
+                to="/forgot-password"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3 border border-gold/40 text-gold/70 font-mono text-[11px] tracking-[0.16em] uppercase hover:border-gold hover:text-gold transition-all"
+              >
+                Request New Link
+              </Link>
+            </div>
           </div>
         )}
 

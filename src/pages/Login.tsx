@@ -84,6 +84,7 @@ export default function Login() {
   const handleGoogle = async (cred: CredentialResponse) => {
     if (!cred.credential) return;
     setFormError(null);
+    setSubmitting(true);
     try {
       const data = await apiPost<{ token: string; user: AuthUser }>(
         "/auth/google",
@@ -95,6 +96,8 @@ export default function Login() {
       setFormError(
         err instanceof Error ? err.message : "Google sign-in failed."
       );
+    } finally {
+      setSubmitting(false);
     }
   };
 

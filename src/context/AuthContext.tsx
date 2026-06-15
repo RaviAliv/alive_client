@@ -12,7 +12,9 @@ export type AuthUser = {
   name: string;
   email: string;
   role?: string;
+  systemRole?: "user" | "admin" | "superadmin";
   isVerified?: boolean;
+  avatar?: string;
 } | null;
 
 type AuthValue = {

@@ -32,7 +32,8 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email: email.trim() }),
       });
       const text = await res.text();
-      const data = text ? JSON.parse(text) : {};
+      let data: { message?: string } = {};
+      try { if (text) data = JSON.parse(text); } catch { /* ignore */ }
       if (!res.ok) throw new Error(data.message || "Something went wrong.");
       setSent(true);
     } catch (err) {
