@@ -1,20 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { apiGet, apiPost } from "../../lib/api";
+import { COURSES, COURSE_COLOR, COURSE_LECTURES } from "../shared/lectureConfig";
 
 type Alloc = { course: string; allocatedSeats: number; usedSeats: number };
-type GrantResult = { granted: number; alreadyHadAccess: number; notFound: string[] };
+type GrantResult = { granted: number; invited: number; alreadyHadAccess: number; notFound: string[] };
 
-const COURSES = ["foundation", "core", "advanced", "masterclass"];
-const COURSE_COLOR: Record<string, string> = {
-  foundation: "#21864E", core: "#D4A621", advanced: "#1E5AA6", masterclass: "#C8102E",
-};
-const COURSE_LECTURES: Record<string, string[]> = {
-  foundation:  ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5"],
-  core:        ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5", "Lecture 6"],
-  advanced:    ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5"],
-  masterclass: ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4"],
-};
 
 function CheckBox({ checked, color, disabled }: { checked: boolean; color: string; disabled?: boolean }) {
   return (
@@ -34,17 +25,18 @@ function CheckBox({ checked, color, disabled }: { checked: boolean; color: strin
 }
 
 export default function GrantAccess() {
-  const [allocations, setAllocations] = useState<Alloc[]>([]);
-  const [allocLoaded, setAllocLoaded]  = useState(false);
-  const [course,      setCourse]       = useState("foundation");
-  const [allLectures, setAllLectures]  = useState(false);
-  const [selLectures, setSelLectures]  = useState<string[]>([]);
+  const [allocations,  setAllocations]  = useState<Alloc[]>([]);
+  const [allocLoaded,  setAllocLoaded]  = useState(false);
+  const [availability, setAvailability] = useState<Record<string, string[]>>({});
+  const [course,       setCourse]       = useState("foundation");
+  const [allLectures,  setAllLectures]  = useState(true);
+  const [selLectures,  setSelLectures]  = useState<string[]>([]);
   const [manualEmails, setManualEmails] = useState("");
-  const [excelEmails, setExcelEmails]  = useState<string[]>([]);
-  const [fileName,    setFileName]     = useState("");
-  const [submitting,  setSubmitting]   = useState(false);
-  const [result,      setResult]       = useState<GrantResult | null>(null);
-  const [error,       setError]        = useState("");
+  const [excelEmails,  setExcelEmails]  = useState<string[]>([]);
+  const [fileName,     setFileName]     = useState("");
+  const [submitting,   setSubmitting]   = useState(false);
+  const [result,       setResult]       = useState<GrantResult | null>(null);
+  const [error,        setError]        = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   const refreshAlloc = async () => {
@@ -58,12 +50,32 @@ export default function GrantAccess() {
     }
   };
 
-  useEffect(() => { refreshAlloc(); }, []);
+  const refreshAvailability = () =>
+    apiGet<{ availability: Record<string, string[]> }>("/admin/r2-availability")
+      .then((d) => setAvailability(d.availability))
+      .catch(() => {});
+
+  useEffect(() => {
+    refreshAlloc();
+    refreshAvailability();
+  }, []);
+
+  // Refresh on tab focus so changes from superadmin panel are reflected immediately
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        refreshAlloc();
+        refreshAvailability();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
 
   // Reset lecture selection when course changes
   const handleCourseChange = (c: string) => {
     setCourse(c);
-    setAllLectures(false);
+    setAllLectures(true);
     setSelLectures([]);
     setResult(null);
     setError("");
@@ -81,10 +93,14 @@ export default function GrantAccess() {
     );
   };
 
-  const currentAlloc = allocations.find((a) => a.course === course);
-  const remaining    = currentAlloc ? currentAlloc.allocatedSeats - currentAlloc.usedSeats : 0;
-  const lectureReady = allLectures || selLectures.length > 0;
-  const currentLecs  = COURSE_LECTURES[course] || [];
+  const currentAlloc  = allocations.find((a) => a.course === course);
+  const remaining     = currentAlloc ? currentAlloc.allocatedSeats - currentAlloc.usedSeats : 0;
+  const lectureReady  = allLectures || selLectures.length > 0;
+  const currentLecs   = COURSE_LECTURES[course] || [];
+  const r2Loaded      = Object.keys(availability).length > 0;
+  const availableLecs = r2Loaded ? currentLecs.filter(l => (availability[course] ?? []).includes(l)) : currentLecs;
+  const allVideosReady = availableLecs.length === currentLecs.length;
+  const noVideosReady  = r2Loaded && availableLecs.length === 0;
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -93,7 +109,7 @@ export default function GrantAccess() {
     const reader = new FileReader();
     reader.onload = (evt) => {
       try {
-        const wb = XLSX.read(evt.target?.result, { type: "binary" });
+        const wb = XLSX.read(evt.target?.result);
         const ws = wb.Sheets[wb.SheetNames[0]];
         const rows = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1 }) as unknown[][];
         const found: string[] = [];
@@ -106,7 +122,7 @@ export default function GrantAccess() {
         setError("Could not read the file. Please check the format.");
       }
     };
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   };
 
   const clearFile = (e: React.MouseEvent) => {
@@ -131,7 +147,7 @@ export default function GrantAccess() {
       const data = await apiPost<GrantResult>("/admin/grant", { emails, course, lectures });
       setResult(data);
       setManualEmails(""); setExcelEmails([]); setFileName("");
-      setAllLectures(false); setSelLectures([]);
+      setAllLectures(true); setSelLectures([]);
       if (fileRef.current) fileRef.current.value = "";
       refreshAlloc();
     } catch (err) {
@@ -188,25 +204,44 @@ export default function GrantAccess() {
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Lectures to Grant</label>
-            {!allLectures && selLectures.length > 0 && (
-              <span className="text-[10px] font-semibold" style={{ color }}>
-                {selLectures.length} / {currentLecs.length} selected
-              </span>
-            )}
+            <div className="flex items-center gap-2">
+              {!allLectures && selLectures.length > 0 && (
+                <span className="text-[10px] font-semibold" style={{ color }}>
+                  {selLectures.length} / {currentLecs.length} selected
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={refreshAvailability}
+                title="Refresh R2 video availability"
+                className="text-[10px] text-slate-400 hover:text-slate-600 flex items-center gap-1 px-2 py-0.5 rounded border border-slate-200 hover:border-slate-300 transition-colors"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                R2
+              </button>
+            </div>
           </div>
 
           <div className="border border-slate-200 rounded-xl overflow-hidden">
             {/* All lectures row */}
             <button
               type="button"
-              onClick={toggleAllLectures}
-              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-left border-b border-slate-100"
+              disabled={noVideosReady}
+              onClick={noVideosReady ? undefined : toggleAllLectures}
+              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-left border-b border-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <CheckBox checked={allLectures} color={color} />
-              <span className="text-[13px] font-semibold text-slate-700">All lectures</span>
-              {allLectures && (
-                <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded text-white" style={{ background: color }}>
+              <CheckBox checked={allLectures} color={color} disabled={noVideosReady} />
+              <span className="text-[13px] font-semibold text-slate-700 flex-1">All lectures</span>
+              {allLectures && !noVideosReady && (
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded text-white" style={{ background: color }}>
                   Full access
+                </span>
+              )}
+              {!allVideosReady && r2Loaded && !allLectures && (
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200">
+                  {availableLecs.length}/{currentLecs.length} ready
                 </span>
               )}
             </button>
@@ -214,20 +249,31 @@ export default function GrantAccess() {
             {/* Individual lectures */}
             <div className="divide-y divide-slate-50">
               {currentLecs.map((lec, i) => {
-                const checked = allLectures || selLectures.includes(lec);
+                const uploaded  = (availability[course] ?? []).includes(lec);
+                const notReady  = Object.keys(availability).length > 0 && !uploaded;
+                const isDisabled = allLectures || notReady;
+                const checked   = !notReady && (allLectures || selLectures.includes(lec));
                 return (
                   <button
                     key={lec}
                     type="button"
-                    onClick={() => toggleLecture(lec)}
-                    disabled={allLectures}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-left disabled:cursor-default"
+                    onClick={() => !notReady && toggleLecture(lec)}
+                    disabled={isDisabled}
+                    title={notReady ? "Video not yet uploaded to Cloudflare R2" : undefined}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-left disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <CheckBox checked={checked} color={color} disabled={allLectures} />
+                    <CheckBox checked={checked} color={color} disabled={isDisabled} />
                     <span className={`text-[12px] ${checked ? "text-slate-700 font-medium" : "text-slate-500"}`}>
                       {lec}
                     </span>
-                    <span className="ml-auto text-[10px] text-slate-300">#{i + 1}</span>
+                    <span className="ml-auto flex items-center gap-1.5">
+                      {notReady && (
+                        <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 uppercase tracking-wide">
+                          Not uploaded
+                        </span>
+                      )}
+                      <span className="text-[10px] text-slate-300">#{i + 1}</span>
+                    </span>
                   </button>
                 );
               })}
@@ -343,24 +389,33 @@ export default function GrantAccess() {
             <h3 className="font-semibold text-green-800">Access granted successfully</h3>
           </div>
           <div className="space-y-1.5 text-sm text-green-700">
-            <p><strong className="text-green-900">{result.granted}</strong> new grant{result.granted !== 1 ? "s" : ""}</p>
+            {result.granted === 0 && result.invited === 0 ? (
+              <p className="text-green-700 font-medium">No new grants — everyone already had access.</p>
+            ) : (
+              <p>
+                <strong className="text-green-900">{result.granted}</strong> new grant{result.granted !== 1 ? "s" : ""} created successfully.
+              </p>
+            )}
+            {result.invited > 0 && (
+              <p className="flex items-center gap-1.5 text-green-600">
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {result.invited} new account{result.invited !== 1 ? "s" : ""} created — invite email{result.invited !== 1 ? "s" : ""} sent with a link to set up their password.
+              </p>
+            )}
             {result.alreadyHadAccess > 0 && (
-              <p className="text-green-600">{result.alreadyHadAccess} already had access (skipped)</p>
+              <p className="text-green-500 text-xs">{result.alreadyHadAccess} user{result.alreadyHadAccess !== 1 ? "s" : ""} already had access (skipped)</p>
+            )}
+            {result.notFound && result.notFound.length > 0 && (
+              <div className="mt-2 pt-2 border-t border-green-200">
+                <p className="text-amber-700 text-xs font-semibold mb-1">{result.notFound.length} email{result.notFound.length !== 1 ? "s" : ""} not found:</p>
+                <ul className="text-xs text-amber-600 space-y-0.5">
+                  {result.notFound.map((e) => <li key={e} className="font-mono">{e}</li>)}
+                </ul>
+              </div>
             )}
           </div>
-          {result.notFound.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-green-200">
-              <p className="text-sm font-semibold text-amber-700 mb-1">
-                {result.notFound.length} email{result.notFound.length !== 1 ? "s" : ""} not registered:
-              </p>
-              <div className="bg-white rounded-lg border border-amber-200 p-2 max-h-32 overflow-y-auto">
-                {result.notFound.map((e) => (
-                  <p key={e} className="text-xs text-amber-700 font-mono py-0.5">{e}</p>
-                ))}
-              </div>
-              <p className="text-xs text-amber-600 mt-1.5">These users need to create an account first.</p>
-            </div>
-          )}
         </div>
       )}
     </div>

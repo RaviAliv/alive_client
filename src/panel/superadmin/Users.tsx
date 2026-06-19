@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { apiGet, apiPatch, apiPost, apiDelete } from "../../lib/api";
+import { COURSES, COURSE_COLOR, COURSE_LECTURES } from "../shared/lectureConfig";
 
 // null = all lectures accessible, [] = none granted, [...] = specific lectures
 type CourseLectures = Record<string, string[] | null>;
@@ -10,17 +11,6 @@ type UserRow = {
   isVerified: boolean; createdAt: string;
   courses: string[];
   courseLectures: CourseLectures;
-};
-
-const COURSES = ["foundation", "core", "advanced", "masterclass"];
-const COURSE_COLOR: Record<string, string> = {
-  foundation: "#21864E", core: "#D4A621", advanced: "#1E5AA6", masterclass: "#C8102E",
-};
-const COURSE_LECTURES: Record<string, string[]> = {
-  foundation:  ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5"],
-  core:        ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5", "Lecture 6"],
-  advanced:    ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5"],
-  masterclass: ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4"],
 };
 
 type Toast   = { msg: string; type: "success" | "error" };
@@ -44,14 +34,15 @@ function CheckBox({ checked, color }: { checked: boolean; color: string }) {
 }
 
 export default function AllUsers() {
-  const [users,   setUsers]   = useState<UserRow[]>([]);
-  const [total,   setTotal]   = useState(0);
-  const [page,    setPage]    = useState(1);
-  const [pages,   setPages]   = useState(1);
-  const [search,  setSearch]  = useState("");
-  const [loading, setLoading] = useState(true);
-  const [toast,   setToast]   = useState<Toast | null>(null);
-  const [busy,    setBusy]    = useState<string | null>(null);
+  const [users,        setUsers]        = useState<UserRow[]>([]);
+  const [total,        setTotal]        = useState(0);
+  const [page,         setPage]         = useState(1);
+  const [pages,        setPages]        = useState(1);
+  const [search,       setSearch]       = useState("");
+  const [loading,      setLoading]      = useState(true);
+  const [toast,        setToast]        = useState<Toast | null>(null);
+  const [busy,         setBusy]         = useState<string | null>(null);
+  const [availability, setAvailability] = useState<Record<string, string[]>>({});
 
   // Lecture manage dropdown (clicking an already-granted badge)
   const [drop,    setDrop]    = useState<DropPos | null>(null);
@@ -84,6 +75,21 @@ export default function AllUsers() {
   }, [page, search]);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    apiGet<{ availability: Record<string, string[]> }>("/admin/r2-availability")
+      .then((d) => setAvailability(d.availability))
+      .catch(() => {});
+  }, []);
+
+  // Refresh when tab regains focus — keeps data in sync with admin panel changes
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") load();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, [load]);
 
   // Close dropdown on outside click / scroll
   useEffect(() => {
@@ -423,21 +429,49 @@ export default function AllUsers() {
           </div>
 
           {/* All lectures row */}
-          <button onClick={() => unlockAll(drop.userId, drop.course)}
-            className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-50 border-b border-slate-100 transition-colors text-left">
-            <CheckBox checked={dropLectures === null} color={COURSE_COLOR[drop.course]} />
-            <span className="text-[12px] font-semibold text-slate-700">All lectures</span>
-          </button>
+          {(() => {
+            const avail = availability[drop.course] ?? [];
+            const availCount = Object.keys(availability).length > 0
+              ? dropAllLecs.filter(l => avail.includes(l)).length
+              : dropAllLecs.length;
+            const noneReady = Object.keys(availability).length > 0 && availCount === 0;
+            const allReady  = availCount === dropAllLecs.length;
+            return (
+              <button
+                onClick={() => !noneReady && unlockAll(drop.userId, drop.course)}
+                disabled={noneReady}
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-50 border-b border-slate-100 transition-colors text-left disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <CheckBox checked={dropLectures === null} color={COURSE_COLOR[drop.course]} />
+                <span className="text-[12px] font-semibold text-slate-700 flex-1">All lectures</span>
+                {!allReady && Object.keys(availability).length > 0 && (
+                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 flex-shrink-0">
+                    {availCount}/{dropAllLecs.length} ready
+                  </span>
+                )}
+              </button>
+            );
+          })()}
 
           {/* Individual lectures */}
           <div className="max-h-52 overflow-y-auto">
             {dropAllLecs.map((lec) => {
-              const unlocked = dropLectures === null || dropLectures.includes(lec);
+              const uploaded  = (availability[drop.course] ?? []).includes(lec);
+              const notReady  = Object.keys(availability).length > 0 && !uploaded;
+              const unlocked  = !notReady && (dropLectures === null || dropLectures.includes(lec));
               return (
-                <button key={lec} onClick={() => toggleLecture(drop.userId, drop.course, lec)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-slate-50 transition-colors text-left">
+                <button key={lec}
+                  disabled={notReady}
+                  title={notReady ? "Video not yet uploaded to Cloudflare R2" : undefined}
+                  onClick={() => !notReady && toggleLecture(drop.userId, drop.course, lec)}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-slate-50 transition-colors text-left disabled:cursor-not-allowed disabled:opacity-50">
                   <CheckBox checked={unlocked} color={COURSE_COLOR[drop.course]} />
-                  <span className="text-[12px] text-slate-600">{lec}</span>
+                  <span className="text-[12px] text-slate-600 flex-1">{lec}</span>
+                  {notReady && (
+                    <span className="text-[9px] font-semibold px-1 py-0.5 rounded bg-slate-100 text-slate-400 uppercase tracking-wide flex-shrink-0">
+                      N/A
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -480,13 +514,30 @@ export default function AllUsers() {
               </p>
 
               {/* All lectures toggle */}
-              <button
-                onClick={() => { setModalAllLecs(v => !v); if (!modalAllLecs) setModalSelLecs([]); }}
-                className="w-full flex items-center gap-3 py-2.5 px-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
-              >
-                <CheckBox checked={modalAllLecs} color={COURSE_COLOR[grantModal.course]} />
-                <span className="text-[13px] font-semibold text-slate-700">All lectures</span>
-              </button>
+              {(() => {
+                const avail = availability[grantModal.course] ?? [];
+                const allLecs = COURSE_LECTURES[grantModal.course] || [];
+                const availCount = Object.keys(availability).length > 0
+                  ? allLecs.filter(l => avail.includes(l)).length
+                  : allLecs.length;
+                const noneReady = Object.keys(availability).length > 0 && availCount === 0;
+                const allReady  = availCount === allLecs.length;
+                return (
+                  <button
+                    disabled={noneReady}
+                    onClick={() => { if (!noneReady) { setModalAllLecs(v => !v); if (!modalAllLecs) setModalSelLecs([]); } }}
+                    className="w-full flex items-center gap-3 py-2.5 px-2 rounded-xl hover:bg-slate-50 transition-colors text-left disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <CheckBox checked={modalAllLecs} color={COURSE_COLOR[grantModal.course]} />
+                    <span className="text-[13px] font-semibold text-slate-700 flex-1">All lectures</span>
+                    {!allReady && Object.keys(availability).length > 0 && (
+                      <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 flex-shrink-0">
+                        {availCount}/{allLecs.length} ready
+                      </span>
+                    )}
+                  </button>
+                );
+              })()}
 
               {/* Divider */}
               <div className="border-t border-slate-100 my-1" />
@@ -494,21 +545,30 @@ export default function AllUsers() {
               {/* Individual lectures — unchecked by default */}
               <div className="max-h-44 overflow-y-auto">
                 {(COURSE_LECTURES[grantModal.course] || []).map((lec) => {
-                  const checked = modalAllLecs || modalSelLecs.includes(lec);
+                  const uploaded  = (availability[grantModal.course] ?? []).includes(lec);
+                  const notReady  = Object.keys(availability).length > 0 && !uploaded;
+                  const isDisabled = modalAllLecs || notReady;
+                  const checked   = !notReady && (modalAllLecs || modalSelLecs.includes(lec));
                   return (
                     <button
                       key={lec}
-                      disabled={modalAllLecs}
+                      disabled={isDisabled}
+                      title={notReady ? "Video not yet uploaded to Cloudflare R2" : undefined}
                       onClick={() => {
-                        if (modalAllLecs) return;
+                        if (isDisabled) return;
                         setModalSelLecs(prev =>
                           prev.includes(lec) ? prev.filter(l => l !== lec) : [...prev, lec]
                         );
                       }}
-                      className="w-full flex items-center gap-3 py-2 px-2 rounded-xl hover:bg-slate-50 transition-colors text-left disabled:opacity-50"
+                      className="w-full flex items-center gap-3 py-2 px-2 rounded-xl hover:bg-slate-50 transition-colors text-left disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <CheckBox checked={checked} color={COURSE_COLOR[grantModal.course]} />
-                      <span className="text-[12px] text-slate-600">{lec}</span>
+                      <span className="text-[12px] text-slate-600 flex-1">{lec}</span>
+                      {notReady && (
+                        <span className="text-[9px] font-semibold px-1 py-0.5 rounded bg-slate-100 text-slate-400 uppercase tracking-wide flex-shrink-0">
+                          Not uploaded
+                        </span>
+                      )}
                     </button>
                   );
                 })}

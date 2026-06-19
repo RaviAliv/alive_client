@@ -1,11 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { COURSE } from "../lib/config";
 
 const COURSES = [
-  { to: "/foundation", label: "Foundation Series" },
-  { to: "/courses",    label: "Core Series" },
-  { to: "/courses",    label: "Advanced Series" },
-  { to: "/courses",    label: "Masterclass Series" },
+  { to: "/course/foundation",   label: "Foundation Series" },
+  { to: "/course/core",         label: "Core Series" },
+  { to: "/course/advanced",     label: "Advanced Series" },
+  { to: "/course/masterclass",  label: "Masterclass Series" },
 ];
 
 const ACADEMY = [
@@ -69,11 +70,75 @@ function FooterLink({ to, label }: { to: string; label: string }) {
     <li className="mb-2.5">
       <Link
         to={to}
-        className="text-[12.5px] text-ivory/40 hover:text-gold-light transition-colors duration-200 leading-none"
+        className="group inline-flex items-center gap-1.5 text-[12.5px] text-ivory/40 hover:text-gold-light focus-visible:text-gold-light transition-colors duration-200 leading-none outline-none"
       >
-        {label}
+        <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">{label}</span>
       </Link>
     </li>
+  );
+}
+
+function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [msg, setMsg] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+        setMsg(data.message || "You're subscribed!");
+      } else {
+        setStatus("error");
+        setMsg(data.message || "Something went wrong.");
+      }
+    } catch {
+      setStatus("error");
+      setMsg("Network error. Please try again.");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <p className="text-[12px] text-emerald-400 font-mono tracking-wide py-2">
+        ✓ {msg}
+      </p>
+    );
+  }
+
+  return (
+    <>
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row mb-3">
+        <input
+          type="email"
+          placeholder="your@email.com"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={status === "loading"}
+          className="flex-1 min-w-0 bg-transparent border border-[rgba(197,164,109,0.22)] sm:border-r-0 px-3 py-2.5 text-ivory/70 font-body text-[12px] focus:outline-none focus:border-gold/60 placeholder:text-ivory/20 transition-colors disabled:opacity-50"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="bg-transparent border border-[rgba(197,164,109,0.22)] sm:border-l-0 hover:bg-gold hover:border-gold hover:text-navy focus-visible:bg-gold focus-visible:border-gold focus-visible:text-navy outline-none px-4 py-2.5 font-mono text-[9px] tracking-[0.2em] uppercase text-gold transition-all duration-200 cursor-pointer whitespace-nowrap disabled:opacity-50"
+        >
+          {status === "loading" ? "..." : "Join"}
+        </button>
+      </form>
+      {status === "error" && (
+        <p className="text-[11px] text-red-400 mb-2">{msg}</p>
+      )}
+    </>
   );
 }
 
@@ -113,7 +178,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.aria}
-                  className="w-8 h-8 border border-[rgba(197,164,109,0.18)] flex items-center justify-center text-gold/40 hover:border-gold hover:text-gold hover:bg-[rgba(197,164,109,0.08)] transition-all duration-200"
+                  className="w-8 h-8 border border-[rgba(197,164,109,0.18)] flex items-center justify-center text-gold/40 hover:border-gold hover:text-gold hover:bg-[rgba(197,164,109,0.08)] hover:-translate-y-0.5 focus-visible:border-gold focus-visible:text-gold outline-none transition-all duration-200"
                 >
                   {s.icon}
                 </a>
@@ -149,9 +214,9 @@ export default function Footer() {
                 <li key={l.label} className="mb-2.5">
                   <a
                     href={l.href}
-                    className="text-[12.5px] text-ivory/40 hover:text-gold-light transition-colors duration-200"
+                    className="group inline-flex items-center gap-1.5 text-[12.5px] text-ivory/40 hover:text-gold-light focus-visible:text-gold-light transition-colors duration-200 outline-none"
                   >
-                    {l.label}
+                    <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">{l.label}</span>
                   </a>
                 </li>
               ))}
@@ -164,20 +229,9 @@ export default function Footer() {
             <p className="text-[12px] text-ivory/35 leading-[1.6] mb-4">
               Next-batch announcements and upcoming tier launches.
             </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex mb-5">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                required
-                className="flex-1 min-w-0 bg-transparent border border-[rgba(197,164,109,0.22)] border-r-0 px-3 py-2.5 text-ivory/70 font-body text-[12px] focus:outline-none focus:border-gold/60 placeholder:text-ivory/20 transition-colors"
-              />
-              <button
-                type="submit"
-                className="bg-transparent border border-[rgba(197,164,109,0.22)] hover:bg-gold hover:border-gold hover:text-navy px-4 py-2.5 font-mono text-[9px] tracking-[0.2em] uppercase text-gold transition-all duration-200 cursor-pointer whitespace-nowrap"
-              >
-                Join
-              </button>
-            </form>
+            <div className="mb-5">
+              <NewsletterForm />
+            </div>
 
             {/* Enrolling badge */}
             <div className="inline-flex items-center gap-2 border border-[rgba(197,164,109,0.18)] px-3 py-1.5">

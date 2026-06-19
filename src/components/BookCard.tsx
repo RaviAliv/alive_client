@@ -8,7 +8,7 @@ export default function BookCard({ large }: Props) {
       <div
         className={`w-full
           ${large ? "aspect-[4/5]" : "h-[240px]"}
-          bg-[url('/images/book-card-image.webp')]
+          bg-[url('/images/book-card-image.png')]
           bg-center bg-contain bg-no-repeat`}
       />
     </div>

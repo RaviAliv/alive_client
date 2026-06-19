@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { THEMES, type CourseAction, type CourseConfig } from "./types";
 
@@ -59,14 +60,55 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
   const theme = THEMES[course.accent];
   const eyebrowCls = `font-mono text-[12px] font-medium tracking-[0.28em] uppercase ${theme.textAccent}`;
   const accentStyle = accentVars(theme.accentHex);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  const videoSrc = `https://www.youtube.com/embed/${course.videoId}?rel=0&modestbranding=1&color=white&autoplay=1`;
+
+  const VideoEmbed = ({ mobile }: { mobile?: boolean }) => (
+    <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+      {!videoPlaying && course.videoPoster ? (
+        <button
+          type="button"
+          onClick={() => setVideoPlaying(true)}
+          className="absolute inset-0 w-full h-full p-0 border-0 bg-transparent cursor-pointer group"
+          aria-label="Play video"
+        >
+          <img
+            src={course.videoPoster}
+            alt="Play video"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Play button overlay */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-200">
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-200"
+              style={{ background: theme.accentHex }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+        </button>
+      ) : (
+        <iframe
+          src={videoPlaying ? `${videoSrc}${mobile ? "&mute=0" : ""}` : `https://www.youtube.com/embed/${course.videoId}?rel=0&modestbranding=1&color=white`}
+          title={`Dr. Sunita Tandulwadkar — ${course.title} Series Introduction`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full border-0"
+        />
+      )}
+    </div>
+  );
 
   return (
     <div style={accentStyle}>
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="-mt-20 relative min-h-screen flex flex-col justify-center" style={{ background: theme.darkBg }}>
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-cover bg-center opacity-[0.10]" style={{ backgroundImage: `url(/images/${course.title}.webp)` }} />
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[var(--accent-10)] blur-[130px]" />
+          <div className="absolute inset-0 bg-cover bg-center opacity-[0.18]" style={{ backgroundImage: `url(/images/${course.title}.webp)` }} />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[var(--accent-15)] blur-[130px]" />
           <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent, ${theme.darkBg}4d, ${theme.darkBg})` }} />
         </div>
 
@@ -101,15 +143,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
               <div className="lg:hidden mb-5 relative rounded-[3px] overflow-hidden border border-[var(--accent-20)]"
                 style={{ boxShadow: `0 0 60px ${theme.accentHex}1c` }}>
                 <div className="h-[2px] bg-gradient-to-r from-[var(--accent-15)] via-[var(--accent)] to-[var(--accent-15)]" />
-                <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
-                  <iframe
-                    src={`https://www.youtube.com/embed/${course.videoId}?rel=0&modestbranding=1&color=white`}
-                    title={`Dr. Sunita Tandulwadkar — ${course.title}`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full border-0"
-                  />
-                </div>
+                <VideoEmbed mobile />
                 <div className="px-4 py-2 flex items-center justify-between border-t border-[var(--accent-10)]" style={{ background: theme.videoFrameBg }}>
                   <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-white/30">Dr. Sunita Tandulwadkar</span>
                   <span className={`font-mono text-[9px] tracking-[0.18em] uppercase ${theme.textAccent} opacity-40`}>STAR Academy</span>
@@ -156,15 +190,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                 >
                   <div className="h-[2px] bg-gradient-to-r from-[var(--accent-15)] via-[var(--accent)] to-[var(--accent-15)]" />
 
-                  <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${course.videoId}?rel=0&modestbranding=1&color=white`}
-                      title={`Dr. Sunita Tandulwadkar — ${course.title} Series Introduction`}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full border-0"
-                    />
-                  </div>
+                  <VideoEmbed />
 
                   <div className="px-4 py-2.5 flex items-center justify-between border-t border-[var(--accent-10)]" style={{ background: theme.videoFrameBg }}>
                     <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-white/30">Dr. Sunita Tandulwadkar</span>
@@ -195,7 +221,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
         <div className="max-w-[1180px] mx-auto px-5 sm:px-8 md:px-12">
           <div className="text-center max-w-[520px] mx-auto mb-10">
             <span className={`${eyebrowCls} block mb-3`}>{course.lectureEyebrow}</span>
-            <h2 className="font-display font-medium text-[clamp(20px,2vw,38px)] leading-[1.12] text-navy">{course.lectureTitle}</h2>
+            <h2 className="font-display font-medium text-[clamp(30px,2vw,48px)] leading-[1.12] text-navy">{course.lectureTitle}</h2>
             <p className="mt-2.5 text-[14px] text-slate">{course.lectureNote}</p>
           </div>
 

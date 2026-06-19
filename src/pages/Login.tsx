@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import { apiPost } from "../lib/api";
 import { useAuth, type AuthUser } from "../context/AuthContext";
+import { consumePostLoginRedirect } from "../lib/postLoginRedirect";
 
 const inputCls =
   "w-full px-[15px] py-[13px] bg-[rgba(255,255,255,0.06)] md:bg-white border border-[rgba(197,164,109,0.25)] md:border-border-warm font-body text-sm text-ivory md:text-navy placeholder:text-ivory/30 md:placeholder:text-slate/40 transition-colors focus:outline-none focus:border-gold md:focus:border-gold";
@@ -73,7 +74,9 @@ export default function Login() {
         { email: email.trim(), password }
       );
       login(data.token, data.user);
-      navigate("/");
+      const redirect = consumePostLoginRedirect();
+      if (redirect) window.location.href = redirect;
+      else navigate("/");
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "Login failed.");
     } finally {
@@ -91,11 +94,11 @@ export default function Login() {
         { credential: cred.credential }
       );
       login(data.token, data.user);
-      navigate("/");
+      const redirect = consumePostLoginRedirect();
+      if (redirect) window.location.href = redirect;
+      else navigate("/");
     } catch (err) {
-      setFormError(
-        err instanceof Error ? err.message : "Google sign-in failed."
-      );
+      setFormError(err instanceof Error ? err.message : "Google sign-in failed.");
     } finally {
       setSubmitting(false);
     }

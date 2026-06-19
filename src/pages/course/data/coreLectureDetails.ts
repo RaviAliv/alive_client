@@ -5,6 +5,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   {
     num: "01",
     title: "Severe Male Factor and the Limits of Routine Workup",
+    thumbnail: "/images/coreL1.webp",
     headline: "The semen analysis tells you what is wrong. Not what to do next.",
     tagline: "A clinical framework for severe male factor — when optimization stops and decision-making begins.",
     heroBody:
@@ -53,6 +54,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   {
     num: "02",
     title: "Oocyte Quality and the Follicular Microenvironment",
+    thumbnail: "/images/coreL2.webp",
     headline: "The follicle you see on scan is not the oocyte you retrieve.",
     tagline: "The hidden biology of oocyte competence, and the signals the follicular environment gives you before retrieval.",
     heroBody:
@@ -101,6 +103,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   {
     num: "03",
     title: "Ovulation Induction for IUI, Read Like a Clinician",
+    thumbnail: "/images/coreL3.png",
     headline: "The protocol is written down. The judgment is not.",
     tagline: "When to use letrozole, when clomiphene, when gonadotropins — and how to read the cycle once induction is underway.",
     heroBody:
@@ -149,6 +152,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   {
     num: "04",
     title: "IUI Monitoring and Outcome Optimization",
+    thumbnail: "/images/coreL4.png",
     headline: "The cycle does not end when the trigger is given.",
     tagline: "What the follicle and endometrium are telling you between the first scan and the last decision of the IUI cycle.",
     heroBody:

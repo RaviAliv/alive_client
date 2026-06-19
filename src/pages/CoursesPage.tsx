@@ -278,7 +278,7 @@ const accentBorderL = {
 } as const;
 
 export default function CoursesPage() {
-  // null = closed; string = open, with that tier title prefilled
+
   const [enquiryLabel, setEnquiryLabel] = useState<string | null>(null);
 
   return (
@@ -695,21 +695,21 @@ export default function CoursesPage() {
               to="/course/foundation"
               className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
             >
-              Enroll in the Foundation Series
+              Enroll Foundation Series
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                 &rarr;
               </span>
             </Link>
-            <button
+            <Link
               type="button"
-              onClick={() => setEnquiryLabel("")}
+              to="/contact"
               className="inline-flex items-center gap-2.5 px-7 py-4 font-body font-medium text-[15px] tracking-[0.02em] border border-gold rounded-[2px] text-gold transition-all duration-300 hover:bg-gold hover:text-navy group"
             >
               Talk to our team
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                 &rarr;
               </span>
-            </button>
+            </Link>
           </div>
           <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-gold/85">
             Commencing 15 July 2026 / Every Wednesday / 8:00 PM IST / Live on

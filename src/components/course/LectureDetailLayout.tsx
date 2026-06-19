@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { LectureDetailData } from "../../pages/course/data/foundationLectureDetails";
-import { ENROLL_URL } from "../../lib/config";
+import LectureRegisterPrompt from "./LectureRegisterPrompt";
+
+const ENROLL_PATH = "/course/foundation/enroll";
 
 export type LectureDetailConfig = {
   accent: string;
@@ -29,44 +32,76 @@ export default function LectureDetailLayout({
   const { accent, accentDark, darkBg, lightBg, courseSlug, courseName, tierLabel, totalLectures, ordinals } = config;
 
 
-  const ReelFrame = () => (
-    <div style={{ position: "relative", width: 268, height: 476, border: "1px solid #c5a46d", background: "#000", overflow: "hidden", flexShrink: 0 }}>
-      {lecture.ytShortsId ? (
-        <iframe
-          src={`https://www.youtube.com/embed/${lecture.ytShortsId}?autoplay=1&mute=1&loop=1&playlist=${lecture.ytShortsId}&controls=0&rel=0&modestbranding=1&playsinline=1`}
-          className="absolute inset-0 w-full h-full border-0"
-          allow="autoplay; encrypted-media; fullscreen"
-          allowFullScreen
-          title={`${courseName} Lecture ${lecture.num} — preview`}
-        />
-      ) : (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="5 3 19 12 5 21 5 3" />
-          </svg>
-          <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-center leading-[1.8]" style={{ color: accent, opacity: 0.7 }}>
-            Reel Preview<br />9:16 · Autoplay
-          </span>
-        </div>
-      )}
-    </div>
-  );
+  const ReelFrame = () => {
+    const [hovering, setHovering] = useState(false);
+
+    return (
+      <div
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        style={{ position: "relative", width: 268, height: 476, border: "1px solid #c5a46d", background: "#000", overflow: "hidden", flexShrink: 0 }}
+      >
+        {lecture.ytShortsId ? (
+          hovering ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${lecture.ytShortsId}?autoplay=1&mute=1&loop=1&playlist=${lecture.ytShortsId}&controls=0&rel=0&modestbranding=1&playsinline=1`}
+              className="absolute inset-0 w-full h-full border-0"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
+              title={`${courseName} Lecture ${lecture.num} — preview`}
+            />
+          ) : (
+            <>
+              {lecture.thumbnail ? (
+                <img
+                  src={lecture.thumbnail}
+                  alt={`${courseName} Lecture ${lecture.num} preview thumbnail`}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                  <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-center leading-[1.8]" style={{ color: accent, opacity: 0.7 }}>
+                    Reel Preview<br />9:16
+                  </span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={accent}>
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                </div>
+              </div>
+            </>
+          )
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-center leading-[1.8]" style={{ color: accent, opacity: 0.7 }}>
+              Reel Preview<br />9:16 · Hover to play
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const EnrollBtn = ({ className, label = "Reserve My Seat" }: { className?: string; label?: string }) => (
-    <a
-      href={ENROLL_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      to={ENROLL_PATH}
       className={`inline-flex items-center gap-2.5 px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.2em] uppercase transition-all duration-200 hover:brightness-110 group ${className ?? ""}`}
       style={{ background: `linear-gradient(180deg, ${accent} 0%, ${accentDark} 100%)`, color: "#fff", border: `1px solid ${accent}` }}
     >
       {label}
       <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
-    </a>
+    </Link>
   );
 
   return (
     <div className="font-body">
+      <LectureRegisterPrompt accent={accent} />
 
       {/* ── 1. HERO ─────────────────────────────────────────────── */}
       <section
@@ -226,9 +261,9 @@ export default function LectureDetailLayout({
               ))}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-10">
                 {[
-                  { label: lecture.formatAttrs[0], icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> },
-                  { label: lecture.formatAttrs[1], icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> },
-                  { label: lecture.formatAttrs[2], icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
+                  { label: lecture.formatAttrs[0], icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg> },
+                  { label: lecture.formatAttrs[1], icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg> },
+                  { label: lecture.formatAttrs[2], icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> },
                 ].map(({ label, icon }) => (
                   <div key={label} className="flex flex-col gap-3 p-5"
                     style={{ background: `${accent}0d`, border: `1px solid ${accent}28` }}>
@@ -267,7 +302,7 @@ export default function LectureDetailLayout({
                   <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5"
                     style={{ background: accent }}>
                     <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                   <p className="leading-[1.6] font-medium text-[0.9375rem]" style={{ color: "#1f2937" }}>{outcome}</p>
@@ -306,7 +341,7 @@ export default function LectureDetailLayout({
                     <span className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center"
                       style={{ background: `${accent}20`, border: `1px solid ${accent}50` }}>
                       <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
-                        <path d="M2 5l2 2 4-4" stroke={accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2 5l2 2 4-4" stroke={accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
                     <span className="text-[0.9rem]" style={{ color: "rgba(248,245,239,0.7)" }}>{item}</span>
@@ -364,10 +399,10 @@ export default function LectureDetailLayout({
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12">
             {[
-              { label: "Date", value: lecture.date, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> },
-              { label: "Time", value: lecture.time, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg> },
-              { label: "Duration", value: lecture.duration, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> },
-              { label: "Platform", value: lecture.platform, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> },
+              { label: "Date", value: lecture.date, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg> },
+              { label: "Time", value: lecture.time, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" /></svg> },
+              { label: "Duration", value: lecture.duration, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" /></svg> },
+              { label: "Platform", value: lecture.platform, icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" /></svg> },
             ].map(({ label, value, icon }) => (
               <div key={label} className="bg-white p-5 flex flex-col gap-3"
                 style={{ border: `1.5px solid ${accent}35`, boxShadow: `0 2px 8px rgba(0,0,0,0.07)` }}>
@@ -394,7 +429,7 @@ export default function LectureDetailLayout({
                 <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                   style={{ background: accent }}>
                   <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <div>
@@ -543,7 +578,7 @@ export default function LectureDetailLayout({
       </section>
 
       {/* ── 7. ITALIC QUOTE ──────────────────────────────────────── */}
-      <section className="relative py-14 md:py-12 overflow-hidden" style={{ background: darkBg }}>
+      <section className="relative pb-6 overflow-hidden" style={{ background: darkBg }}>
         <div className="relative max-w-[840px] mx-auto px-5 sm:px-8 md:px-12 text-center">
           <div className="w-8 h-px mx-auto mb-10" style={{ background: "#c5a46d" }} />
           <p className="font-display italic leading-[1.65] text-white/80"
@@ -574,14 +609,13 @@ export default function LectureDetailLayout({
                 Join Dr. Sunita Tandulwadkar live. {lecture.date} · {lecture.time} · {lecture.platform}.
               </p>
               <div className="flex flex-wrap items-center gap-5 mb-4">
-                <a href={ENROLL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to={ENROLL_PATH}
                   className="inline-flex items-center gap-2.5 px-8 py-4 font-mono text-[10.5px] font-semibold tracking-[0.22em] uppercase transition-all duration-200 hover:brightness-110 group"
                   style={{ background: `linear-gradient(180deg, ${accent} 0%, ${accentDark} 100%)`, color: "#fff", border: `1px solid ${accent}` }}>
                   Reserve My Seat
                   <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
-                </a>
+                </Link>
                 <span className="font-mono text-[9px] tracking-[0.2em] uppercase font-bold" style={{ color: accent }}>
                   Limited Seats
                 </span>
@@ -594,16 +628,16 @@ export default function LectureDetailLayout({
             {/* Stats panel */}
             <div className="grid grid-cols-2" style={{ border: `1px solid ${accent}` }}>
               {[
-                { n: String(totalLectures), label: "Lectures"    },
-                { n: "90",                  label: "Min Each"    },
-                { n: "Live",                label: "on Zoom"     },
-                { n: "1",                   label: "Certificate" },
+                { n: String(totalLectures), label: "Lectures" },
+                { n: "90", label: "Min Each" },
+                { n: "Live", label: "on Zoom" },
+                { n: "1", label: "Certificate" },
               ].map((stat, i) => (
                 <div key={stat.label} className="flex flex-col items-center justify-center py-7 px-3 text-center"
                   style={{
-                    borderRight:  i % 2 === 0 ? `1px solid ${accent}` : "none",
-                    borderBottom: i < 2        ? `1px solid ${accent}` : "none",
-                    background:   i % 2 !== 0  ? `${accent}08`        : "#ffffff",
+                    borderRight: i % 2 === 0 ? `1px solid ${accent}` : "none",
+                    borderBottom: i < 2 ? `1px solid ${accent}` : "none",
+                    background: i % 2 !== 0 ? `${accent}08` : "#ffffff",
                   }}>
                   <span className="font-display font-semibold leading-none mb-1.5 bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] bg-clip-text text-transparent"
                     style={{ fontSize: "clamp(1.6rem,2.4vw,2.1rem)" }}>

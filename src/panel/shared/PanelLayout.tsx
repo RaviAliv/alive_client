@@ -19,16 +19,24 @@ function NavItem({ to, label, icon, end }: { to: string; label: string; icon: Re
       to={to}
       end={end}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
+        `flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 ${
           isActive
-            ? "bg-[rgba(197,164,109,0.15)] text-[#f7db7d] border border-[rgba(197,164,109,0.25)]"
-            : "text-ivory/60 hover:text-ivory hover:bg-white/[0.05]"
+            ? "bg-[rgba(197,164,109,0.18)] text-[#f7db7d] border border-[rgba(197,164,109,0.28)]"
+            : "text-ivory/55 hover:text-ivory/90 hover:bg-white/[0.06]"
         }`
       }
     >
-      <span className="w-4 h-4 shrink-0">{icon}</span>
+      <span className="w-4 h-4 shrink-0 opacity-80">{icon}</span>
       {label}
     </NavLink>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="px-3.5 mt-5 mb-1.5 text-[9px] font-bold uppercase tracking-[0.22em] text-ivory/22">
+      {children}
+    </p>
   );
 }
 
@@ -42,34 +50,39 @@ export default function PanelLayout() {
   return (
     <div className="flex min-h-screen bg-[#f1f5f9]">
       {/* Sidebar */}
-      <aside className="w-56 shrink-0 bg-[#1E2A44] flex flex-col fixed inset-y-0 left-0 z-50">
+      <aside className="w-58 shrink-0 bg-[#1A2238] flex flex-col fixed inset-y-0 left-0 z-50 border-r border-[rgba(197,164,109,0.08)]"
+        style={{ width: "224px" }}>
 
-        {/* Logo area */}
-        <div className="px-5 py-4 border-b border-[rgba(197,164,109,0.12)]">
-          <Link to="/" className="flex items-center gap-2 group">
+        {/* Logo */}
+        <div className="px-5 py-4 border-b border-[rgba(197,164,109,0.1)]">
+          <Link to="/" className="flex items-center gap-2.5 group">
             <img src="/images/logo.png" alt="STAR" className="h-8 w-auto" />
             <div className="leading-tight">
-              <p className="text-[11px] font-semibold text-[#f7db7d]/90 tracking-wide">STAR Academy</p>
-              <p className="text-[9px] text-ivory/30 tracking-wider uppercase">Panel</p>
+              <p className="text-[11.5px] font-semibold text-[#f7db7d]/90 tracking-wide">STAR Academy</p>
+              <p className="text-[9px] text-ivory/25 tracking-[0.2em] uppercase">Control Panel</p>
             </div>
           </Link>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-3 overflow-y-auto">
 
           {role === "superadmin" && (
             <>
-              <p className="px-4 mb-1 text-[9px] font-bold uppercase tracking-[0.2em] text-ivory/25">Super Admin</p>
+              <SectionLabel>Super Admin</SectionLabel>
               <NavItem to="/panel/super" end label="Dashboard" icon={<IcoGrid />} />
               <NavItem to="/panel/super/users" label="All Users" icon={<IcoUsers />} />
               <NavItem to="/panel/super/admins" label="Manage Admins" icon={<IcoShield />} />
+
+              <SectionLabel>Admin Panel</SectionLabel>
+              <NavItem to="/panel/admin" end label="Admin Dashboard" icon={<IcoChart />} />
+              <NavItem to="/panel/admin/grant" label="Grant Access" icon={<IcoKey />} />
             </>
           )}
 
           {role === "admin" && (
             <>
-              <p className="px-4 mb-1 text-[9px] font-bold uppercase tracking-[0.2em] text-ivory/25">Admin</p>
+              <SectionLabel>Admin</SectionLabel>
               <NavItem to="/panel/admin" end label="Dashboard" icon={<IcoGrid />} />
               <NavItem to="/panel/admin/grant" label="Grant Access" icon={<IcoKey />} />
             </>
@@ -77,41 +90,52 @@ export default function PanelLayout() {
 
           {role === "user" && (
             <>
-              <p className="px-4 mb-1 text-[9px] font-bold uppercase tracking-[0.2em] text-ivory/25">My Access</p>
+              <SectionLabel>My Access</SectionLabel>
               <NavItem to="/panel/my-courses" label="My Courses" icon={<IcoBook />} />
               <NavItem to="/video" label="Video Library" icon={<IcoPlay />} />
             </>
           )}
 
-          <div className="pt-4 mt-4 border-t border-[rgba(197,164,109,0.1)]">
-            <NavItem to="/" label="HOME" icon={<IcoHome />} />
+          {(role === "superadmin" || role === "admin") && (
+            <>
+              <SectionLabel>Quick Links</SectionLabel>
+              <NavItem to="/video" label="Video Library" icon={<IcoPlay />} />
+            </>
+          )}
+
+          <div className="pt-4 mt-2 border-t border-[rgba(197,164,109,0.08)]">
+            <NavItem to="/" label="Back to Site" icon={<IcoHome />} />
           </div>
         </nav>
 
         {/* User info + logout */}
-        <div className="px-3 py-4 border-t border-[rgba(197,164,109,0.12)]">
-          <div className="flex items-center gap-2.5 px-2 mb-3">
-            <div className="w-8 h-8 rounded-full bg-[rgba(197,164,109,0.2)] flex items-center justify-center text-[#f7db7d] font-bold text-sm uppercase shrink-0">
+        <div className="px-3 py-3 border-t border-[rgba(197,164,109,0.1)]">
+          <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.04] mb-2">
+            <div className="w-8 h-8 rounded-full bg-[rgba(197,164,109,0.18)] flex items-center justify-center text-[#f7db7d] font-bold text-sm uppercase shrink-0">
               {user?.name?.[0] ?? "?"}
             </div>
-            <div className="min-w-0">
-              <p className="text-ivory text-[13px] font-medium truncate">{user?.name}</p>
-              <span className={`text-[9px] px-1.5 py-0.5 rounded font-semibold tracking-wide uppercase ${ROLE_COLOR[role]}`}>
+            <div className="min-w-0 flex-1">
+              <p className="text-ivory/90 text-[12.5px] font-medium truncate leading-tight">{user?.name}</p>
+              <p className="text-ivory/40 text-[9.5px] truncate leading-tight mt-[1px]">{user?.email}</p>
+              <span className={`inline-block mt-[3px] text-[9px] px-1.5 py-0.5 rounded font-semibold tracking-wide uppercase ${ROLE_COLOR[role]}`}>
                 {ROLE_LABEL[role]}
               </span>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 text-[12px] text-ivory/40 hover:text-ivory/80 hover:bg-white/[0.05] rounded-lg transition-colors"
+            className="w-full text-left px-3 py-2 text-[12px] text-ivory/35 hover:text-ivory/70 hover:bg-white/[0.05] rounded-lg transition-colors flex items-center gap-2"
           >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
             Sign out
           </button>
         </div>
       </aside>
 
       {/* Content */}
-      <div className="flex-1 ml-56 min-h-screen flex flex-col">
+      <div className="flex-1 min-h-screen flex flex-col" style={{ marginLeft: "224px" }}>
         <main className="flex-1 p-7">
           <Outlet />
         </main>
@@ -120,9 +144,11 @@ export default function PanelLayout() {
   );
 }
 
-// Icons
 function IcoGrid() {
   return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>;
+}
+function IcoChart() {
+  return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>;
 }
 function IcoUsers() {
   return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197" /></svg>;
@@ -137,7 +163,7 @@ function IcoBook() {
   return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
 }
 function IcoHome() {
-  return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
+  return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>;
 }
 function IcoPlay() {
   return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;

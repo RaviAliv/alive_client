@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
-import { VIDEOS, ENROLL_URL } from "../lib/config";
+import { VIDEOS } from "../lib/config";
+import { foundationConfig } from "./course/data/foundation";
+import { coreConfig } from "./course/data/core";
+import { advancedConfig } from "./course/data/advanced";
+import { masterclassConfig } from "./course/data/masterclass";
 
 const eyebrow =
   "inline-block font-mono text-[14px] font-medium tracking-[0.26em] uppercase text-gold-deep";
@@ -46,77 +50,21 @@ function VideoCard({ h, p }: { h: string; p: string }) {
 }
 
 export default function HomePage() {
-  const tiersRef = useRef<HTMLDivElement>(null);
-  const [activeTier, setActiveTier] = useState(0);
-  const TIER_COUNT = 4;
+  const [expandedTier, setExpandedTier] = useState<string | null>(null);
+  const tierCardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // Snap point for card[idx] = its position inside the scroller minus the scroll-padding.
-  // We must scroll to the exact snap point or snap-mandatory will reject the smooth scroll.
-  const snapPointFor = (el: HTMLElement, card: HTMLElement) => {
-    const padL = parseFloat(getComputedStyle(el).paddingLeft) || 0;
-    return card.offsetLeft - el.offsetLeft - padL;
-  };
-
-  const scrollToTier = (idx: number) => {
-    const el = tiersRef.current;
-    if (!el) return;
-    const target = el.children[idx] as HTMLElement | undefined;
-    if (!target) return;
-    el.scrollTo({ left: snapPointFor(el, target), behavior: "smooth" });
-  };
-
-  // Auto-advance every 7s on mobile. Reads current position so it survives manual swipes.
+  // Close the open lecture dropdown on outside click — no full-screen backdrop
+  // element, which was fighting with the cards' hover-scale transforms and
+  // causing them to jitter.
   useEffect(() => {
-    const el = tiersRef.current;
-    if (!el) return;
-    if (window.matchMedia("(min-width: 640px)").matches) return;
-
-    const id = window.setInterval(() => {
-      const cards = Array.from(el.children) as HTMLElement[];
-      if (!cards.length) return;
-      let currentIdx = 0;
-      let best = Infinity;
-      for (let i = 0; i < cards.length; i++) {
-        const dist = Math.abs(snapPointFor(el, cards[i]) - el.scrollLeft);
-        if (dist < best) {
-          best = dist;
-          currentIdx = i;
-        }
-      }
-      const next = cards[(currentIdx + 1) % cards.length];
-      el.scrollTo({ left: snapPointFor(el, next), behavior: "smooth" });
-    }, 7000);
-    return () => window.clearInterval(id);
-  }, []);
-
-  // Scroll listener purely updates the active-dot state. No scrollTo here.
-  useEffect(() => {
-    const el = tiersRef.current;
-    if (!el) return;
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const cards = Array.from(el.children) as HTMLElement[];
-        if (!cards.length) return;
-        let closestIdx = 0;
-        let best = Infinity;
-        for (let i = 0; i < cards.length; i++) {
-          const dist = Math.abs(snapPointFor(el, cards[i]) - el.scrollLeft);
-          if (dist < best) {
-            best = dist;
-            closestIdx = i;
-          }
-        }
-        setActiveTier(closestIdx);
-      });
+    if (!expandedTier) return;
+    const onPointerDown = (e: MouseEvent) => {
+      const card = tierCardRefs.current[expandedTier];
+      if (card && !card.contains(e.target as Node)) setExpandedTier(null);
     };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [expandedTier]);
 
   return (
     <>
@@ -136,31 +84,28 @@ export default function HomePage() {
         <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/90 via-black/65 to-black/45 md:bg-gradient-to-r md:from-[rgba(10,14,22,0.85)] md:via-[rgba(10,14,22,0.25)] md:to-transparent" />
         <div className="relative z-[2] max-w-[1280px] mx-auto pt-16 md:pt-[100px] pb-8 px-[clamp(20px,4vw,80px)] w-full">
           <div className="max-w-[540px] mx-auto md:mx-0 text-center md:text-left">
-            <span className={`${eyebrowGold} mb-4`}>THE FOUNDATION SERIES</span>
-            <h1 className="font-arial font-medium text-[clamp(38px,0.2vw,36px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
-              Five live lectures that rebuild how you read a fertility cycle
+            <span className={`${eyebrowGold} mb-4`}>ACADEMY OF SRT</span>
+            <h1 className="font-arial font-medium text-[clamp(35px,0.2vw,26px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
+              Reproductive medicine, taught the way it deserves to be
             </h1>
             <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
-              From the hormonal signal to the implantation window to the diagnostic roadmap. Taught the way an experienced reproductive specialist sees the patient in front of them
-            </p>
+              A step-wise learning platform in infertility and reproduction, from the biology behind every decision to the techniques at the edge of the field. For clinicians and trainees.            </p>
             <div className="flex gap-2.5 flex-wrap justify-center md:justify-start mb-6">
-              <a
-                href={ENROLL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/course/foundation/lecture/01"
                 className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em]   text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group"
               >
                 Reserve Your Seat <span className={arrow}>&rarr;</span>
-              </a>
+              </Link>
               <Link
-                to="/faculty"
+                to="/courses"
                 className="inline-flex items-center gap-2 px-6 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy group"
               >
                 See the Curriculum <span className={arrow}>&rarr;</span>
               </Link>
             </div>
             <div className="flex gap-3 flex-wrap justify-center md:justify-start font-mono text-[10px] text-gold tracking-[0.15em] uppercase">
-              <span>FIVE LECTURES</span>
+              <span>SIX LECTURES</span>
               <span className="text-gold-deep opacity-60">/</span>
               <span>EVERY WEDNESDAY</span>
               <span className="text-gold-deep opacity-60">/</span>
@@ -230,7 +175,7 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div ref={tiersRef} className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-7 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-pl-[clamp(20px,4vw,80px)] -mx-[clamp(20px,4vw,80px)] sm:mx-0 px-[clamp(20px,4vw,80px)] sm:px-0 pb-3 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden group/cards">
+          <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
             {[
               {
                 img: "/images/Foundation.webp",
@@ -241,11 +186,13 @@ export default function HomePage() {
                 rest: "oundation",
                 tier: "Tier I",
                 title: "Foundation",
-                desc: "Mastering the absolute basics of reproductive medicine. Five live lectures rebuilding the biological foundations every clinical decision rests on.",
+                subTitle: "Foundation of Reproductive Medicine",
+                desc: "The basics, taught like they decide everything. Rebuild the biology that quietly governs every cycle you manage.",
                 lectures: "5 Lectures",
                 to: "/course/foundation",
                 cta: "Explore",
                 live: true,
+                lectureList: foundationConfig.lectures,
               },
               {
                 img: "/images/Core.webp",
@@ -256,11 +203,13 @@ export default function HomePage() {
                 rest: "ore",
                 tier: "Tier II",
                 title: "Core",
-                desc: "Simple, highly effective infertility treatments. Five lectures on evaluation, ovulation induction, IUI workflow, and the hidden pelvic drivers.",
+                subTitle: "Core Clinical Skills",
+                desc: "Where most pregnancies are actually won. The judgment behind the everyday cases, and the pelvic factors working against them.",
                 lectures: "5 Lectures",
                 to: "/course/core",
                 cta: "Explore",
                 live: false,
+                lectureList: coreConfig.lectures,
               },
               {
                 img: "/images/Advanced.webp",
@@ -271,11 +220,13 @@ export default function HomePage() {
                 rest: "dvanced",
                 tier: "Tier III",
                 title: "Advanced",
-                desc: "IVF practising tips and tactical execution. Seven lectures on stimulation, OHSS prevention, retrieval, embryology, and transfer mechanics.",
+                subTitle: "Advanced IVF Practice",
+                desc: "The skill between the textbook and the lab. Tactical execution for when the standard approach is not enough",
                 lectures: "7 Lectures",
                 to: "/course/advanced",
                 cta: "Explore",
                 live: false,
+                lectureList: advancedConfig.lectures,
               },
               {
                 img: "/images/Masterclass.webp",
@@ -286,83 +237,125 @@ export default function HomePage() {
                 rest: "asterclass",
                 tier: "Tier IV",
                 title: "Masterclass",
-                desc: "In-depth, singular subject mastery. Ten deep-dives on the highest-complexity cases: implantation failure, recurrent loss, and endometriosis.",
+                subTitle: "Masterclass in Complex Cases",
+                desc: "For the cases that do not resolve. Single-subject deep dives into the hardest problems in reproductive medicine",
                 lectures: "10 Lectures",
                 to: "/course/masterclass",
                 cta: "Explore",
                 live: false,
+                lectureList: masterclassConfig.lectures,
               },
-            ].map((c) => (
-              <div
-                key={c.title}
-                className={`group/card relative flex flex-col bg-cream border border-border-warm w-full shrink-0 snap-start sm:w-auto sm:shrink transition-all duration-500 ease-out sm:group-hover/cards:scale-[0.96] sm:group-hover/cards:opacity-60 sm:hover:!scale-[1.04] sm:hover:!opacity-100 hover:z-10 hover:shadow-[0_30px_60px_-20px_rgba(30,42,68,0.28)] ${c.ring}`}
-              >
-                <div className={`absolute top-0 left-0 right-0 h-[3px] z-[3] ${c.accent}`} />
-                <div className="relative">
-                  <div className="relative h-[220px] overflow-hidden">
-                    <img
-                      src={c.img}
-                      alt={c.title}
-                      className="w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover/card:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-                    {c.live ? (
-                      <span className={`absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory ${c.accent} border border-white/30 before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-white before:animate-pulse`}>
-                        Enrolling
+            ].map((c) => {
+              const isExpanded = expandedTier === c.title;
+              // Suppress the neighbor-dim/scale hover effect while any dropdown is
+              // open — those transforms create new stacking contexts that fight
+              // with the overlay panel and make the cards visibly jitter.
+              const hoverFx = expandedTier === null
+                ? "sm:group-hover/cards:scale-[0.96] sm:group-hover/cards:opacity-60 sm:hover:!scale-[1.04] sm:hover:!opacity-100 hover:z-10 hover:shadow-[0_30px_60px_-20px_rgba(30,42,68,0.28)]"
+                : "";
+              return (
+                <div
+                  key={c.title}
+                  ref={(el) => { tierCardRefs.current[c.title] = el; }}
+                  className={`group/card relative flex flex-col bg-cream border border-border-warm transition-all duration-500 ease-out ${hoverFx} ${c.ring}`}
+                >
+                  <div className={`absolute top-0 left-0 right-0 h-[3px] z-[3] ${c.accent}`} />
+                  <div className="relative">
+                    <div className="relative h-[220px] overflow-hidden">
+                      <img
+                        src={c.img}
+                        alt={c.title}
+                        className="w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover/card:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                      {c.live ? (
+                        <span className={`absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory ${c.accent} border border-white/30 before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-white before:animate-pulse`}>
+                          Enrolling
+                        </span>
+                      ) : (
+                        <span className="absolute top-4 right-4 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory/85 bg-black/45 border border-white/15 backdrop-blur-sm">
+                          Coming Soon
+                        </span>
+                      )}
+                      <span className="absolute bottom-3 right-4 font-mono text-[10px] tracking-[0.22em] uppercase text-gold-light">
+                        {c.tier}
                       </span>
-                    ) : (
-                      <span className="absolute top-4 right-4 px-2.5 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase text-ivory/85 bg-black/45 border border-white/15 backdrop-blur-sm">
-                        Coming Soon
-                      </span>
-                    )}
-                    <span className="absolute bottom-3 right-4 font-mono text-[10px] tracking-[0.22em] uppercase text-gold-light">
-                      {c.tier}
-                    </span>
-                  </div>
-                  <div className="absolute -bottom-7 left-6 z-[2] flex items-stretch shadow-[0_10px_25px_-5px_rgba(0,0,0,0.4)]">
-                    <div className={`relative w-12 h-14 flex items-center justify-center font-display font-semibold text-[28px] text-ivory border-2 border-gold ${c.accent}`}>
-                      {c.letter}
                     </div>
-                    <div className="flex items-center bg-cream border-y-2 border-r-2 border-gold -ml-px px-1">
-                      <span className={`font-display font-semibold text-[22px] leading-none tracking-[0.01em] ${c.accentText}`}>
-                        {c.rest}
-                      </span>
+                    <div className="absolute -bottom-7 left-6 z-[2] flex items-stretch shadow-[0_10px_25px_-5px_rgba(0,0,0,0.4)]">
+                      <div className={`relative w-12 h-14 flex items-center justify-center font-display font-semibold text-[28px] text-ivory border-2 border-gold ${c.accent}`}>
+                        {c.letter}
+                      </div>
+                      <div className="flex items-center bg-cream border-y-2 border-r-2 border-gold -ml-px px-1">
+                        <span className={`font-display font-semibold text-[22px] leading-none tracking-[0.01em] ${c.accentText}`}>
+                          {c.rest}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-col flex-1 pt-12 pb-7 px-6">
-                  <p className="text-[14px] leading-[1.7] text-black mb-5 flex-1">{c.desc}</p>
-                  <div className="flex items-center gap-3 mb-5 pb-5 border-b border-border-warm">
-                    <span className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}>
-                      {c.lectures}
-                    </span>
-                    <span className="w-px h-3 bg-border-warm" />
-                    <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase font-bold text-gold">Live on Zoom</span>
-                  </div>
-                  <Link
-                    to={c.to}
-                    className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]  "
-                  >
-                    {c.cta}
-                    <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <div className="flex flex-col flex-1 pt-12 pb-7 px-6">
+                    <div className="mb-2">
+                      <div className={`w-7 h-[2px] mb-2.5 ${c.accent}`} />
+                      <h3 className={`font-display font-semibold text-[16.5px] leading-[1.3] tracking-[-0.01em] ${c.accentText}`}>
+                        {c.subTitle}
+                      </h3>
+                    </div>
+                    <p className="text-[13.5px] leading-[1.72] text-soft-black mb-4 flex-1">{c.desc}</p>
+                    <div className="flex items-center gap-3 mb-5 pb-5 border-b border-border-warm">
+                      <span className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}>
+                        {c.lectures}
+                      </span>
+                      <span className="w-px h-3 bg-border-warm" />
+                      <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase font-bold text-gold">Live on Zoom</span>
+                    </div>
 
-          {/* Pagination dots — mobile only */}
-          <div className="sm:hidden flex justify-center gap-2 mt-6">
-            {Array.from({ length: TIER_COUNT }).map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => scrollToTier(i)}
-                aria-label={`Go to tier ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 ${i === activeTier ? "w-6 bg-gold" : "w-2 bg-gold/40"
-                  }`}
-              />
-            ))}
+                    {/* Lecture list — overlays the card instead of pushing layout */}
+                    <div className="relative mb-5">
+                      <button
+                        type="button"
+                        onClick={() => setExpandedTier(isExpanded ? null : c.title)}
+                        aria-expanded={isExpanded}
+                        className="flex items-center justify-between gap-2 w-full font-mono text-[10px] tracking-[0.18em] uppercase text-slate hover:text-navy transition-colors"
+                      >
+                        <span>{isExpanded ? "Hide Lectures" : "View Lectures"}</span>
+                        <svg
+                          className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-white border border-border-warm shadow-[0_20px_45px_-12px_rgba(30,42,68,0.35)] max-h-[260px] overflow-y-auto animate-fade-in">
+                          <ul className="list-none m-0 p-0 divide-y divide-border-warm">
+                            {c.lectureList.map((l) => (
+                              <li key={l.id}>
+                                <Link
+                                  to={l.detailPath || c.to}
+                                  onClick={() => setExpandedTier(null)}
+                                  className="flex items-center gap-3 px-4 py-2.5 group/lec hover:bg-black/[0.03] transition-colors"
+                                >
+                                  <span className={`font-display font-medium text-[13px] shrink-0 w-6 ${c.accentText}`}>{l.no}</span>
+                                  <span className="text-[12.5px] text-soft-black leading-snug group-hover/lec:text-navy">{l.title}</span>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    <Link
+                      to={c.to}
+                      className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]  "
+                    >
+                      {c.cta}
+                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -373,16 +366,16 @@ export default function HomePage() {
           {/* Top ornament */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold/60" />
-            <span className="font-mono text-[12px] tracking-[0.32em] uppercase text-gold-deep">The Academy in Numbers</span>
+            <span className="font-mono text-[12px] tracking-[0.32em] uppercase text-gold-deep text-center">The Academy in Numbers</span>
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold/60" />
           </div>
           {/* Stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gold/40 border border-gold/40">
             {[
-              { num: "27",   label: "Total Lectures",      sub: "Across 4 tiers"         },
-              { num: "4",    label: "Tiers in Pathway",    sub: "Foundation to Masterclass"},
-              { num: "35+",  label: "Years Experience",    sub: "Dr. Sunita Tandulwadkar" },
-              { num: "Live", label: "Every Session",       sub: "Interactive on Zoom"     },
+              { num: "27", label: "Total Lectures", sub: "Across 4 tiers" },
+              { num: "4", label: "Tiers in Pathway", sub: "Foundation to Masterclass" },
+              { num: "35+", label: "Years Experience", sub: "Dr. Sunita Tandulwadkar" },
+              { num: "Live", label: "Every Session", sub: "Interactive on Zoom" },
             ].map((s) => (
               <div key={s.label} className="bg-ivory flex flex-col items-center justify-center py-4 px-4 text-center gap-1.5">
                 <span className="font-body font-bold text-[clamp(34px,3.8vw,42px)] leading-none text-navy tracking-tight">{s.num}</span>
@@ -406,7 +399,7 @@ export default function HomePage() {
             <p className="font-mono text-[11px] tracking-[0.20em] uppercase text-ivory/70 mb-2">
               Built for the doctor who wants to think clearly, not just learn more
             </p>
-            <h2 className="font-display font-medium italic text-gold-light text-[clamp(22px,3.4vw,30px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
+            <h2 className="font-display font-medium  italic text-gold-deep text-[clamp(22px,3.4vw,30px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
               Founder and faculty, Academy of SRT
             </h2>
             <div className="mt-4 w-12 h-px bg-gold mx-auto" />
@@ -601,8 +594,8 @@ export default function HomePage() {
               Now Enrolling &middot; 15 July 2026
             </span>
 
-            <h2 className="font-display font-medium text-[clamp(26px,3.6vw,40px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
-              The first batch begins on 15 July. Reserve your seat.
+            <h2 className="font-display font-medium text-[clamp(16px,2vw,30px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
+              The first batch begins on 15 July Reserve your seat
               <span className="italic text-gold-light">
                 {" "}
               </span>
@@ -615,14 +608,12 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center">
-              <a
-                href={ENROLL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/course/foundation/lecture/01"
                 className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
               >
                 Reserve Your Seat →
-              </a>
+              </Link>
 
               <Link
                 to="/contact"

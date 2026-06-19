@@ -12,11 +12,12 @@ export const COURSE = {
 } as const;
 
 /* ─── Foundation pricing ─────────────────────────────────── */
+// TEMP: ₹1 test prices — restore each: 999 before going live
 export const PRICING = {
-  each:        999,
-  bundleFull:  999 * 5,                      // 4995
-  bundlePrice: Math.round(999 * 5 * 0.8),    // 3996 — exactly 20% off
-  get bundleSave() { return this.bundleFull - this.bundlePrice; }, // 999
+  each:        1,
+  bundleFull:  1 * 6,                        // 6
+  bundlePrice: Math.round(1 * 6 * 0.8),      // 5 — exactly 20% off
+  get bundleSave() { return this.bundleFull - this.bundlePrice; }, // 1
   discountPct: 20,
 } as const;
 

@@ -10,10 +10,67 @@ const links = [
 ];
 
 const courseLinks = [
-  { to: "/course/foundation", label: "Foundation Series", tier: "Tier I",   color: "#21864E" },
-  { to: "/course/core",       label: "Core Series",       tier: "Tier II",  color: "#D4A621" },
-  { to: "/course/advanced",   label: "Advanced Series",   tier: "Tier III", color: "#1E5AA6" },
-  { to: "/course/masterclass",label: "Masterclass Series",       tier: "Tier IV",  color: "#C8102E" },
+  {
+    to: "/course/foundation",
+    label: "Foundation Series",
+    tier: "Tier I",
+    color: "#21864E",
+    lectures: [
+      { title: "300-day Ovarian Symphony - HPO Axis & Follicular Endocrinology", path: "/course/foundation/lecture/01" },
+      { title: "Endocrinology of Follicular Phase", path: "/course/foundation/lecture/02" },
+      { title: "Ovulation – Physiology / Precision Triggering / Molecular Dynamics to Clinical Applications", path: "/course/foundation/lecture/03" },
+      { title: "Luteal Phase Endocrinology and Advances in Luteal Phase Support", path: "/course/foundation/lecture/04" },
+      { title: "Implantation – Decoding the Molecular Dialogue of Human Embryo Implantation", path: "/course/foundation/lecture/05" },
+      { title: "Spermatogenesis - What Everyone Should Know", path: "/course/foundation/lecture/06" },
+    ],
+  },
+  {
+    to: "/course/core",
+    label: "Core Series",
+    tier: "Tier II",
+    color: "#D4A621",
+    lectures: [
+      { title: "Severe Male Factor and the Limits of Routine Workup", path: "/course/core" },
+      { title: "Oocyte Quality and the Follicular Microenvironment", path: "/course/core" },
+      { title: "Ovulation Induction for IUI, Read Like a Clinician", path: "/course/core" },
+      { title: "IUI Monitoring and Outcome Optimization", path: "/course/core" },
+      { title: "Pelvic Infections and the Chronic Inflammation Cascade", path: "/course/core" },
+    ],
+  },
+  {
+    to: "/course/advanced",
+    label: "Advanced Series",
+    tier: "Tier III",
+    color: "#1E5AA6",
+    lectures: [
+      { title: "Choosing the Right Stimulation Protocol", path: "/course/advanced" },
+      { title: "OHSS Prevention & Safety", path: "/course/advanced" },
+      { title: "Oocyte Retrieval Tips & Tricks", path: "/course/advanced" },
+      { title: "Embryology for Clinicians", path: "/course/advanced" },
+      { title: "Optimizing IVF Implantation", path: "/course/advanced" },
+      { title: "Troubleshoot in Embryo Transfer", path: "/course/advanced" },
+      { title: "Redefining Oocyte Quality", path: "/course/advanced" },
+    ],
+  },
+  {
+    to: "/course/masterclass",
+    label: "Masterclass Series",
+    tier: "Tier IV",
+    color: "#C8102E",
+    lectures: [
+      { title: "Endometriosis & Infertility", path: "/course/masterclass" },
+      { title: "Unexplained Infertility", path: "/course/masterclass" },
+      { title: "Recurrent Implantation Failure", path: "/course/masterclass" },
+      { title: "Recurrent Pregnancy Losses", path: "/course/masterclass" },
+      { title: "Diminished Ovarian Reserve", path: "/course/masterclass" },
+      { title: "Ovarian Rejuvenation", path: "/course/masterclass" },
+      { title: "Myoma & Infertility", path: "/course/masterclass" },
+      { title: "Severe Male Factor / Azoospermia", path: "/course/masterclass" },
+      { title: "PCOS & Fertility", path: "/course/masterclass" },
+      { title: "Difficult Embryo Transfer", path: "/course/masterclass" },
+      { title: "Obesity & Infertility", path: "/course/masterclass" },
+    ],
+  },
 ];
 
 const goldGradient = "bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)]";
@@ -58,7 +115,6 @@ export default function Nav() {
     setCoursesExpanded(false);
   }, [pathname]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -67,24 +123,16 @@ export default function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-[100] bg-[linear-gradient(rgba(12,16,26,0.55),rgba(12,16,26,0.55)),url('/images/navbar.webp')] bg-cover bg-center border-b border-[rgba(197,164,109,0.18)] transition-[padding] duration-300 ${
-        scrolled ? "py-3" : "py-[10px]"
+        scrolled ? "py-2" : "py-[4px]"
       }`}
     >
-      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-[clamp(20px,4vw,80px)] flex items-center justify-between gap-4">
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-[clamp(20px,4vw,80px)] flex items-center justify-between ">
         {/* Logo */}
         <div
-          className="flex items-center gap-2.5 cursor-pointer shrink-0"
+          className="flex items-center cursor-pointer shrink-0"
           onClick={() => navigate("/")}
         >
-          <div className="w-16 h-9 sm:w-20 sm:h-10 flex-shrink-0">
-            <img src="/images/logo.png" alt="STAR Academy logo" className="w-full h-[40px]" />
-          </div>
-          <div className={`font-display font-medium text-sm sm:text-md leading-[1.2] tracking-[0.01em] ${goldGradientText}`}>
-            Sunita Tandulwadkar
-            <span className={`block text-[6.5px] sm:text-[7.3px] font-mono font-normal tracking-[0.22em] uppercase mt-[3px] ${goldGradientText}`}>
-              Academy of Reproduction
-            </span>
-          </div>
+          <img src="/images/webLogo.png" alt="STAR Academy of Reproduction" className="h-9 sm:h-14 w-auto" />
         </div>
 
         {/* Desktop links */}
@@ -106,9 +154,8 @@ export default function Nav() {
             </NavLink>
           </li>
 
-          {/* Courses — dropdown on hover */}
+          {/* Courses — mega-menu on hover */}
           <li className="relative group/courses">
-            {/* Clicking the label navigates to /courses */}
             <button
               onClick={() => navigate("/courses")}
               className={`font-body text-sm font-medium tracking-[0.04em] py-1.5 flex items-center gap-1 transition-[opacity,color] duration-200 cursor-pointer ${
@@ -130,40 +177,71 @@ export default function Nav() {
             </button>
 
             {/* Invisible bridge fills the gap so hover doesn't break mid-way */}
-            <div className="absolute top-full left-0 right-0 h-3 opacity-0 group-hover/courses:pointer-events-auto pointer-events-none" />
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-[780px] h-3 opacity-0 group-hover/courses:pointer-events-auto pointer-events-none" />
 
-            {/* Dropdown panel — pt-3 creates the visual gap without a hover dead zone */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-[230px] pt-3 opacity-0 pointer-events-none group-hover/courses:opacity-100 group-hover/courses:pointer-events-auto transition-all duration-200 translate-y-1 group-hover/courses:translate-y-0">
+            {/* Mega-menu panel */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-[780px] pt-3 opacity-0 pointer-events-none group-hover/courses:opacity-100 group-hover/courses:pointer-events-auto transition-all duration-200 translate-y-1 group-hover/courses:translate-y-0">
               {/* Arrow */}
               <div className="absolute top-[7px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 rotate-45 bg-[#0c1018] border-l border-t border-[rgba(197,164,109,0.3)]" />
+
               <div className="bg-[#0c1018] border border-[rgba(197,164,109,0.25)] rounded-xl overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.7)]">
-                <div className="px-4 pt-3 pb-1">
+                {/* Panel header */}
+                <div className="px-5 pt-3 pb-2 border-b border-[rgba(197,164,109,0.10)]">
                   <span className="font-mono text-[8px] tracking-[0.28em] uppercase text-gold-deep/70">Learning Pathway</span>
                 </div>
-                {courseLinks.map((c) => (
-                  <Link
-                    key={c.to}
-                    to={c.to}
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.06] transition-colors duration-150 group/item"
-                  >
-                    <span
-                      className="w-[3px] h-8 rounded-full shrink-0"
-                      style={{ background: c.color }}
-                    />
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-body text-[13px] font-medium text-ivory/90 group-hover/item:text-ivory leading-snug">{c.label}</span>
-                      <span className="font-mono text-[8.5px] tracking-[0.18em] uppercase mt-[2px]" style={{ color: c.color }}>{c.tier}</span>
+
+                {/* 4-column grid of courses */}
+                <div className="grid grid-cols-4 divide-x divide-[rgba(197,164,109,0.10)]">
+                  {courseLinks.map((c) => (
+                    <div key={c.to} className="px-4 py-4 flex flex-col">
+                      {/* Course header — click goes to course page */}
+                      <Link
+                        to={c.to}
+                        className="flex items-center gap-2 mb-3 shrink-0 group/hdr"
+                      >
+                        <span
+                          className="w-[3px] h-6 rounded-full shrink-0"
+                          style={{ background: c.color }}
+                        />
+                        <div className="min-w-0">
+                          <div className="font-body text-[11.5px] font-semibold text-ivory/90 group-hover/hdr:text-ivory leading-tight">
+                            {c.label}
+                          </div>
+                          <div
+                            className="font-mono text-[9px] tracking-[0.18em] uppercase mt-[2px]"
+                            style={{ color: c.color }}
+                          >
+                            {c.tier}
+                          </div>
+                        </div>
+                      </Link>
+
+                      {/* Lecture list */}
+                      <div className="flex flex-col gap-[2px]">
+                        {c.lectures.map((l, i) => (
+                          <Link
+                            key={i}
+                            to={l.path}
+                            className="flex items-start gap-1.5 py-[3px] px-1.5 -mx-1.5 rounded hover:bg-white/[0.05] group/lec transition-colors"
+                          >
+                            <span
+                              className="font-mono text-[7px] mt-[2.5px] shrink-0 w-4 text-right leading-none"
+                              style={{ color: c.color + "99" }}
+                            >
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                            <span className="font-body text-[11px] text-ivory/50 group-hover/lec:text-ivory/85 leading-[1.35] transition-colors">
+                              {l.title}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                  </Link>
-                ))}
-                <div className="mx-4 border-t border-[rgba(197,164,109,0.12)] mt-1" />
-                <Link
-                  to="/courses"
-                  className="flex items-center justify-between px-4 py-2.5 font-body text-[11.5px] font-medium tracking-[0.04em] text-gold/70 hover:text-gold transition-colors"
-                >
-                  View all courses
-                  <span className="text-[13px]">&rarr;</span>
-                </Link>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                
               </div>
             </div>
           </li>
@@ -263,48 +341,86 @@ export default function Nav() {
               </NavLink>
             </li>
 
-            {/* Courses — expandable */}
+            {/* Courses — expandable with lecture list */}
             <li>
-              <button
-                onClick={() => setCoursesExpanded((v) => !v)}
+              <div
                 className={`flex items-center justify-between w-full py-4 font-body text-[17px] font-medium tracking-[0.03em] ${
                   isCoursesActive ? goldGradientText : "text-ivory/80"
                 }`}
               >
-                <span>Courses</span>
-                <svg
-                  className={`w-4 h-4 transition-transform duration-250 ${coursesExpanded ? "rotate-180" : ""}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
+                <button
+                  onClick={() => navigate("/courses")}
+                  className="flex-1 text-left"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                  Courses
+                </button>
+                <button
+                  onClick={() => setCoursesExpanded((v) => !v)}
+                  aria-label={coursesExpanded ? "Collapse courses" : "Expand courses"}
+                  aria-expanded={coursesExpanded}
+                  className="p-2 -m-2"
+                >
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-250 ${coursesExpanded ? "rotate-180" : ""}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
 
-              {/* Sub-items */}
+              {/* Sub-items with lecture lists */}
               <div
                 className={`overflow-hidden transition-all duration-300 ${
-                  coursesExpanded ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+                  coursesExpanded ? "max-h-[1400px] opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="pb-3 pl-3 flex flex-col gap-0.5">
+                <div className="pb-3 flex flex-col gap-3">
                   {courseLinks.map((c) => (
-                    <Link
-                      key={c.to}
-                      to={c.to}
-                      className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.05] transition-colors"
-                    >
-                      <span
-                        className="w-[3px] h-8 rounded-full shrink-0"
-                        style={{ background: c.color }}
-                      />
-                      <div>
-                        <div className="font-body text-[15px] font-medium text-ivory/85">{c.label}</div>
-                        <div className="font-mono text-[9px] tracking-[0.18em] uppercase mt-[1px]" style={{ color: c.color }}>{c.tier}</div>
+                    <div key={c.to}>
+                      {/* Course header */}
+                      <Link
+                        to={c.to}
+                        className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-white/[0.05] transition-colors"
+                      >
+                        <span
+                          className="w-[3px] h-7 rounded-full shrink-0"
+                          style={{ background: c.color }}
+                        />
+                        <div>
+                          <div className="font-body text-[14px] font-semibold text-ivory/85">{c.label}</div>
+                          <div
+                            className="font-mono text-[8px] tracking-[0.18em] uppercase mt-[1px]"
+                            style={{ color: c.color }}
+                          >
+                            {c.tier}
+                          </div>
+                        </div>
+                      </Link>
+                      {/* Lecture list */}
+                      <div className="pl-6 flex flex-col gap-[1px]">
+                        {c.lectures.map((l, i) => (
+                          <Link
+                            key={i}
+                            to={l.path}
+                            className="flex items-start gap-2 py-1.5 px-3 rounded-md hover:bg-white/[0.04] group/lec transition-colors"
+                          >
+                            <span
+                              className="font-mono text-[8px] mt-[2px] shrink-0 w-4"
+                              style={{ color: c.color + "99" }}
+                            >
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                            <span className="font-body text-[11.5px] text-ivory/55 group-hover/lec:text-ivory/80 leading-snug transition-colors">
+                              {l.title}
+                            </span>
+                          </Link>
+                        ))}
                       </div>
-                    </Link>
+                    </div>
                   ))}
                   <Link
                     to="/courses"

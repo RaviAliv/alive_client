@@ -10,6 +10,7 @@ export type LectureDetailData = {
   duration: string;
   platform: string;
   ytShortsId?: string;
+  thumbnail?: string;
   cfVideoId?: string;
   lectureNotes?: {
     intro: string;
@@ -32,7 +33,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
   /* ── LECTURE 01 ─────────────────────────────────────────────── */
   {
     num: "01",
-    title: "The Complete Arc of the Ovarian Cycle",
+    title: "300-day Ovarian Symphony - HPO Axis & Follicular Endocrinology",
     headline: "The cycle is not random.",
     tagline: "Why some cycles work and others don't, told the way the biology actually tells it.",
     heroBody:
@@ -42,7 +43,8 @@ export const foundationLectureDetails: LectureDetailData[] = [
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
-    ytShortsId: "8Nh9_MUYC2M",
+    ytShortsId: "KY3k1KMVY_Q",
+    thumbnail: "https://img.youtube.com/vi/KY3k1KMVY_Q/maxresdefault.jpg",
     cfVideoId: "dummy-cf-stream-id-foundation-01",
     lectureNotes: {
       intro:
@@ -124,7 +126,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
   /* ── LECTURE 02 — from lacture2.html ────────────────────────── */
   {
     num: "02",
-    title: "Ovulation, Triggering, and Timing",
+    title: "Endocrinology of Follicular Phase",
     headline: "The trigger is the decision the cycle waits for.",
     tagline: "Why the moment you trigger matters more than the protocol that came before it.",
     heroBody:
@@ -134,6 +136,8 @@ export const foundationLectureDetails: LectureDetailData[] = [
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
+    ytShortsId: "h9_-M9sOwCw",
+    thumbnail: "https://img.youtube.com/vi/h9_-M9sOwCw/maxresdefault.jpg",
     whatItIsTitle: "The decision that ends the cycle, taught the way it actually gets made.",
     whatItIsBody: [
       "Most fertility doctors were taught the trigger as a checklist. The lead follicle reaches 18mm. You administer hCG. You wait thirty-six hours. The cycle proceeds. The rule was simple, universal, and for years it was good enough.",
@@ -172,7 +176,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
   /* ── LECTURE 03 — from lacture3.html ────────────────────────── */
   {
     num: "03",
-    title: "Reading the Luteal Phase as a Clinical Signal",
+    title: "Ovulation – Physiology / Precision Triggering / Molecular Dynamics to Clinical Applications",
     headline: "One question decides every luteal protocol you will ever write.",
     tagline: "Advanced luteal phase support, reduced to a single physiological decision and the protocols that follow from it.",
     heroBody:
@@ -182,6 +186,8 @@ export const foundationLectureDetails: LectureDetailData[] = [
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
+    ytShortsId: "JnP6Ig4dksE",
+    thumbnail: "https://img.youtube.com/vi/JnP6Ig4dksE/maxresdefault.jpg",
     whatItIsTitle: "The Corpus Luteum as a Clinical Compass",
     whatItIsBody: [
       "Most luteal phase support is taught as a list of drugs and doses. This lecture teaches it as a decision tree. The whole of luteal management in ART collapses into one question asked before any prescription: is a corpus luteum present, or absent? Everything else follows from the answer. You will leave able to place any cycle in front of you, IUI, fresh IVF, natural FET, programmed FET, on the correct side of that line, and to defend the protocol that line demands.",
@@ -219,7 +225,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
   /* ── LECTURE 04 — from lacture4.html ────────────────────────── */
   {
     num: "04",
-    title: "The Molecular Dialogue of Implantation",
+    title: "Luteal Phase Endocrinology and Advances in Luteal Phase Support",
     headline: "A good embryo is necessary. It is not enough.",
     tagline: "Improving implantation in IVF by getting the three things that actually move it right, before reaching for the add-ons that mostly do not.",
     heroBody:
@@ -229,6 +235,8 @@ export const foundationLectureDetails: LectureDetailData[] = [
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
+    ytShortsId: "VznbLGmuJgY",
+    thumbnail: "https://img.youtube.com/vi/VznbLGmuJgY/maxresdefault.jpg",
     whatItIsTitle: "Improving Implantation in IVF",
     whatItIsBody: [
       "Implantation is a conversation between embryo and endometrium, and a single failed transfer rarely has a single cause. This lecture treats implantation as a system with three levers that move it (embryo competence, uterine readiness, transfer quality) and a fourth that governs all of them, restraint. You will leave able to work a failed cycle in order, deciding whether the next step improves biology, improves execution, or only adds cost.",
@@ -266,7 +274,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
   /* ── LECTURE 05 — from lacture5.html ────────────────────────── */
   {
     num: "05",
-    title: "The Precision Diagnostic Roadmap",
+    title: "Implantation – Decoding the Molecular Dialogue of Human Embryo Implantation",
     headline: "The goal is not to collect tests. It is to find the one that changes the plan.",
     tagline: "A structured female fertility work-up: what to do first, what to reserve for selected patients, and when to stop investigating and start treating.",
     heroBody:
@@ -276,6 +284,7 @@ export const foundationLectureDetails: LectureDetailData[] = [
     time: "8 PM IST",
     duration: "90 minutes",
     platform: "Live on Zoom",
+    thumbnail: "/images/FoundationL5.webp",
     whatItIsTitle: "The Female Fertility Work-Up",
     whatItIsBody: [
       "A modern work-up is layered, not shotgun. You start broad, identify the phenotype, then go deeper only where the history or imaging points you. This lecture gives you that sequence, from a high-quality baseline scan through 3D imaging, hysteroscopy, and genetics, and the judgment to escalate only when the next test will actually change management. You will leave able to run the work-up from basic to advanced, not from expensive to exhaustive.",
@@ -308,5 +317,54 @@ export const foundationLectureDetails: LectureDetailData[] = [
       "Unexplained infertility is a diagnosis of exclusion, not a diagnosis of exhaustion. The best work-up is not the most thorough one. It is the one that shortens the time to the right treatment.",
     facultyBio:
       "This lecture is taught by Dr. Sunita Tandulwadkar, who has built and run one of India's busiest IVF and endoscopy practices for three decades. She is President of ISAR (2026 to 2028) and immediate past President of FOGSI. Her work spans both the imaging and the surgery this work-up leads to, which is why the sequence she teaches is built around the one question that matters: will this test change what you do next?",
+  },
+
+  /* ── LECTURE 06 ─────────────────────────────────────────────── */
+  {
+    num: "06",
+    title: "Spermatogenesis - What Everyone Should Know",
+    headline: "Male factor is not a referral. It is a diagnosis you make.",
+    tagline: "The biology of spermatogenesis, the clinical meaning of the semen analysis, and the decisions that follow when the result is abnormal.",
+    heroBody:
+      "A live ninety-minute lecture with Dr. Sunita Tandulwadkar. Spermatogenesis takes seventy-four days. Every semen analysis you read is a report on biology that began almost three months earlier. This lecture covers the process from spermatogonial stem cells to ejaculated sperm, what the semen analysis does and does not tell you, and the clinical questions that follow when the report is abnormal.",
+    date: "Wednesday, 19 August 2026",
+    dateShort: "Wed, 19 Aug 2026",
+    time: "8 PM IST",
+    duration: "90 minutes",
+    platform: "Live on Zoom",
+    thumbnail: "/images/FoundationL6.webp",
+    whatItIsTitle: "The male factor, taught the way reproductive specialists understand it.",
+    whatItIsBody: [
+      "Most fertility doctors learned spermatogenesis as a diagram. Spermatogonia divide, spermatocytes undergo meiosis, spermatids mature into spermatozoa. The process was described. What it means for the patient in front of you was left to inference.",
+      "This lecture closes that gap. How the seventy-four-day cycle of spermatogenesis translates into what you find on a semen analysis — and more importantly, what it means when the analysis is abnormal. The difference between a temporarily impaired semen parameter and a structural problem that will not change with three more months of antioxidants.",
+      "The doctor who finishes this lecture reads a semen analysis as a clinical document, not a report to be triaged. They know which parameters predict IVF outcomes and which are noise. They know when a second sample is worth ordering, when to refer for surgical evaluation, and when the male factor has already set the ceiling for what is possible.",
+    ],
+    formatTitle: "Live with Dr. Sunita. Not a recording you watch alone.",
+    formatBody: [
+      "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. Every doctor in the cohort is present in the same session. Every question asked is answered in the moment, by her, on the call.",
+      "The interactive segment at the end of every lecture is the part that separates a live class from a recording. Bring the case you are stuck on. Ask the question the textbook does not answer. Hear how an experienced reproductive medicine specialist reasons through it, in front of you, with the rest of the cohort listening in.",
+    ],
+    formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    outcomes: [
+      "Understand spermatogenesis as a seventy-four-day process and interpret semen parameters in that biological context",
+      "Read a semen analysis report as a clinical document — distinguish parameters that predict outcome from those that do not",
+      "Identify when abnormal parameters are likely to respond to intervention and when they represent a fixed ceiling on outcome",
+      "Know when to order a repeat, when to refer for surgical evaluation, and when to escalate directly to IVF-ICSI without waiting",
+    ],
+    logisticsTitle: "Everything you need to know before reserving.",
+    whatsIncluded: [
+      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
+      { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
+      { key: "Materials", value: "Clinical protocol sheet" },
+      { key: "Certificate", value: "On completion of all six Foundation lectures" },
+      { key: "Participation Certificate", value: "On completion of each lecture" },
+    ],
+    logisticsTrailing:
+      "A Zoom link will be sent to your registered email twenty-four hours before the lecture begins.",
+    whyQuote:
+      "The male factor accounts for half of all infertility. It is evaluated by half the doctors, understood by a fraction of them, and acted on correctly by fewer still. This lecture exists because the patient whose partner has a semen analysis report sitting in front of you deserves a doctor who knows what to do with it.",
+    facultyBio:
+      "President of ISAR for 2026 to 2028. Past President of FOGSI for 2025. Head of OBGYN and Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune. Founder of Solo Clinic IVF & OBGYN. Three decades inside the same set of clinical questions. Every Foundation lecture is taught by her, live, in her own voice.",
   },
 ];

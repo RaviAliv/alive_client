@@ -231,9 +231,7 @@ export default function SignUp() {
       login(data.token, data.user);
       navigate("/");
     } catch (err) {
-      setFormError(
-        err instanceof Error ? err.message : "Google sign-in failed."
-      );
+      setFormError(err instanceof Error ? err.message : "Google sign-in failed.");
     }
   };
 
@@ -554,9 +552,7 @@ export default function SignUp() {
 
             <div className="flex items-center gap-3 pt-1">
               <span className="h-px flex-1 bg-border-warm" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate">
-                or
-              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate">or</span>
               <span className="h-px flex-1 bg-border-warm" />
             </div>
             <div className="flex justify-center">

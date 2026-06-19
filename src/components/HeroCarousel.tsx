@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 const HERO_IMAGES = [
-  "/images/hero1.webp",
-  "/images/hero2.webp",
+ 
   "/images/hero3.webp",
-  "/images/hero4.webp"
+  "/images/hero2.webp",
+  
 ];
 
 const SLIDE_INTERVAL_MS = 7000; // 7 seconds per slide

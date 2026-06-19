@@ -73,11 +73,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           if (text) { try { data = JSON.parse(text); } catch {} }
 
           if (data.code === "SESSION_INVALIDATED") {
-            // Another device logged in — force this session out
             setSessionKicked(true);
           }
-          // Silently clear any other stale token
           hardLogout();
+        } else if (res.ok) {
+          // Sync user object from server — catches role changes made after login
+          try {
+            const data = await res.json();
+            if (data.user) {
+              setUser(data.user);
+              const raw = localStorage.getItem(STORAGE_KEY);
+              if (raw) {
+                const parsed = JSON.parse(raw) as { token: string; user: AuthUser };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ token: parsed.token, user: data.user }));
+              }
+            }
+          } catch { /* ignore parse errors */ }
         }
       } catch {
         // Network offline — don't log out, just wait

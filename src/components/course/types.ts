@@ -47,6 +47,7 @@ export type CourseConfig = {
   description: string;
   badges: string[];
   videoId: string;       // YouTube id
+  videoPoster?: string;  // optional poster image shown before play
   videoBadgeLabel: string;
   primaryCta: CourseAction;
 

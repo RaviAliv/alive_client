@@ -16,7 +16,7 @@ export const advancedConfig: CourseConfig = {
   letter: "A",
   tierLabel: "Tier III — Advanced",
   title: "Advanced",
-  titleSuffix: "Series.",
+  titleSuffix: "Series",
   accent: "t-blue",
   status: "waitlist",
   statusLabel: "Opens after Core",
@@ -26,6 +26,7 @@ export const advancedConfig: CourseConfig = {
     "Seven live lectures with Dr. Sunita Tandulwadkar. Covering the protocol-level decisions inside an IVF cycle, from stimulation and retrieval to embryology, transfer, and implantation. Designed for the doctor who already runs cycles and is ready to refine the decisions inside them.",
   badges: ["7 Lectures", "Live Q&A", "Protocol Sheets", "Certificate"],
   videoId: "QkiegbAnFqc",
+  videoPoster: "/images/AdvancedVid.webp",
   videoBadgeLabel: "Advanced Series · Intro",
   primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Advanced Opens" },
 
