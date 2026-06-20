@@ -204,7 +204,7 @@ export default function Nav() {
                           style={{ background: c.color }}
                         />
                         <div className="min-w-0">
-                          <div className="font-body text-[11.5px] font-semibold text-ivory/90 group-hover/hdr:text-ivory leading-tight">
+                          <div className="font-body text-[13px] font-semibold text-ivory/90 group-hover/hdr:text-ivory leading-tight">
                             {c.label}
                           </div>
                           <div

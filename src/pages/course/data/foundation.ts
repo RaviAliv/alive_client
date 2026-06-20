@@ -26,7 +26,7 @@ export const foundationConfig: CourseConfig = {
   description:
     "Six live lectures with Dr. Sunita Tandulwadkar. Built to give every clinical decision a foundation it can rest on. Designed for the doctor who wants to understand the cycle before reading its results.",
   badges: ["6 Lectures", "Live Q&A", "Certificate"],
-  videoId: "QkiegbAnFqc",
+  videoId: "qEUGj-JPDlc",
   videoPoster: "/images/FoundationVid.webp",
   videoBadgeLabel: "Foundation Series · Intro",
   primaryCta: {

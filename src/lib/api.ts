@@ -2,6 +2,17 @@
 // In production, Nginx proxies /api → backend.
 const BASE_URL = import.meta.env.VITE_API_URL ?? "/api";
 
+export class ApiError extends Error {
+  code?: string;
+  email?: string;
+  constructor(message: string, code?: string, email?: string) {
+    super(message);
+    this.name = "ApiError";
+    this.code = code;
+    this.email = email;
+  }
+}
+
 type ApiOptions = { token?: string };
 
 const getStoredToken = (): string | null => {
@@ -21,8 +32,8 @@ function authHeaders(opts: ApiOptions = {}): Record<string, string> {
 }
 
 async function parseResponse<T>(res: Response): Promise<T> {
-  const data = (await res.json().catch(() => ({}))) as { message?: string };
-  if (!res.ok) throw new Error(data.message || "Something went wrong. Please try again.");
+  const data = (await res.json().catch(() => ({}))) as { message?: string; code?: string; email?: string };
+  if (!res.ok) throw new ApiError(data.message || "Something went wrong. Please try again.", data.code, data.email);
   return data as T;
 }
 

@@ -28,7 +28,7 @@ export const masterclassConfig: CourseConfig = {
   description:
     "Ten live lectures with Dr. Sunita Tandulwadkar. Covering the hardest cases in reproductive medicine, from recurrent implantation failure and pregnancy loss to diminished ovarian reserve and severe male factor. Designed for the doctor working where protocols run out and judgment takes over",
   badges: ["10 Lectures", "Live Q&A", "Case-Driven", "Certificate"],
-  videoId: "QkiegbAnFqc",
+  videoId: "JSS-eFMv_cs",
   videoPoster: "/images/MasterclassVid.webp",
   videoBadgeLabel: "Masterclass Series · Intro",
   primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Masterclass Opens" },

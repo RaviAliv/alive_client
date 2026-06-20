@@ -25,7 +25,7 @@ export const advancedConfig: CourseConfig = {
   description:
     "Seven live lectures with Dr. Sunita Tandulwadkar. Covering the protocol-level decisions inside an IVF cycle, from stimulation and retrieval to embryology, transfer, and implantation. Designed for the doctor who already runs cycles and is ready to refine the decisions inside them.",
   badges: ["7 Lectures", "Live Q&A", "Protocol Sheets", "Certificate"],
-  videoId: "QkiegbAnFqc",
+  videoId: "h1Jz5VBpl8M",
   videoPoster: "/images/AdvancedVid.webp",
   videoBadgeLabel: "Advanced Series · Intro",
   primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Advanced Opens" },

@@ -23,7 +23,7 @@ export const coreConfig: CourseConfig = {
   description:
     "Five live lectures with Dr. Sunita Tandulwadkar. Covering the everyday clinical decisions in fertility care, from male factor and oocyte quality to ovulation induction, IUI, and the inflammatory drivers behind poor outcomes. Designed for the doctor who has the biology straight and is ready to reason through the cycle",
   badges: ["5 Lectures", "Live Q&A", "Certificate"],
-  videoId: "QkiegbAnFqc",
+  videoId: "-E5emmUOAUQ",
   videoPoster: "/images/CoreVid.webp",
   videoBadgeLabel: "Core Series · Intro",
   primaryCta: { type: "anchor", target: ENROLL_URL, label: "Notify Me When Core Opens" },

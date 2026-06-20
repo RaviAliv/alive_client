@@ -1,7 +1,7 @@
-import { useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
-import { apiPost } from "../lib/api";
+import { apiPost, ApiError } from "../lib/api";
 import { useAuth, type AuthUser } from "../context/AuthContext";
 
 const labelCls =
@@ -156,10 +156,75 @@ export default function SignUp() {
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [signedUpEmail, setSignedUpEmail] = useState<string | null>(null);
+  const [otpEmail, setOtpEmail] = useState<string | null>(null);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otpError, setOtpError] = useState<string | null>(null);
+  const [otpSubmitting, setOtpSubmitting] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const set = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
+
+  // Cooldown countdown for OTP resend
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  const handleOtpChange = (i: number, v: string) => {
+    const digit = v.replace(/\D/g, "").slice(-1);
+    const next = [...otp];
+    next[i] = digit;
+    setOtp(next);
+    if (digit && i < 5) otpRefs.current[i + 1]?.focus();
+  };
+  const handleOtpKey = (i: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !otp[i] && i > 0) otpRefs.current[i - 1]?.focus();
+  };
+  const handleOtpPaste = (e: React.ClipboardEvent) => {
+    const digits = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6).split("");
+    if (!digits.length) return;
+    e.preventDefault();
+    const next = [...otp];
+    digits.forEach((d, idx) => { next[idx] = d; });
+    setOtp(next);
+    const last = Math.min(digits.length, 5);
+    otpRefs.current[last]?.focus();
+  };
+
+  const handleOtpSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const code = otp.join("");
+    if (code.length < 6) { setOtpError("Enter all 6 digits."); return; }
+    setOtpSubmitting(true);
+    setOtpError(null);
+    try {
+      const data = await apiPost<{ token: string; user: AuthUser }>("/auth/verify-otp", {
+        email: otpEmail,
+        otp: code,
+      });
+      login(data.token, data.user);
+      navigate("/");
+    } catch (err) {
+      setOtpError(err instanceof Error ? err.message : "Verification failed.");
+    } finally {
+      setOtpSubmitting(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (cooldown > 0) return;
+    try {
+      await apiPost("/auth/send-otp", { email: otpEmail });
+      setCooldown(60);
+      setOtp(["", "", "", "", "", ""]);
+      otpRefs.current[0]?.focus();
+    } catch {
+      /* ignore */
+    }
+  };
 
   const strength = useMemo(() => {
     const p = form.password;
@@ -212,7 +277,8 @@ export default function SignUp() {
         role: form.role || undefined,
         password: form.password,
       });
-      setSignedUpEmail(form.email.trim());
+      setOtpEmail(form.email.trim());
+      setCooldown(60);
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "Sign up failed.");
     } finally {
@@ -235,35 +301,71 @@ export default function SignUp() {
     }
   };
 
-  if (signedUpEmail) {
+  if (otpEmail) {
     return (
       <section className="-mt-20 min-h-screen flex items-center justify-center bg-[#0A0E16] px-5">
         <div className="absolute inset-0 bg-[url('/images/header_footer.webp')] bg-cover bg-center opacity-20 pointer-events-none" />
-        <div className="relative z-[1] w-full max-w-[420px] border border-gold/20 bg-[rgba(10,14,22,0.75)] backdrop-blur-sm px-8 py-10 text-center">
-          <div className="w-12 h-12 rounded-full border border-gold/40 flex items-center justify-center mx-auto mb-6">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 10l4 4 8-8" stroke="#C5A46D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <div className="relative z-[1] w-full max-w-[400px] border border-gold/20 bg-[rgba(10,14,22,0.80)] backdrop-blur-sm px-8 py-10">
+          {/* Icon */}
+          <div className="w-12 h-12 rounded-full border border-gold/40 flex items-center justify-center mx-auto mb-5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C5A46D" strokeWidth="1.6" strokeLinecap="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m2 7 10 7 10-7"/>
             </svg>
           </div>
-          <span className="font-mono text-[10px] tracking-[0.26em] uppercase text-gold block mb-4">
-            Check your inbox
-          </span>
-          <h1 className="font-display font-medium text-[26px] text-ivory mb-3 leading-[1.15]">
+
+          <span className="block font-mono text-[10px] tracking-[0.26em] uppercase text-gold text-center mb-1">
             Verify your email
+          </span>
+          <h1 className="font-display font-medium text-[24px] text-ivory text-center mb-2 leading-tight">
+            Enter the 6-digit code
           </h1>
-          <p className="text-[14px] text-ivory/60 mb-2 leading-[1.65]">
-            We sent a verification link to
-          </p>
-          <p className="font-mono text-[13px] text-gold mb-8 break-all">{signedUpEmail}</p>
-          <p className="text-[13px] text-ivory/40 mb-6">
-            Click the link in the email to activate your account, then sign in.
-          </p>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 px-7 py-3 bg-[linear-gradient(90deg,#b9842a,#f7db7d,#b9842a)] text-navy font-mono font-bold text-[11px] tracking-[0.16em] uppercase hover:brightness-110 transition-all"
-          >
-            Go to Sign In →
-          </Link>
+          <p className="text-[13px] text-ivory/50 text-center mb-1">We sent it to</p>
+          <p className="font-mono text-[12px] text-gold text-center mb-7 break-all">{otpEmail}</p>
+
+          <form onSubmit={handleOtpSubmit}>
+            {/* 6-box OTP input */}
+            <div className="flex gap-2 justify-center mb-5" onPaste={handleOtpPaste}>
+              {otp.map((d, i) => (
+                <input
+                  key={i}
+                  ref={(el) => { otpRefs.current[i] = el; }}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={d}
+                  onChange={(e) => handleOtpChange(i, e.target.value)}
+                  onKeyDown={(e) => handleOtpKey(i, e)}
+                  className="w-11 h-13 text-center text-[22px] font-bold text-ivory bg-white/5 border border-gold/25 rounded focus:outline-none focus:border-gold focus:bg-white/10 transition-all caret-transparent"
+                  style={{ height: "52px" }}
+                  autoFocus={i === 0}
+                />
+              ))}
+            </div>
+
+            {otpError && (
+              <p className="text-center text-[12px] text-red-400 mb-4">{otpError}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={otpSubmitting}
+              className="w-full py-3 bg-[linear-gradient(90deg,#b9842a,#f7db7d,#b9842a)] text-navy font-mono font-bold text-[11px] tracking-[0.16em] uppercase hover:brightness-110 transition-all disabled:opacity-60"
+            >
+              {otpSubmitting ? "Verifying…" : "Verify & Continue →"}
+            </button>
+          </form>
+
+          <div className="mt-5 text-center">
+            <p className="text-[12px] text-ivory/40 mb-2">Didn't receive it?</p>
+            <button
+              onClick={handleResendOtp}
+              disabled={cooldown > 0}
+              className="text-[12px] font-medium text-gold hover:text-gold/70 disabled:text-ivory/30 disabled:cursor-not-allowed transition-colors"
+            >
+              {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
+            </button>
+          </div>
         </div>
       </section>
     );
