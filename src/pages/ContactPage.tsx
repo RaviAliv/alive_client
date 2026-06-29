@@ -2,10 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const CONTACT = {
-  phone: "+91 xxxxx xxxxx",
-  phoneHref: "tel:+91xxxxxxxxxx",
-  whatsapp: "+91 xxxxx xxxxx",
-  whatsappHref: "https://wa.me/91xxxxxxxxxx",
   email: "xyz@staracademy.in",
   emailHref: "mailto:xyz@staracademy.in",
   address: "6th Floor, Bund Garden, Pune",
@@ -146,79 +142,19 @@ export default function ContactPage() {
                     <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-ivory/70">Based</span>
                     <span className="text-[12px] text-ivory/90 font-medium">Pune, India</span>
                   </div>
+                  <div className="h-px bg-gold/10" />
+                  <a
+                    href={CONTACT.emailHref}
+                    onClick={handleCopyEmail}
+                    className="group flex items-center justify-between gap-3 hover:opacity-80 transition-opacity"
+                  >
+                    <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-ivory/70">Email</span>
+                    <span className="text-[12px] text-gold font-medium font-mono truncate group-hover:text-gold-light transition-colors">
+                      {emailCopied ? "Copied ✓" : CONTACT.email}
+                    </span>
+                  </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="relative pb-8">
-          <div className="max-w-[1200px] mx-auto px-[clamp(20px,4vw,80px)]">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {[
-                {
-                  label: "Phone",
-                  value: CONTACT.phone,
-                  hint: "Call during office hours",
-                  href: CONTACT.phoneHref,
-                  external: false,
-                  cta: "Call now",
-                  icon: (
-                    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
-                    </svg>
-                  ),
-                },
-                {
-                  label: "Email",
-                  value: CONTACT.email,
-                  hint: "Click to copy — or open your mail app",
-                  href: CONTACT.emailHref,
-                  external: false,
-                  cta: emailCopied ? "Copied ✓" : "Copy email",
-                  onClick: handleCopyEmail,
-                  icon: (
-                    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                      <polyline points="22,6 12,13 2,6" />
-                    </svg>
-                  ),
-                },
-                {
-                  label: "WhatsApp",
-                  value: CONTACT.whatsapp,
-                  hint: "Fastest for quick queries",
-                  href: CONTACT.whatsappHref,
-                  external: true,
-                  cta: "Open chat",
-                  icon: (
-                    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" aria-hidden="true">
-                      <path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.1c-.2.3-.8 1-1 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.1-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.3c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C3.8 15 3.3 13.5 3.3 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.9 8.3-8.7 8.3z" />
-                    </svg>
-                  ),
-                },
-              ].map((c) => (
-                <a
-                  key={c.label}
-                  href={c.href}
-                  {...(c.external && { target: "_blank", rel: "noopener noreferrer" })}
-                  {...(c.onClick && { onClick: c.onClick })}
-                  className="group relative rounded-2xl border border-gold/15 bg-gradient-to-br from-[rgba(255,255,255,0.04)] to-[rgba(255,255,255,0.01)] backdrop-blur-md p-5 transition-all duration-300 hover:border-gold/45 hover:-translate-y-0.5 hover:bg-[rgba(255,255,255,0.06)] hover:shadow-[0_18px_40px_-18px_rgba(197,164,109,0.30)]"
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center group-hover:bg-gold group-hover:text-navy transition-colors duration-300">
-                      {c.icon}
-                    </span>
-                    <span className="font-mono text-[9.5px] tracking-[0.22em] uppercase text-gold/70">{c.label}</span>
-                  </div>
-                  <p className="font-mono text-[18px] text-ivory leading-tight mb-1 break-all">{c.value}</p>
-                  <p className="text-[12px] text-ivory/55 mb-4">{c.hint}</p>
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-gold border-b border-gold/30 pb-0.5 group-hover:text-gold-light group-hover:border-gold transition-colors">
-                    {c.cta}
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </span>
-                </a>
-              ))}
             </div>
           </div>
         </section>

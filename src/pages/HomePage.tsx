@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
-import { VIDEOS } from "../lib/config";
 import { foundationConfig } from "./course/data/foundation";
 import { coreConfig } from "./course/data/core";
 import { advancedConfig } from "./course/data/advanced";
@@ -15,27 +14,45 @@ const arrow =
   "inline-block transition-transform duration-300 group-hover:translate-x-1";
 
 /** Academy card whose YouTube video autoplays (muted) while hovered. */
-function VideoCard({ h, p }: { h: string; p: string }) {
+function VideoCard({ h, p, videoId }: { h: string; p: string; videoId: string }) {
   const [hover, setHover] = useState(false);
-  const base = `https://www.youtube.com/embed/${VIDEOS.foundationIntro}`;
-  const src = hover
-    ? `${base}?autoplay=1&mute=1&rel=0&playsinline=1`
-    : `${base}?rel=0`;
+  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&playsinline=1&controls=0&modestbranding=1&disablekb=1`;
+  const thumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       className="bg-cream relative border border-border-warm overflow-hidden w-[82%] shrink-0 snap-start md:w-auto md:shrink transition-all duration-500 ease-out md:group-hover/cards:scale-[0.96] md:group-hover/cards:opacity-60 md:hover:!scale-[1.04] md:hover:!opacity-100 hover:z-10 hover:shadow-[0_20px_40px_-20px_rgba(30,42,68,0.18)]"
     >
-      {/* Video — autoplays muted on hover */}
-      <div className="h-[200px] overflow-hidden bg-black">
-        <iframe
-          src={src}
-          title="STAR Academy — Dr. Sunita Tandulwadkar"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full h-full border-0"
-        />
+      {/* Thumbnail (default) → silent autoplay iframe (on hover) */}
+      <div className="h-[200px] overflow-hidden bg-black relative">
+        {hover ? (
+          <iframe
+            src={embedSrc}
+            title="STAR Academy — Dr. Sunita Tandulwadkar"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full border-0 scale-[1.05]"
+          />
+        ) : (
+          <>
+            <img
+              src={thumb}
+              alt={h}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            {/* Play button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
+                <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5.14v14l11-7-11-7z" />
+                </svg>
+              </div>
+            </div>
+          </>
+        )}
       </div>
       {/* Gold accent below the video */}
       <div className="h-[3px] bg-gold" />
@@ -292,15 +309,15 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col flex-1 pt-12 pb-7 px-6">
+                  <div className="flex flex-col flex-1 pt-12 pb-4 px-6">
                     <div className="mb-2">
                       <div className={`w-7 h-[2px] mb-2.5 ${c.accent}`} />
                       <h3 className={`font-display font-semibold text-[16.5px] leading-[1.3] tracking-[-0.01em] ${c.accentText}`}>
                         {c.subTitle}
                       </h3>
                     </div>
-                    <p className="text-[13.5px] leading-[1.72] text-soft-black mb-4 flex-1">{c.desc}</p>
-                    <div className="flex items-center gap-3 mb-5 pb-5 border-b border-border-warm">
+                    <p className="text-[13.5px] leading-[1.72] text-soft-black mb-3 flex-1">{c.desc}</p>
+                    <div className="flex items-center gap-3 mb-2 pb-3 border-b border-border-warm">
                       <span className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}>
                         {c.lectures}
                       </span>
@@ -309,7 +326,7 @@ export default function HomePage() {
                     </div>
 
                     {/* Lecture list — overlays the card instead of pushing layout */}
-                    <div className="relative mb-5">
+                    <div className="relative mb-3">
                       <button
                         type="button"
                         onClick={() => setExpandedTier(isExpanded ? null : c.title)}
@@ -495,17 +512,20 @@ export default function HomePage() {
             {
               h: "What it is",
               p: "Live training in infertility and IVF, taught in a structured order. Each tier builds on the one before, moving from fundamentals to advanced clinical decisions. Sessions are taught on Zoom, with room for questions every week.",
+              videoId: "vGhiP8et2mw",
             },
             {
               h: "Who it is for",
               p: "Gynecologists starting or growing an infertility practice. IVF clinicians sharpening their protocols. Fellowship trainees in reproductive medicine. Doctors who want to learn how to think through a case, not just hear another lecture.",
+              videoId: "q3qxlNgOtaw",
             },
             {
               h: "Why it is different",
               p: "Taught by an IVF and gynecologic endoscopy specialist with three decades of clinical practice. Focused on the decisions doctors actually make in the clinic. Built as a four-tier pathway, so each course continues where the last one ended.",
+              videoId: "hsbi4Cv4B0U",
             },
           ].map((c) => (
-            <VideoCard key={c.h} h={c.h} p={c.p} />
+            <VideoCard key={c.h} h={c.h} p={c.p} videoId={c.videoId} />
           ))}
         </div>
 

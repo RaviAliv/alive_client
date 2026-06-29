@@ -4,6 +4,7 @@ import { apiGet } from "../../lib/api";
 import { COURSE_LECTURES } from "../shared/lectureConfig";
 
 type Stats = { totalUsers: number; totalAdmins: number; courseCounts: Record<string, number> };
+type TxSummary = { totalRevenue: number; count: number };
 
 const COURSES = ["foundation", "core", "advanced", "masterclass"] as const;
 const COURSE_COLOR: Record<string, string> = {
@@ -17,15 +18,18 @@ const COURSE_LABEL: Record<string, string> = {
 export default function SuperDashboard() {
   const [stats,        setStats]        = useState<Stats | null>(null);
   const [availability, setAvailability] = useState<Record<string, string[]>>({});
+  const [txSummary,    setTxSummary]    = useState<TxSummary>({ totalRevenue: 0, count: 0 });
   const [loading,      setLoading]      = useState(true);
 
   useEffect(() => {
     Promise.all([
       apiGet<{ stats: Stats }>("/admin/stats"),
       apiGet<{ availability: Record<string, string[]> }>("/admin/r2-availability").catch(() => ({ availability: {} })),
-    ]).then(([s, a]) => {
+      apiGet<{ payments: { amount: number }[]; totalRevenue: number }>("/admin/transactions").catch(() => ({ payments: [], totalRevenue: 0 })),
+    ]).then(([s, a, t]) => {
       setStats(s.stats);
       setAvailability(a.availability ?? {});
+      setTxSummary({ totalRevenue: t.totalRevenue ?? 0, count: (t.payments ?? []).length });
     }).finally(() => setLoading(false));
   }, []);
 
@@ -60,7 +64,7 @@ export default function SuperDashboard() {
       ) : (
         <>
           {/* ── Stat cards ── */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-7">
             {[
               {
                 label: "Total Users", value: stats?.totalUsers ?? 0,
@@ -82,6 +86,11 @@ export default function SuperDashboard() {
                 icon: <IcoBook />, color: "#D4A621", bg: "#FEF9EC",
                 link: undefined, hint: `${uploadedLectures} / ${totalLectures} lectures live`,
               },
+              {
+                label: "Total Revenue", value: `₹${txSummary.totalRevenue.toLocaleString("en-IN")}`,
+                icon: <IcoReceipt />, color: "#0F766E", bg: "#F0FDFA",
+                link: "/panel/super/transactions", hint: `${txSummary.count} paid orders →`,
+              },
             ].map((s) => (
               <div key={s.label}
                 className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-all group"
@@ -98,7 +107,7 @@ export default function SuperDashboard() {
                     </Link>
                   )}
                 </div>
-                <p className="text-[30px] font-bold text-slate-800 leading-none">{s.value.toLocaleString()}</p>
+                <p className="text-[30px] font-bold text-slate-800 leading-none">{typeof s.value === "number" ? s.value.toLocaleString() : s.value}</p>
                 <p className="text-[11px] font-semibold text-slate-500 mt-1">{s.label}</p>
                 {!s.link && <p className="text-[10px] text-slate-400 mt-0.5">{s.hint}</p>}
               </div>
@@ -188,12 +197,13 @@ export default function SuperDashboard() {
           {/* ── Quick actions ── */}
           <div>
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">Quick Actions</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
               {[
                 { to: "/panel/super/users",  label: "Manage Users",   sub: "View, promote, grant access",       icon: <IcoUsers />,  color: "#1E5AA6" },
                 { to: "/panel/super/admins", label: "Manage Admins",  sub: "Profile, seat quotas, search",      icon: <IcoShield />, color: "#7C3AED" },
                 { to: "/panel/admin/grant",  label: "Grant Access",   sub: "Bulk or manual course access",      icon: <IcoKey />,    color: "#21864E" },
                 { to: "/panel/admin",        label: "Admin Dashboard",sub: "View enrolled users & usage",       icon: <IcoChart />,  color: "#D4A621" },
+                { to: "/panel/super/transactions", label: "Transactions", sub: "Payment history & revenue", icon: <IcoReceipt />, color: "#0F766E" },
               ].map((a) => (
                 <Link key={a.to} to={a.to}
                   className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all group">
@@ -227,4 +237,7 @@ function IcoKey() {
 }
 function IcoBook() {
   return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
+}
+function IcoReceipt() {
+  return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>;
 }

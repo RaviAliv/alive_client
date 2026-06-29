@@ -73,6 +73,8 @@ export default function PanelLayout() {
               <NavItem to="/panel/super" end label="Dashboard" icon={<IcoGrid />} />
               <NavItem to="/panel/super/users" label="All Users" icon={<IcoUsers />} />
               <NavItem to="/panel/super/admins" label="Manage Admins" icon={<IcoShield />} />
+              <NavItem to="/panel/super/transactions" label="Transactions" icon={<IcoReceipt />} />
+              <NavItem to="/panel/super/video-mapping" label="Video Mapping" icon={<IcoLink />} />
 
               <SectionLabel>Admin Panel</SectionLabel>
               <NavItem to="/panel/admin" end label="Admin Dashboard" icon={<IcoChart />} />
@@ -90,8 +92,8 @@ export default function PanelLayout() {
 
           {role === "user" && (
             <>
-              <SectionLabel>My Access</SectionLabel>
-              <NavItem to="/panel/my-courses" label="My Courses" icon={<IcoBook />} />
+              <SectionLabel>My Learning</SectionLabel>
+              <NavItem to="/panel/my-courses" label="My Courses & Payments" icon={<IcoBook />} />
               <NavItem to="/video" label="Video Library" icon={<IcoPlay />} />
             </>
           )}
@@ -167,4 +169,10 @@ function IcoHome() {
 }
 function IcoPlay() {
   return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+}
+function IcoReceipt() {
+  return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>;
+}
+function IcoLink() {
+  return <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>;
 }

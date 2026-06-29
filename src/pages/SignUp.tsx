@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
-import { apiPost, ApiError } from "../lib/api";
+import { apiPost } from "../lib/api";
 import { useAuth, type AuthUser } from "../context/AuthContext";
 
 const labelCls =
@@ -216,13 +216,14 @@ export default function SignUp() {
 
   const handleResendOtp = async () => {
     if (cooldown > 0) return;
+    setOtpError(null);
     try {
       await apiPost("/auth/send-otp", { email: otpEmail });
       setCooldown(60);
       setOtp(["", "", "", "", "", ""]);
       otpRefs.current[0]?.focus();
-    } catch {
-      /* ignore */
+    } catch (err) {
+      setOtpError(err instanceof Error ? err.message : "Failed to resend. Please try again.");
     }
   };
 

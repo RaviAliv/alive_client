@@ -33,7 +33,12 @@ function authHeaders(opts: ApiOptions = {}): Record<string, string> {
 
 async function parseResponse<T>(res: Response): Promise<T> {
   const data = (await res.json().catch(() => ({}))) as { message?: string; code?: string; email?: string };
-  if (!res.ok) throw new ApiError(data.message || "Something went wrong. Please try again.", data.code, data.email);
+  if (!res.ok) {
+    if (data.code === "SESSION_INVALIDATED") {
+      window.dispatchEvent(new CustomEvent("session-invalidated"));
+    }
+    throw new ApiError(data.message || "Something went wrong. Please try again.", data.code, data.email);
+  }
   return data as T;
 }
 
@@ -69,6 +74,21 @@ export async function apiPatch<T = unknown>(path: string, body: unknown, opts: A
   try {
     res = await fetch(`${BASE_URL}${path}`, {
       method: "PATCH",
+      headers: { "Content-Type": "application/json", ...authHeaders(opts) },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new Error("Can't reach the server. Please try again later.");
+  }
+  return parseResponse<T>(res);
+}
+
+/** PUT JSON — auto-attaches stored auth token. */
+export async function apiPut<T = unknown>(path: string, body: unknown, opts: ApiOptions = {}): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json", ...authHeaders(opts) },
       body: JSON.stringify(body),
     });

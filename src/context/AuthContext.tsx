@@ -28,6 +28,7 @@ type AuthValue = {
   clearKicked: () => void;
 };
 
+
 const STORAGE_KEY = "star_auth";
 const AuthContext = createContext<AuthValue | undefined>(undefined);
 
@@ -53,6 +54,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setInitialized(true);
     }
+  }, []);
+
+  // Instant kick: any API call that returns SESSION_INVALIDATED dispatches this event.
+  useEffect(() => {
+    const onKick = () => { setSessionKicked(true); hardLogout(); };
+    window.addEventListener("session-invalidated", onKick);
+    return () => window.removeEventListener("session-invalidated", onKick);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Validate the stored token against the server.
