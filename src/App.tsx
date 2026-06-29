@@ -31,6 +31,8 @@ import GrantAccess from "./panel/admin/GrantAccess";
 import SuperDashboard from "./panel/superadmin/Dashboard";
 import AllUsers from "./panel/superadmin/Users";
 import ManageAdmins from "./panel/superadmin/Admins";
+import Transactions from "./panel/superadmin/Transactions";
+import VideoMapping from "./panel/superadmin/VideoMapping";
 
 export default function App() {
   return (
@@ -77,6 +79,8 @@ export default function App() {
               <Route path="super" element={<SuperDashboard />} />
               <Route path="super/users" element={<AllUsers />} />
               <Route path="super/admins" element={<ManageAdmins />} />
+              <Route path="super/transactions" element={<Transactions />} />
+              <Route path="super/video-mapping" element={<VideoMapping />} />
             </Route>
           </Route>
 

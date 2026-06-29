@@ -103,12 +103,15 @@ export default function Login() {
   };
   const handleResendOtp = async () => {
     if (cooldown > 0) return;
+    setOtpError(null);
     try {
       await apiPost("/auth/send-otp", { email: otpEmail });
       setCooldown(60);
       setOtp(["", "", "", "", "", ""]);
       otpRefs.current[0]?.focus();
-    } catch { /* ignore */ }
+    } catch (err) {
+      setOtpError(err instanceof Error ? err.message : "Failed to resend. Please try again.");
+    }
   };
 
   const validate = (): Errors => {
