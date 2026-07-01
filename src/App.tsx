@@ -4,7 +4,7 @@ import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import FacultyPage from "./pages/FacultyPage";
+// import FacultyPage from "./pages/FacultyPage"; // hidden
 import CoursesPage from "./pages/CoursesPage";
 import FoundationPage from "./pages/course/FoundationPage";
 import FoundationLecturePage from "./pages/course/FoundationLecturePage";
@@ -28,6 +28,7 @@ import PanelIndex from "./panel/shared/PanelIndex";
 import MyCourses from "./panel/student/MyCourses";
 import AdminDashboard from "./panel/admin/Dashboard";
 import GrantAccess from "./panel/admin/GrantAccess";
+import MyStudents from "./panel/admin/MyStudents";
 import SuperDashboard from "./panel/superadmin/Dashboard";
 import AllUsers from "./panel/superadmin/Users";
 import ManageAdmins from "./panel/superadmin/Admins";
@@ -50,7 +51,7 @@ export default function App() {
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
             <Route path="reset-password" element={<ResetPasswordPage />} />
             <Route path="about" element={<AboutPage />} />
-            <Route path="faculty" element={<FacultyPage />} />
+            <Route path="faculty" element={<Navigate to="/" replace />} />
             <Route path="courses" element={<CoursesPage />} />
             <Route path="course/foundation" element={<FoundationPage />} />
             <Route path="course/foundation/enroll" element={<FoundationEnrollPage />} />
@@ -76,6 +77,7 @@ export default function App() {
               <Route path="my-courses" element={<MyCourses />} />
               <Route path="admin" element={<AdminDashboard />} />
               <Route path="admin/grant" element={<GrantAccess />} />
+              <Route path="admin/students" element={<MyStudents />} />
               <Route path="super" element={<SuperDashboard />} />
               <Route path="super/users" element={<AllUsers />} />
               <Route path="super/admins" element={<ManageAdmins />} />

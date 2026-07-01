@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
 import { foundationConfig } from "./course/data/foundation";
 import { coreConfig } from "./course/data/core";
@@ -105,8 +104,12 @@ export default function HomePage() {
             <h1 className="font-arial font-medium text-[clamp(35px,0.2vw,26px)] leading-[1.08] tracking-[-0.02em] text-ivory mb-4">
               Reproductive medicine, taught the way it deserves to be
             </h1>
-            <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-6 max-w-[520px]">
-              A step-wise learning platform in infertility and reproduction, from the biology behind every decision to the techniques at the edge of the field. For clinicians and trainees.            </p>
+            <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-2 max-w-[520px]">
+              A stepwise learning platform in Infertility and Reproductive Endocrinology
+Built to strengthen fundamentals, sharpen clinical reasoning, and translate biology into better patient care and outcomes. <br/>
+</p><p className="text-white text-[clamp(10px,1vw,15px)]  text-bold leading-[1.55] mb-2 max-w-[520px]">LIVE 60 Minutes With Dr. Sunita Tandulwadkar Followed by Q&A
+</p>
+
             <div className="flex gap-2.5 flex-wrap justify-center md:justify-start mb-6">
               <Link
                 to="/course/foundation/lecture/01"
@@ -121,19 +124,27 @@ export default function HomePage() {
                 See the Curriculum <span className={arrow}>&rarr;</span>
               </Link>
             </div>
-            <div className="flex gap-3 flex-wrap justify-center md:justify-start font-mono text-[10px] text-gold tracking-[0.15em] uppercase">
-              <span>SIX LECTURES</span>
-              <span className="text-gold-deep opacity-60">/</span>
-              <span>EVERY WEDNESDAY</span>
-              <span className="text-gold-deep opacity-60">/</span>
-              <span>LIVE ON ZOOM</span>
+            <div className="flex gap-3 flex-wrap items-center justify-center md:justify-start font-mono text-[10px] tracking-[0.15em] uppercase">
+              <Link
+                to="/course/foundation"
+                className="text-gold border border-gold/30 px-3 py-1 rounded-md transition-all duration-300 hover:border-gold/70 hover:text-gold-light"
+                style={{ boxShadow: "0 0 10px rgba(197,164,109,0.15), inset 0 0 8px rgba(197,164,109,0.04)" }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 18px rgba(197,164,109,0.45), 0 0 36px rgba(197,164,109,0.18), inset 0 0 10px rgba(197,164,109,0.08)")}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 0 10px rgba(197,164,109,0.15), inset 0 0 8px rgba(197,164,109,0.04)")}
+              >
+                Explore Lecture Series
+              </Link>
+              <span className="text-gold-deep opacity-50">|</span>
+              <span className="text-gold">Every Wednesday</span>
+              <span className="text-gold-deep opacity-50">|</span>
+              <span className="text-gold">Live on Zoom</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* THESIS */}
-      <section className="relative bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center py-15 overflow-hidden">
+      <section className="relative bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center py-[clamp(48px,6vw,72px)] overflow-hidden">
         <div className="max-w-[1100px] mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-start relative z-[1]">
           <div>
             {/* Only the eyebrow + heading are centered */}
@@ -156,7 +167,7 @@ export default function HomePage() {
               directly by one of India's most respected pioneers in the field
             </p>
             <div className="mt-9 font-display italic text-[clamp(20px,1.8vw,26px)] text-gold-deep pl-5 border-l-2 border-gold">
-              Four tiers. One continuous pathway. Twenty-seven lectures.
+              Four tiers. One continuous pathway. Fourty plus lectures.
             </div>
           </div>
           <div className="md:sticky md:top-[120px] flex md:flex-col flex-row md:gap-3 gap-3 items-center md:pl-5 pl-0 md:border-l md:border-t-0 border-t border-gold-deep md:pt-0 pt-5">
@@ -183,12 +194,12 @@ export default function HomePage() {
       </section>
 
       {/* TIER CARDS */}
-      <section className="pt-[clamp(20px,8vw,40px)] pb-[clamp(70px,10vw,150px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
+      <section className="py-[clamp(48px,6vw,52px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
-          <div className="text-center max-w-[720px] mx-auto mb-12">
+          <div className="text-center max-w-[820px] mx-auto mb-12">
             <span className={`${eyebrowGold} mb-[18px]`}>The Pathway</span>
-            <h2 className="font-display font-medium text-[clamp(30px,3.8vw,38px)] leading-[1.1] text-ivory">
-              Four tiers. One continuous academic pathway
+            <h2 className="font-display font-medium text-[clamp(20px,3.8vw,38px)] leading-[1.1] text-ivory">
+              One Pathway, Four Stages, 40+ Lectures
             </h2>
           </div>
 
@@ -205,7 +216,7 @@ export default function HomePage() {
                 title: "Foundation",
                 subTitle: "Foundation of Reproductive Medicine",
                 desc: "The basics, taught like they decide everything. Rebuild the biology that quietly governs every cycle you manage.",
-                lectures: "5 Lectures",
+                lectures: "6 Lectures",
                 to: "/course/foundation",
                 cta: "Explore",
                 live: true,
@@ -222,7 +233,7 @@ export default function HomePage() {
                 title: "Core",
                 subTitle: "Core Clinical Skills",
                 desc: "Where most pregnancies are actually won. The judgment behind the everyday cases, and the pelvic factors working against them.",
-                lectures: "5 Lectures",
+                lectures: "6 Lectures",
                 to: "/course/core",
                 cta: "Explore",
                 live: false,
@@ -317,57 +328,51 @@ export default function HomePage() {
                       </h3>
                     </div>
                     <p className="text-[13.5px] leading-[1.72] text-soft-black mb-3 flex-1">{c.desc}</p>
-                    <div className="flex items-center gap-3 mb-2 pb-3 border-b border-border-warm">
-                      <span className={`flex items-center gap-1.5 font-bold text-[10.5px] tracking-[0.15em] uppercase ${c.accentText} before:content-[''] before:w-1 before:h-1 before:rounded-full before:bg-current`}>
-                        {c.lectures}
-                      </span>
-                      <span className="w-px h-3 bg-border-warm" />
-                      <span className="font-mono text-[10.5px] tracking-[0.15em] uppercase font-bold text-gold">Live on Zoom</span>
-                    </div>
-
-                    {/* Lecture list — overlays the card instead of pushing layout */}
-                    <div className="relative mb-3">
-                      <button
-                        type="button"
-                        onClick={() => setExpandedTier(isExpanded ? null : c.title)}
-                        aria-expanded={isExpanded}
-                        className="flex items-center justify-between gap-2 w-full font-mono text-[10px] tracking-[0.18em] uppercase text-slate hover:text-navy transition-colors"
-                      >
-                        <span>{isExpanded ? "Hide Lectures" : "View Lectures"}</span>
-                        <svg
-                          className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
-                          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                    {/* View Lectures — Foundation only */}
+                    {c.to === "/course/foundation" && (
+                      <div className="relative mb-3 pb-3 border-b border-border-warm">
+                        <button
+                          type="button"
+                          onClick={() => setExpandedTier(isExpanded ? null : c.title)}
+                          aria-expanded={isExpanded}
+                          className="flex items-center justify-between gap-2 w-full font-mono text-[10px] tracking-[0.18em] uppercase text-slate hover:text-navy transition-colors"
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-
-                      {isExpanded && (
-                        <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-white border border-border-warm shadow-[0_20px_45px_-12px_rgba(30,42,68,0.35)] max-h-[260px] overflow-y-auto animate-fade-in">
-                          <ul className="list-none m-0 p-0 divide-y divide-border-warm">
-                            {c.lectureList.map((l) => (
-                              <li key={l.id}>
-                                <Link
-                                  to={l.detailPath || c.to}
-                                  onClick={() => setExpandedTier(null)}
-                                  className="flex items-center gap-3 px-4 py-2.5 group/lec hover:bg-black/[0.03] transition-colors"
-                                >
-                                  <span className={`font-display font-medium text-[13px] shrink-0 w-6 ${c.accentText}`}>{l.no}</span>
-                                  <span className="text-[12.5px] text-soft-black leading-snug group-hover/lec:text-navy">{l.title}</span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-
+                          <span>{isExpanded ? "Hide Lectures" : "View Lectures"}</span>
+                          <svg
+                            className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {isExpanded && (
+                          <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-white border border-border-warm shadow-[0_20px_45px_-12px_rgba(30,42,68,0.35)] max-h-[260px] overflow-y-auto animate-fade-in">
+                            <ul className="list-none m-0 p-0 divide-y divide-border-warm">
+                              {c.lectureList.map((l) => (
+                                <li key={l.id}>
+                                  <Link
+                                    to={l.detailPath || c.to}
+                                    onClick={() => setExpandedTier(null)}
+                                    className="flex items-center gap-3 px-4 py-2.5 group/lec hover:bg-black/[0.03] transition-colors"
+                                  >
+                                    <span className={`font-display font-medium text-[13px] shrink-0 w-6 ${c.accentText}`}>{l.no}</span>
+                                    <span className="text-[12.5px] text-soft-black leading-snug group-hover/lec:text-navy">{l.title}</span>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
                     <Link
                       to={c.to}
-                      className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]  "
+                      className="group/btn mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]"
                     >
-                      {c.cta}
-                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
+                      {c.to === "/course/foundation" ? c.cta : "Coming Soon"}
+                      {c.to === "/course/foundation" && (
+                        <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">&rarr;</span>
+                      )}
                     </Link>
                   </div>
                 </div>
@@ -378,7 +383,7 @@ export default function HomePage() {
       </section>
 
       {/* Separator strip */}
-      <div className="bg-ivory border-y border-gold/30 py-10 px-[clamp(20px,4vw,80px)]">
+      <div className="bg-ivory border-y border-gold/30 py-10 px-[clamp(20px,4vw,52px)]">
         <div className="max-w-[1280px] mx-auto">
           {/* Top ornament */}
           <div className="flex items-center justify-center gap-3 mb-8">
@@ -389,15 +394,23 @@ export default function HomePage() {
           {/* Stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gold/40 border border-gold/40">
             {[
-              { num: "27", label: "Total Lectures", sub: "Across 4 tiers" },
-              { num: "4", label: "Tiers in Pathway", sub: "Foundation to Masterclass" },
-              { num: "35+", label: "Years Experience", sub: "Dr. Sunita Tandulwadkar" },
-              { num: "Live", label: "Every Session", sub: "Interactive on Zoom" },
+              { num: "40+",  label: "Total Lectures",  sub: "Across 4 tiers"          },
+              { num: "4",    label: "Tiers in Pathway", sub: "Foundation to Masterclass" },
+              { num: "35+",  label: "Years Experience", sub: "Dr. Sunita Tandulwadkar"  },
+              { num: "live", label: "Every Session",    sub: "LIVE followed by Q&A"      },
             ].map((s) => (
               <div key={s.label} className="bg-ivory flex flex-col items-center justify-center py-4 px-4 text-center gap-1.5">
-                <span className="font-body font-bold text-[clamp(34px,3.8vw,42px)] leading-none text-navy tracking-tight">{s.num}</span>
+                {s.num === "live" ? (
+                  <img
+                    src="/images/liveLogo.png"
+                    alt="Live"
+                    className="h-9 w-auto object-contain mb-0.5"
+                  />
+                ) : (
+                  <span className="font-body font-bold text-[clamp(34px,3.8vw,42px)] leading-none text-navy tracking-tight">{s.num}</span>
+                )}
                 <span className="font-mono text-[9.5px] font-semibold tracking-[0.24em] uppercase text-gold-deep mt-1">{s.label}</span>
-                <span className="font-body text-[11px] text-slate leading-snug">{s.sub}</span>
+                <span className="font-body text-[13px] text-slate leading-snug">{s.sub}</span>
               </div>
             ))}
           </div>
@@ -405,96 +418,9 @@ export default function HomePage() {
       </div>
 
       {/* FACULTY SHORT */}
-      <section className="relative bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center text-ivory py-[clamp(38px,7vw,60px)] overflow-hidden">
-        {/* Decorative corner accents */}
-        <div className="absolute top-10 left-10 w-16 h-16 border-t border-l border-gold/40 z-[1] hidden md:block" />
-        <div className="absolute bottom-10 right-10 w-16 h-16 border-b border-r border-gold/40 z-[1] hidden md:block" />
-
-        <div className="relative z-[1] max-w-[1240px] mx-auto px-[clamp(20px,4vw,80px)]">
-          <div className="text-center max-w-[840px] mx-auto mb-5 md:mb-7">
-            <span className={`${eyebrowGold} block mb-2`}>The Faculty</span>
-            <p className="font-mono text-[11px] tracking-[0.20em] uppercase text-ivory/70 mb-2">
-              Built for the doctor who wants to think clearly, not just learn more
-            </p>
-            <h2 className="font-display font-medium  italic text-gold-deep text-[clamp(22px,3.4vw,30px)] leading-[1.15] tracking-[-0.01em] px-2 sm:px-0">
-              Founder and faculty, Academy of SRT
-            </h2>
-            <div className="mt-4 w-12 h-px bg-gold mx-auto" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-[0.78fr_1fr] gap-8 md:gap-12 lg:gap-14 items-stretch">
-            {/* Left: BookCard */}
-            <div className="relative mx-auto md:mx-0 self-center w-full max-w-[400px] md:max-w-none flex items-center justify-center">
-              {/* Atmospheric glow behind book */}
-              <div className="absolute inset-0 pointer-events-none">
-                {/* <div className="absolute inset-x-[10%] bottom-0 top-[20%] bg-[radial-gradient(ellipse_80%_70%_at_50%_90%,rgba(197,164,109,0.18),transparent_70%)]" />
-                <div className="absolute inset-x-[15%] inset-y-[10%] bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,rgba(197,164,109,0.08),transparent_65%)]" /> */}
-              </div>
-              <BookCard large />
-            </div>
-
-            {/* Right: single cohesive panel */}
-            <div className="relative flex flex-col
-             justify-center bg-[rgba(10,14,22,0.5)] backdrop-blur-sm border border-gold/20 px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-7">
-              <p className="text-[15px] leading-[1.65] mb-4 max-w-[58ch]">
-                Dr. Sunita Tandulwadkar has spent over thirty-five years in IVF, endoscopy, and reproductive medicine. She heads the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune, founded Solo Clinic IVF, and co-founded ALIV Stem Cell Research.
-                She is President of ISAR for 2026-2028, and President FOGSI of 2025. Every lecture in the Academy is taught by her, in the same voice and the same method she uses with her own patients.
-              </p>
-
-              {/* Stat grid — 3 cols on sm+, 2 cols on xs with 3rd spanning full */}
-              <div className="grid grid-cols-3 gap-px bg-gold/20 border border-gold/20 mb-4">
-                {[
-                  { num: "35+", label: "Years Practice" },
-                  { num: "39", label: "Books Authored" },
-                  { num: "106+", label: "Peer Papers" },
-                ].map((s) => (
-                  <div
-                    key={s.label}
-                    className="bg-[rgba(10,14,22,0.7)] backdrop-blur-sm px-2 py-3 sm:px-3 text-center transition-colors duration-300 hover:bg-[rgba(10,14,22,0.85)]"
-                  >
-                    <div className="font-display font-semibold text-[clamp(22px,2.2vw,32px)] leading-none mb-1 bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)] bg-clip-text text-transparent">
-                      {s.num}
-                    </div>
-                    <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.10em] sm:tracking-[0.16em] uppercase text-ivory/70 leading-snug">
-                      {s.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <blockquote className="relative pl-5 mb-4 font-display italic text-[clamp(14px,1.2vw,18px)] text-gold-light leading-[1.5] before:content-[''] before:absolute before:left-0 before:top-1 before:bottom-1 before:w-[2px] before:bg-gradient-to-b before:from-gold before:via-gold-deep before:to-transparent">
-                In reproductive medicine, I do have an authority. In
-                regenerative medicine, India's first stem cell success, and
-                the world's first at the age of 45, goes to my credit.
-                <cite className="block mt-2 font-mono not-italic text-[10px] tracking-[0.20em] text-gold-deep uppercase">
-                  — Dr. Sunita Tandulwadkar
-                </cite>
-              </blockquote>
-
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-                {[
-                  "President, ISAR 2026–2028",
-                  "India's First Endoscopic Surgeon, 1994",
-                  "World's First Stem Cell Success at 45",
-                ].map((cred) => (
-                  <span
-                    key={cred}
-                    className="font-mono text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.16em] uppercase px-2.5 py-1.5 border border-gold-deep/60 text-gold-light bg-[rgba(197,164,109,0.06)] rounded-sm"
-                  >
-                    {cred}
-                  </span>
-                ))}
-              </div>
-
-              <Link to="/faculty" className="self-start inline-flex items-center gap-2 px-5 py-2.5 font-body font-medium text-[13px] tracking-[0.02em] border rounded-[2px] cursor-pointer transition-all duration-300 group bg-transparent text-gold border-gold hover:bg-gold hover:text-navy">
-                Read Dr. Sunita's full profile <span className={arrow}>&rarr;</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Faculty section hidden */}
       {/* 3-CARD MINI BLOCK */}
-      <section className="py-[clamp(48px,7vw,90px)] bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center">
+      <section className="py-[clamp(48px,7vw,52px)] bg-[linear-gradient(rgba(248,245,239,0.78),rgba(248,245,239,0.78)),url('/images/marble.webp')] bg-cover bg-center">
         <div className="max-w-[720px] mx-auto mb-5 text-center px-[clamp(20px,4vw,80px)]">
           <span className={`${eyebrow} mb-[18px]`}>The Academy</span>
           <h2 className="font-display font-medium text-[clamp(30px,3.8vw,38px)] leading-[1.1] text-navy mb-5">
@@ -521,7 +447,7 @@ export default function HomePage() {
             },
             {
               h: "Why it is different",
-              p: "Taught by an IVF and gynecologic endoscopy specialist with three decades of clinical practice. Focused on the decisions doctors actually make in the clinic. Built as a four-tier pathway, so each course continues where the last one ended.",
+              p: "Taught by a pioneer IVF & Gynaecologic endoscopy specialist with 35+ years of clinical practice. Focused on the decisions doctors actually make in the clinic. Built as a four-tier pathway, so each course continues where the last one ended.",
               videoId: "hsbi4Cv4B0U",
             },
           ].map((c) => (
@@ -531,13 +457,8 @@ export default function HomePage() {
 
       </section>
       {/* WHY JOIN */}
-      <section className=" pt-[clamp(50px,8vw,40px)] pb-[clamp(60px,10vw,120px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
-        <div className="max-w-[720px] mx-auto mb-20 text-center px-[clamp(20px,4vw,80px)]">
-          <span className={`${eyebrowGold} block mb-[10px]`}>Why STAR Academy</span>
-          <h2 className="font-display font-medium text-[clamp(30px,3.8vw,43px)] leading-[1.1] text-ivory">
-            Why doctors across India are choosing STAR
-          </h2>
-        </div>
+      <section className="py-[clamp(48px,6vw,52px)] bg-[linear-gradient(rgba(15,20,32,0.74),rgba(15,20,32,0.74)),url('/images/header_footer.webp')] bg-cover bg-center">
+        
 
         {[
           {
@@ -545,7 +466,7 @@ export default function HomePage() {
             src: "/images/mam.webp",
             eb: "Taught by a pioneer",
             h: "Learn directly from one of India's most authoritative voices in IVF.",
-            p: "Dr. Sunita Tandulwadkar has performed IVF and endoscopic surgery for more than three decades. She has led ISAR, IAGE, FOGSI, and PHOXI at the national level. STAR Academy is the first time her teaching is available in a structured, live, stepwise format directly to doctors across the country.",
+            p: "Dr. Sunita Tandulwadkar brings over 35 years to IVF and endoscopic surgery, and is widely recognised as India's first female endoscopic surgeon. Throughout her career she has authored over 39+ books and 93+ publications. She serves as Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune, Founder Solo IVF & ObGyn, and Co-Founder of ALIV Regenerative Wellness. One of the greatest achievements to her name was in the year 2018, when she delivered the world's first stem cell baby, to a 45-year-old woman.\n\nShe is currently President of ISAR (2026–2028) and Immediate Past President of FOGSI, and has led IAGE and POGS at the national level. Academy of SRT brings Dr. Sunita Tandulwadkar’s decades of clinical wisdom into a structured live interactive format, directly accessible to doctors across the globe.",
           }
           // {
           //   reverse: true,
@@ -564,29 +485,32 @@ export default function HomePage() {
         ].map((row, i) => (
           <div
             key={i}
-            className="max-w-[1280px] -mt-7 mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-20 items-center mb-[30px] md:mb-[100px] last:mb-0"
+            className="max-w-[1280px]  mx-auto px-[clamp(20px,4vw,80px)] grid grid-cols-1 md:grid-cols-2 gap-[10px] md:gap-16 items-center mb-[30px] md:mb-[100px] last:mb-0"
           >
-            <img
-              src={row.src}
-              alt={row.eb}
-              className={`w-full  h-auto rounded-xl ${row.reverse ? "md:order-2" : ""
-                }`}
-            />
+            <div className={`flex justify-center ${row.reverse ? "md:order-2" : ""}`}>
+              <img
+                src={row.src}
+                alt={row.eb}
+                className="w-full max-w-[450px] h-auto rounded-xl object-cover"
+              />
+            </div>
             <div>
-              <span className="text-md text-[#F7DB7D] font-mono  uppercase text-bold py-4 ">{row.eb}</span>
-              <h3 className="font-display font-medium text-[clamp(22px,2.4vw,30px)] text-ivory leading-[1.2] mt-3 mb-[18px]">
+              <span className="text-md text-[#F7DB7D] font-mono uppercase font-bold py-4">{row.eb}</span>
+              <h3 className="font-display font-medium text-[clamp(15px,2.4vw,20px)] text-ivory leading-[1.2] mt-3 mb-[18px]">
                 {row.h}
               </h3>
-              <p className="text-base leading-[1.75] text-ivory/80 max-w-[55ch]">
-                {row.p}
-              </p>
+              {row.p.split("\n\n").map((para, j) => (
+                <p key={j} className="text-base leading-[1.75] text-sm text-ivory/80 max-w-[55ch] mb-4 last:mb-0">
+                  {para}
+                </p>
+              ))}
             </div>
           </div>
         ))}
 
       </section>
       {/* ENROLLMENT CTA */}
-      <section className="bg-white py-[clamp(34px,4vw,62px)] px-[clamp(20px,4vw,80px)]">
+      <section className="bg-white py-[clamp(48px,6vw,72px)] px-[clamp(20px,4vw,80px)]">
         <div
           className="
       relative
@@ -611,7 +535,7 @@ export default function HomePage() {
           <div className="relative z-[3] max-w-[880px] mx-auto text-center px-[clamp(24px,5vw,56px)] py-[clamp(40px,6vw,70px)] text-ivory">
 
             <span className="inline-block font-mono text-[10px] sm:text-[12px] font-medium tracking-[0.15em] sm:tracking-[0.3em] uppercase text-gold mb-4 whitespace-nowrap">
-              Now Enrolling &middot; 15 July 2026
+              Now Enrolling &middot; 15th july 2026
             </span>
 
             <h2 className="font-display font-medium text-[clamp(16px,2vw,30px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
@@ -621,26 +545,20 @@ export default function HomePage() {
               </span>
             </h2>
 
-            <p className="text-[15px] leading-[1.7] text-ivory/80 max-w-[56ch] mx-auto mb-7">
+            <p className="text-[15px] leading-[1.7] text-ivory/80 max-w-[66ch] mx-auto mb-7">
               The Foundation Series runs live, every Wednesday at 8 PM IST.
-              Live Q&amp;A in every session. Seats are limited so the cohort
+              Interactive Q&amp;A in every session. Seats are limited so the cohort
               stays small enough for direct teaching.
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center">
               <Link
-                to="/course/foundation/lecture/01"
+                to="/course/foundation/enroll"
                 className="inline-flex items-center gap-2 px-7 py-3 font-body font-bold text-[15px] tracking-[0.02em] text-black rounded-xl bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] "
               >
                 Reserve Your Seat →
               </Link>
 
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-7 py-3 font-body font-medium text-[13px] tracking-[0.02em] border border-gold-light bg-transparent text-gold-light rounded-xl transition-all duration-300 hover:bg-gold-light hover:text-navy"
-              >
-                Speak to Our Team →
-              </Link>
             </div>
           </div>
         </div>
@@ -770,7 +688,7 @@ export default function HomePage() {
             </ul>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-6 border-t border-white/25">
               {[
-                "Commences 15 July 2026",
+                "Commences 15th july 2026",
                 "Wednesdays, 8:00 PM IST",
                 "Live on Zoom",
                 "Certificate on completion",

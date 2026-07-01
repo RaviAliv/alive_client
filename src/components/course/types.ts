@@ -23,8 +23,8 @@ export type CurriculumItem = {
 };
 
 export type CourseAction = {
-  /** "navigate" routes via react-router; "anchor" jumps to a page-local id. */
-  type: "navigate" | "anchor";
+  /** "navigate" routes via react-router; "anchor" opens an external/internal href; "notify-modal" opens Mailchimp notify popup. */
+  type: "navigate" | "anchor" | "notify-modal";
   target: string;
   label: string;
 };

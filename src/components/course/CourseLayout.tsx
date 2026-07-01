@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { THEMES, type CourseAction, type CourseConfig } from "./types";
+import MailchimpNotifyModal from "../MailchimpNotifyModal";
 
 function accentVars(accentHex: string): React.CSSProperties {
   const a = (decimal: number) =>
@@ -29,13 +30,22 @@ function ActionButton({
   className,
   style,
   children,
+  onNotify,
 }: {
   action: CourseAction;
   className: string;
   style?: React.CSSProperties;
   children: React.ReactNode;
+  onNotify?: () => void;
 }) {
   const navigate = useNavigate();
+  if (action.type === "notify-modal") {
+    return (
+      <button type="button" onClick={onNotify} className={className} style={style}>
+        {children}
+      </button>
+    );
+  }
   if (action.type === "anchor") {
     const external = action.target.startsWith("http");
     return (
@@ -56,11 +66,12 @@ function ActionButton({
   );
 }
 
-export default function CourseLayout({ course }: { course: CourseConfig }) {
+export default function CourseLayout({ course, heroOnly = false }: { course: CourseConfig; heroOnly?: boolean }) {
   const theme = THEMES[course.accent];
   const eyebrowCls = `font-mono text-[12px] font-medium tracking-[0.28em] uppercase ${theme.textAccent}`;
   const accentStyle = accentVars(theme.accentHex);
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const [notifyOpen, setNotifyOpen] = useState(false);
 
   const videoSrc = `https://www.youtube.com/embed/${course.videoId}?rel=0&modestbranding=1&color=white&autoplay=1`;
 
@@ -131,7 +142,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                 {course.titleSuffix && (
                   <>
                     <br />
-                    <span className={theme.textAccent}>{course.titleSuffix}</span>
+                    <span className={theme.textAccent} style={{ fontSize: "clamp(55px,3.2vw,64px)" }}>{course.titleSuffix}</span>
                   </>
                 )}
               </h1>
@@ -160,6 +171,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
 
               <ActionButton
                 action={course.primaryCta}
+                onNotify={() => setNotifyOpen(true)}
                 className={`group items-center gap-2.5 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white px-6 py-3 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 rounded-[3px] shadow-[0_4px_16px_-4px_var(--accent-40)] hover:shadow-[0_8px_24px_-4px_var(--accent-55)] hover:cursor-pointer lg:inline-flex hidden`}
               >
                 {course.primaryCta.label}
@@ -168,6 +180,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
               {/* Mobile CTA — below the badges */}
               <ActionButton
                 action={course.primaryCta}
+                onNotify={() => setNotifyOpen(true)}
                 className={`lg:hidden w-full flex items-center justify-center gap-2.5 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 rounded-[3px] group shadow-[0_4px_16px_-4px_var(--accent-40)]`}
               >
                 {course.primaryCta.label}
@@ -206,6 +219,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
 
               <ActionButton
                 action={course.primaryCta}
+                onNotify={() => setNotifyOpen(true)}
                 className={`lg:hidden mt-5 w-full flex items-center justify-center gap-2.5 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 rounded-[3px] group shadow-[0_4px_16px_-4px_var(--accent-40)]`}
               >
                 {course.primaryCta.label}
@@ -215,6 +229,9 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
           </div>
         </div>
       </section>
+
+      {/* ── SECTIONS BELOW HERO (hidden when heroOnly) ───────── */}
+      {!heroOnly && <>
 
       {/* ── LECTURE CARDS ────────────────────────────────────── */}
       <section className="pt-14 pb-10" style={{ background: theme.lightBg }}>
@@ -299,6 +316,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
                   >
                     <ActionButton
                       action={course.primaryCta}
+                      onNotify={() => setNotifyOpen(true)}
                       className="flex-1 inline-flex items-center justify-center gap-1.5 py-3 font-bold text-[11px] tracking-[0.16em] uppercase text-white transition-all duration-200 hover:brightness-110"
                       style={{ background: theme.accentHex } as React.CSSProperties}
                     >
@@ -321,9 +339,12 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
           </div>
 
           {/* Ribbon */}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a
-            href="#register"
-            className="group relative mt-6 block overflow-hidden rounded-[18px] border transition-all duration-300"
+            href={course.primaryCta.type === "notify-modal" ? undefined : "#register"}
+            role={course.primaryCta.type === "notify-modal" ? "button" : undefined}
+            onClick={course.primaryCta.type === "notify-modal" ? () => setNotifyOpen(true) : undefined}
+            className="group relative mt-6 block overflow-hidden rounded-[18px] border transition-all duration-300 cursor-pointer"
             style={{
               borderColor: `${theme.accentHex}55`,
               background: `linear-gradient(135deg, ${theme.darkBg} 0%, ${theme.videoStripBg} 45%, ${theme.videoFrameBg} 100%)`,
@@ -442,6 +463,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
 
                   <ActionButton
                     action={course.asidePrimaryCta}
+                    onNotify={() => setNotifyOpen(true)}
                     className={`w-full flex items-center justify-center gap-2 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white py-3 font-body font-semibold text-[13px] tracking-[0.03em] transition-all duration-200 group mb-2.5 rounded-[3px]`}
                   >
                     {course.asidePrimaryCta.label}
@@ -617,6 +639,7 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
 
                 <ActionButton
                   action={course.panelCta}
+                  onNotify={() => setNotifyOpen(true)}
                   className={`w-full inline-flex items-center justify-center gap-2 ${theme.bgAccent} hover:brightness-110 active:brightness-95 text-white py-3.5 font-mono text-[10.5px] font-semibold tracking-[0.18em] uppercase rounded-[3px] transition-all duration-200 group`}
                 >
                   {course.panelCta.label}
@@ -629,6 +652,16 @@ export default function CourseLayout({ course }: { course: CourseConfig }) {
           </div>
         </div>
       </section>
+
+      </>}
+
+      <MailchimpNotifyModal
+        isOpen={notifyOpen}
+        onClose={() => setNotifyOpen(false)}
+        accentHex={theme.accentHex}
+        courseLabel={course.title}
+        courseSlug={course.slug}
+      />
     </div>
   );
 }

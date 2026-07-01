@@ -59,7 +59,7 @@ const SOCIALS = [
 const FAQS = [
   {
     q: "How is the Foundation Series delivered?",
-    a: "Live on Zoom every Wednesday at 8 PM IST. Five lectures, taught directly by Dr. Sunita Tandulwadkar.",
+    a: "Live on Zoom every Wednesday at 8 PM IST. Six lectures, taught directly by Dr. Sunita Tandulwadkar.",
   },
   {
     q: "Will I get a recording if I miss a class?",

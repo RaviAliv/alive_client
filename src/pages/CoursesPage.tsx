@@ -2,7 +2,44 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Accordion from "../components/Accordion";
 import EnquiryModal from "../components/EnquiryModal";
-import { VIDEOS, ENROLL_URL } from "../lib/config";
+import { ENROLL_URL } from "../lib/config";
+
+function VideoEmbed() {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className="relative w-full pt-[56.25%] bg-black">
+      {playing ? (
+        <iframe
+          src="https://www.youtube.com/embed/lpszkLNcEnw?rel=0&modestbranding=1&autoplay=1"
+          title="Dr. Sunita Tandulwadkar — STAR Academy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full border-0"
+        />
+      ) : (
+        <button
+          className="absolute inset-0 w-full h-full group"
+          onClick={() => setPlaying(true)}
+          aria-label="Play video"
+        >
+          <img
+            src="/images/courses.webp"
+            alt="STAR Academy course overview"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-200" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-200">
+              <svg className="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5.14v14l11-7-11-7z" />
+              </svg>
+            </div>
+          </div>
+        </button>
+      )}
+    </div>
+  );
+}
 
 type Lecture = { num: string; title: string; body: string };
 
@@ -38,32 +75,37 @@ const courses: Course[] = [
     lectures: [
       {
         num: "01",
-        title: "The Complete Arc of the Ovarian Cycle",
+        title: "HPO Axis: From Physiology to Precision",
         body: "How an oocyte matures over 300 days, and why every clinical decision sits on this biology.",
       },
       {
         num: "02",
-        title: "Ovulation, Triggering, and Timing",
-        body: "When to trigger, what makes it succeed or fail, and how to adapt when the textbook playbook breaks.",
+        title: "The Endocrine Architecture of Follicular Phase — From Endocrinology to Survival of the Fittest Follicle",
+        body: "The hormonal cascade of the follicular phase and the selection of the dominant follicle.",
       },
       {
         num: "03",
-        title: "Reading the Luteal Phase as a Clinical Signal",
-        body: "The corpus luteum as a diagnostic compass, and how to support it intelligently.",
+        title: "Ovulation: From Follicle Destiny to Follicle Rupture — The 350-Day Symphony",
+        body: "When to trigger, what makes it succeed or fail, and how to adapt when the textbook playbook breaks.",
       },
       {
         num: "04",
-        title: "The Molecular Dialogue of Implantation",
-        body: "Implantation as a conversation between embryo and endometrium, not a timing problem.",
+        title: "Luteal Phase: Physiology, Endocrinology and Clinical Importance",
+        body: "The corpus luteum as a diagnostic compass, and how to support it intelligently.",
       },
       {
         num: "05",
-        title: "The Precision Diagnostic Road Map",
-        body: "How to evaluate a fertility patient with precision, not breadth.",
+        title: "Spermatogenesis: From Germ Cell Development to Semen Analysis, Genetics to Clinical Terminologies",
+        body: "Spermatogenesis from stem cell to ejaculated sperm and how to read the semen analysis as a clinical document.",
+      },
+      {
+        num: "06",
+        title: "Implantation: From Endometrial Receptivity to Endometrium–Embryo Dialogue",
+        body: "Implantation as a conversation between embryo and endometrium, not a timing problem.",
       },
     ],
     schedule: {
-      date: "Commences 15 July 2026",
+      date: "Commences 15th july 2026",
       cadence: "Every Wednesday",
       time: "8:00 PM IST",
       format: "Live on Zoom",
@@ -86,28 +128,28 @@ const courses: Course[] = [
     lectures: [
       {
         num: "01",
-        title: "Male Factor Without the Guesswork",
-        body: "How to read the semen picture, what to act on, and how male factor reshapes the couple's plan.",
+        title: "Female Infertility Evaluation: A Roadmap — A Sequential, Evidence-Based and Phenotype-Driven Approach",
+        body: "How to evaluate a fertility patient with precision — sequential, evidence-anchored, and phenotype-driven.",
       },
       {
         num: "02",
-        title: "Oocyte Quality and the Follicular Environment",
-        body: "What actually determines oocyte quality, and why the follicular microenvironment matters.",
+        title: "Precision Ovulation Induction with Letrozole — A Clinical Masterclass in Protocols, Monitoring and Patient Journey",
+        body: "Letrozole protocols in depth — patient selection, dosing, monitoring, and the clinical decisions that follow.",
       },
       {
         num: "03",
-        title: "Ovulation Induction for IUI",
-        body: "When to induce, what to use, and how to match the strategy to the patient.",
+        title: "Gonadotropin Ovulation Induction for IUI: History, Molecules, Protocols, Monitoring, Evidence and Clinical Decision-Making",
+        body: "When to use gonadotropins for IUI, how to manage them, and the evidence behind every decision point.",
       },
       {
         num: "04",
-        title: "Monitoring and Optimising the IUI",
-        body: "What to watch, what to ignore, and how to time insemination with precision.",
+        title: "Optimizing IUI Results: From Couple Selection to Stimulation, Timing, Support and Strategy",
+        body: "The full IUI workflow — selection, induction, monitoring, trigger timing, and luteal support.",
       },
       {
         num: "05",
-        title: "The Hidden Pelvic and Inflammatory Drivers",
-        body: "The silent contributors to infertility that most workups miss.",
+        title: "Unravelling Oligoasthenoteratozoospermia: From Molecular Pathogenesis to Evidence-Based Management — Advanced Medical / Surgical and ART Management",
+        body: "Reading severe male factor as a decision sequence — from semen analysis to surgical retrieval and ART.",
       },
     ],
     schedule: {
@@ -126,7 +168,7 @@ const courses: Course[] = [
     title: "The Advanced Series",
     img: "/images/Advanced.webp",
     body:
-      "IVF practising tips and tactical execution tricks. Seven live lectures on stimulation, OHSS prevention, retrieval technique, embryology for clinicians, transfer mechanics, and ovarian rejuvenation.",
+      "IVF practising tips and tactical execution tricks. Eight live lectures on stimulation, OHSS prevention, retrieval technique, embryology for clinicians, difficult embryo transfer, oocyte quality, and FET preparation.",
     outcome:
       "To make IVF decisions with tactical precision, from stimulation choice through to transfer mechanics.",
     why:
@@ -134,32 +176,32 @@ const courses: Course[] = [
     lectures: [
       {
         num: "01",
-        title: "Stimulation Strategy in IVF",
+        title: "Choosing the Right Stimulation Protocol & Troubleshooting in Stimulation",
         body: "Building protocols that match the patient, not the textbook.",
       },
       {
         num: "02",
-        title: "OHSS Prevention and Management",
+        title: "OHSS Prevention and Safety",
         body: "Reading risk early, choosing the right trigger, and managing when prevention fails.",
       },
       {
         num: "03",
-        title: "The Retrieval, Done Right",
+        title: "Oocyte Retrieval Tips and Tricks — Difficult Ovaries / Bleeding Avoidance",
         body: "Technique, timing, and the small decisions that change yield and safety.",
       },
       {
         num: "04",
-        title: "Embryology for the Clinician",
+        title: "Embryology for Clinicians — Grading, Lab Variables, Decision Points",
         body: "What happens in the lab and what every IVF doctor should know about it.",
       },
       {
         num: "05",
-        title: "The Implantation Window",
+        title: "Optimizing IVF Implantation",
         body: "How to think about endometrial receptivity in practical, clinical terms.",
       },
     ],
     lecturesNote:
-      "Plus two further lectures on transfer mechanics and ovarian rejuvenation. See the full Advanced page for the complete curriculum.",
+      "Plus three further lectures on difficult embryo transfer, oocyte quality and FET preparation. See the full Advanced page for the complete curriculum.",
     schedule: {
       date: "Launch date to be announced",
       cadence: "Every Wednesday",
@@ -184,32 +226,32 @@ const courses: Course[] = [
     lectures: [
       {
         num: "01",
-        title: "IUI Masterclass",
-        body: "Refining IUI practice to its highest expression.",
-      },
-      {
-        num: "02",
-        title: "Endometriosis and Fertility",
+        title: "Endometriosis and Infertility — Optimizing IVF Results in Endometriosis",
         body: "Approaching one of the most complex drivers of subfertility.",
       },
       {
-        num: "03",
-        title: "Unexplained Infertility",
+        num: "02",
+        title: "Unexplained Infertility — Redefining Idiopathic Infertility through High-Resolution Diagnostics",
         body: "Working through the cases where the workup is normal but the conception is not.",
       },
       {
-        num: "04",
+        num: "03",
         title: "Recurrent Implantation Failure",
         body: "The investigative and therapeutic logic for one of IVF's hardest scenarios.",
       },
       {
-        num: "05",
-        title: "Recurrent Pregnancy Loss",
+        num: "04",
+        title: "Recurrent Pregnancy Losses — A Masterclass in Etiology, Diagnosis and Precision Management",
         body: "A structured framework for evaluating and treating recurrent miscarriage.",
+      },
+      {
+        num: "05",
+        title: "Diminished Ovarian Reserve — Strategy, Protocols, Expectations",
+        body: "The protocols that maximise the cycle without overpromising.",
       },
     ],
     lecturesNote:
-      "Plus five further lectures on diminished ovarian reserve, biological therapies, myoma management, male factor and azoospermia, and PCOS. See the full Masterclass page for the complete curriculum.",
+      "Plus seven further lectures on ovarian rejuvenation, myoma, azoospermia, PCOS, refractory endometrium, obesity and advances in ART. See the full Masterclass page for the complete curriculum.",
     schedule: {
       date: "Launch date to be announced",
       cadence: "Every Wednesday",
@@ -316,15 +358,7 @@ export default function CoursesPage() {
           {/* Right: video */}
           <div className="flex flex-col gap-4">
             <div className="relative w-full overflow-hidden border border-gold/25 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.7)]">
-              <div className="relative w-full pt-[56.25%] bg-black">
-                <iframe
-                  src={`https://www.youtube.com/embed/${VIDEOS.foundationIntro}?rel=0&modestbranding=1`}
-                  title="Dr. Sunita Tandulwadkar — STAR Academy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full border-0"
-                />
-              </div>
+              <VideoEmbed />
               <div className="flex items-center justify-between border-t border-gold/20 bg-black/75 backdrop-blur-sm px-5 py-3">
                 <p className="font-display italic text-ivory text-[13px] leading-none">Dr. Sunita Tandulwadkar</p>
                 <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-gold/50">STAR Academy</span>
@@ -597,62 +631,7 @@ export default function CoursesPage() {
       ))}
 
       {/* FACULTY MINI-SECTION */}
-      <section className="py-[clamp(56px,8vw,50px)] bg-[linear-gradient(rgba(248,245,239,0.88),rgba(248,245,239,0.88)),url('/images/marble.webp')] bg-cover bg-center border-t border-border-warm">
-        <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
-
-            {/* Left — text */}
-            <div>
-              <span className="inline-block font-mono text-[15px] font-medium tracking-[0.26em] uppercase text-gold-deep mb-4">
-                The Faculty
-              </span>
-              <h2 className="font-display font-medium text-[clamp(26px,3vw,40px)] leading-[1.15] text-navy mb-5 tracking-[-0.015em]">
-                Taught directly by one of India's most respected pioneers in reproductive medicine.
-              </h2>
-              <p className="text-[15px] leading-[1.75] text-slate mb-7">
-                Dr. Sunita Tandulwadkar has practised, taught, and shaped reproductive medicine in India for more than 35 years. She is President of ISAR for 2026 to 2028, President of FOGSI 2025, and India's first female gynecological endoscopic surgeon. She has authored 39 books, published more than 106 peer-reviewed papers, and been invited as faculty at over 400 national and international platforms.
-              </p>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-px bg-border-warm border border-border-warm mb-7">
-                {[
-                  { num: "35+", label: "Years Practice" },
-                  { num: "39", label: "Books Authored" },
-                  { num: "106+", label: "Peer Papers" },
-                ].map((s) => (
-                  <div key={s.label} className="bg-cream text-center px-3 py-4">
-                    <div className="font-display font-medium text-[clamp(20px,2vw,28px)] text-gold-deep leading-none mb-1">{s.num}</div>
-                    <div className="font-mono text-[9px] tracking-[0.14em] uppercase text-slate">{s.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              <Link
-                to="/faculty"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 font-body font-medium text-[15px] tracking-[0.02em] border border-gold rounded-[2px] text-gold-deep transition-all duration-300 hover:bg-gold hover:text-navy group"
-              >
-                Read Dr. Sunita's full profile
-                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
-              </Link>
-            </div>
-
-            {/* Right — image */}
-            <div className="relative">
-              <img
-                src="/images/course_faculty.webp"
-                alt="Dr. Sunita Tandulwadkar"
-                className="w-full h-auto object-cover shadow-[0_24px_60px_-12px_rgba(30,42,68,0.25)]"
-              />
-              {/* Gold accent strip */}
-              <div className="h-[3px] bg-[linear-gradient(90deg,#a77926,#f7db7d,#a87928)]" />
-              <div className="bg-cream border-x border-b border-border-warm px-5 py-3 flex items-center justify-between">
-                <p className="font-display italic text-navy text-[14px] leading-none">Dr. Sunita Tandulwadkar</p>
-                <span className="font-mono text-[9px] tracking-[0.18em] uppercase text-gold-deep">Founder, STAR Academy</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Faculty section hidden */}
 
       {/* FAQ */}
       <section className="bg-[linear-gradient(rgba(8,12,20,0.86),rgba(8,12,20,0.86)),url('/images/navbar.webp')] bg-cover bg-center border-t border-white/6 py-[clamp(56px,7vw,50px)]">
@@ -687,7 +666,7 @@ export default function CoursesPage() {
           />
           <p className="text-[15px] leading-[1.65] text-white0 max-w-[100ch] mx-auto mb-9">
             Join Dr. Sunita Tandulwadkar and the next generation of reproductive
-            medicine specialists. The Foundation Series commences 15 July 2026.
+            medicine specialists. The Foundation Series commences 15th july 2026.
             Core, Advanced, and Masterclass follow in sequence
           </p>
           <div className="flex gap-4 justify-center flex-wrap mb-9">
@@ -712,7 +691,7 @@ export default function CoursesPage() {
             </Link>
           </div>
           <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-gold/85">
-            Commencing 15 July 2026 / Every Wednesday / 8:00 PM IST / Live on
+            Commencing 15th july 2026 / Every Wednesday / 8:00 PM IST / Live on
             Zoom
           </div>
         </div>

@@ -11,8 +11,8 @@ const FOUNDATION_CONFIG: LectureDetailConfig = {
   courseName:     "Foundation Series",
   tierLabel:      "Foundation Series",
   enrollPath:     "/course/foundation/enroll",
-  totalLectures:  5,
-  ordinals:       ["first", "second", "third", "fourth", "fifth"],
+  totalLectures:  6,
+  ordinals:       ["first", "second", "third", "fourth", "fifth", "sixth"],
 };
 
 const calendarEntries = foundationLectureDetails.map(({ num, dateShort, time, title }) => ({

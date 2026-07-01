@@ -11,7 +11,6 @@ const COURSES = [
 
 const ACADEMY = [
   { to: "/about",   label: "About STAR" },
-  { to: "/faculty", label: "Faculty" },
   { to: "/faq",     label: "FAQ" },
   { to: "/contact", label: "Contact" },
 ];
@@ -250,10 +249,10 @@ export default function Footer() {
             <span className="text-ivory/15">Pune, India</span>
             <span className="text-ivory/15">·</span>
             <a
-              href="mailto:info@academyofsrt.com"
+              href="mailto:drsrtacademy@gmail.com"
               className="hover:text-gold/50 transition-colors duration-200"
             >
-              info@academyofsrt.com
+              drsrtacademy@gmail.com
             </a>
           </div>
         </div>

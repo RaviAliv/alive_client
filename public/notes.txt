@@ -1,0 +1,10 @@
+Resend + Mailchimp integration
+
+
+-> RESEND (RESEND_API_KEY) — transactional email:
+Sends all 8 email types: Verification, Password Reset, OTP, Course Invite, Course Access, Admin Invite, Admin Promotion, Payment Receipt
+All 8 confirmed ✓ — check your inbox now (8 emails arriving)
+
+MAILCHIMP (MAILCHIMP_API_KEY + MAILCHIMP_SERVER + MAILCHIMP_AUDIENCE_ID) — subscriber management:
+Adds the buyer (devices@aliv.in) to your Mailchimp audience with tags: star-academy-buyer, foundation-course, l01
+Confirmed ✓ — check Mailchimp → Audience → Contacts and you'll see devices@aliv.in listed

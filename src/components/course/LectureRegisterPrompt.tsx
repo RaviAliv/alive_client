@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { setPostLoginRedirect } from "../../lib/postLoginRedirect";
@@ -32,9 +33,9 @@ export default function LectureRegisterPrompt({ accent }: { accent: string }) {
 
   if (!visible || isLoggedIn) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[500] flex items-center justify-center px-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
       style={{ background: "rgba(6,8,14,0.78)", backdropFilter: "blur(6px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) dismiss(); }}
     >
@@ -88,6 +89,7 @@ export default function LectureRegisterPrompt({ accent }: { accent: string }) {
           </svg>
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

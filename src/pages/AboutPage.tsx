@@ -147,12 +147,7 @@ export default function AboutPage() {
                 >
                   View Courses <span className={arrow}>→</span>
                 </Link>
-                <Link
-                  to="/faculty"
-                  className="group text-white inline-flex items-center gap-2 px-6 py-3 border border-gold/60  font-mono text-[11px] tracking-[0.16em] uppercase transition-all hover:bg-gold hover:text-navy rounded-lg"
-                >
-                  Meet the Faculty <span className={arrow}>→</span>
-                </Link>
+                {/* Meet the Faculty link hidden */}
               </div>
             </div>
 
@@ -313,12 +308,7 @@ export default function AboutPage() {
                 voice and the same method she uses with her own patients.
               </p>
 
-              <Link
-                to="/faculty"
-                className="group mt-8 inline-flex items-center gap-3 font-mono text-[11px] font-semibold tracking-[0.20em] uppercase text-gold-deep border-b border-gold-deep pb-0.5 hover:text-navy hover:border-navy transition-colors duration-200"
-              >
-                Read her full clinical profile <span className={arrow}>→</span>
-              </Link>
+              {/* Read her full clinical profile link hidden */}
             </div>
 
             {/* ── Right: image + credential list ── */}
@@ -449,11 +439,11 @@ export default function AboutPage() {
                 Now Enrolling
               </span>
               <h2 className="font-display font-medium text-[clamp(26px,3.6vw,30px)] leading-[1.1] tracking-[-0.01em] text-navy mb-5">
-                The first batch begins on 15 July 2026
+                The first batch begins on 15th july 2026
               </h2>
               <p className="text-[16px] leading-[1.7] text-slate mb-5">
                 The Foundation Series runs live, every Wednesday at 8 PM IST.
-                Five lectures. One structured beginning. Seats are limited so
+                Six lectures. One structured beginning. Seats are limited so
                 the cohort stays small enough for direct teaching
               </p>
 
@@ -462,8 +452,8 @@ export default function AboutPage() {
                 {[
                   { label: "Format",   value: "Live on Zoom · Every Wednesday" },
                   { label: "Time",     value: "8:00 PM IST"                    },
-                  { label: "Duration", value: "Five lectures · 5 weeks"        },
-                  { label: "Starts",   value: "15 July 2026"                   },
+                  { label: "Duration", value: "Six lectures · 6 weeks"         },
+                  { label: "Starts",   value: "15th july 2026"                   },
                 ].map((row) => (
                   <div
                     key={row.label}

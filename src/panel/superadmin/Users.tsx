@@ -156,7 +156,14 @@ export default function AllUsers() {
     }
     if (drop?.userId === u._id && drop?.course === course) { setDrop(null); return; }
     const rect = e.currentTarget.getBoundingClientRect();
-    setDrop({ userId: u._id, course, top: rect.bottom + 6, left: rect.left });
+    const dropH = 340; // max expected dropdown height
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const top = spaceBelow < dropH
+      ? Math.max(8, rect.top - dropH - 6)   // flip above
+      : rect.bottom + 6;
+    // prevent right-edge overflow
+    const left = Math.min(rect.left, window.innerWidth - 230);
+    setDrop({ userId: u._id, course, top, left });
   };
 
   // Confirm grant from modal
@@ -366,6 +373,24 @@ export default function AllUsers() {
                     <td className="px-4 py-3">
                       {u.systemRole !== "superadmin" && (
                         <div className="flex items-center gap-2">
+                          {!u.isVerified && (
+                            <button
+                              onClick={async () => {
+                                setBusy(`verify-${u._id}`);
+                                try {
+                                  await apiPatch(`/admin/users/${u._id}/verify`, {});
+                                  setUsers((prev) => prev.map((x) => x._id === u._id ? { ...x, isVerified: true } : x));
+                                  flash(`${u.name} verified`);
+                                } catch (err) {
+                                  flash(err instanceof Error ? err.message : "Failed to verify", "error");
+                                } finally { setBusy(null); }
+                              }}
+                              disabled={!!busy}
+                              className="text-[11px] px-2.5 py-1.5 rounded-lg border font-medium transition-colors bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-wait whitespace-nowrap"
+                            >
+                              {busy === `verify-${u._id}` ? "…" : "Verify"}
+                            </button>
+                          )}
                           <button onClick={() => toggleRole(u)} disabled={!!busy}
                             className="text-[11px] px-3 py-1.5 rounded-lg border font-medium transition-colors hover:bg-[#1E2A44] hover:text-white hover:border-[#1E2A44] border-slate-200 text-slate-600 disabled:opacity-50 disabled:cursor-wait whitespace-nowrap">
                             {busy === `role-${u._id}` ? "…" : u.systemRole === "admin" ? "Demote" : "Make Admin"}
@@ -454,7 +479,7 @@ export default function AllUsers() {
           })()}
 
           {/* Individual lectures */}
-          <div className="max-h-52 overflow-y-auto">
+          <div className="max-h-64 overflow-y-auto">
             {dropAllLecs.map((lec) => {
               const uploaded  = (availability[drop.course] ?? []).includes(lec);
               const notReady  = Object.keys(availability).length > 0 && !uploaded;

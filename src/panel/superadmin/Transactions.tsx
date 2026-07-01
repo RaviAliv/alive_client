@@ -15,12 +15,12 @@ type Payment = {
 };
 
 const LECTURE_LABELS: Record<string, string> = {
-  l01: "HPO Axis & Follicular Endocrinology",
-  l02: "Endocrinology of Follicular Phase",
-  l03: "Ovulation & Precision Triggering",
-  l04: "Luteal Phase Endocrinology",
-  l05: "Implantation — Molecular Dialogue",
-  l06: "Spermatogenesis",
+  l01: "HPO Axis: From Physiology to Precision",
+  l02: "The Endocrine Architecture of Follicular Phase",
+  l03: "Ovulation: From Follicle Destiny to Follicle Rupture",
+  l04: "Luteal Phase: Physiology, Endocrinology and Clinical Importance",
+  l05: "Spermatogenesis: From Germ Cell Development to Semen Analysis",
+  l06: "Implantation: From Endometrial Receptivity to Embryo Dialogue",
 };
 
 export default function Transactions() {

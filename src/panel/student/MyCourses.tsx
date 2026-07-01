@@ -29,12 +29,12 @@ type Payment = {
 const FOUNDATION_IDS = ["l01", "l02", "l03", "l04", "l05", "l06"];
 
 const LECTURE_LABEL: Record<string, string> = {
-  l01: "300-day Ovarian Symphony - HPO Axis & Follicular Endocrinology",
-  l02: "Endocrinology of Follicular Phase",
-  l03: "Ovulation – Physiology / Precision Triggering / Molecular Dynamics to Clinical Applications",
-  l04: "Luteal Phase Endocrinology and Advances in Luteal Phase Support",
-  l05: "Implantation – Decoding the Molecular Dialogue of Human Embryo Implantation",
-  l06: "Spermatogenesis - What Everyone Should Know",
+  l01: "HPO Axis: From Physiology to Precision",
+  l02: "The Endocrine Architecture of Follicular Phase — From Endocrinology to Survival of the Fittest Follicle",
+  l03: "Ovulation: From Follicle Destiny to Follicle Rupture — The 350-Day Symphony",
+  l04: "Luteal Phase: Physiology, Endocrinology and Clinical Importance",
+  l05: "Spermatogenesis: From Germ Cell Development to Semen Analysis, Genetics to Clinical Terminologies",
+  l06: "Implantation: From Endometrial Receptivity to Endometrium–Embryo Dialogue",
 };
 
 const COURSE_META: Record<string, {
@@ -378,26 +378,13 @@ function CoursesTab({
                   if (state === "coming-soon") {
                     return (
                       <div key={lec}
-                        className="flex flex-col px-4 py-3 border-l-[3px] border-amber-300">
-                        <div className="flex items-center gap-3">
-                          <span className="text-[10px] font-bold tabular-nums shrink-0 w-5 text-center text-amber-500">{num}</span>
-                          <span className="shrink-0 text-amber-400"><IcoClock /></span>
-                          <span className="text-[12px] flex-1 min-w-0 truncate text-slate-600 font-medium">{lec}</span>
-                          <span className="shrink-0 flex items-center gap-1 text-[9px] font-semibold text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg whitespace-nowrap">
-                            <IcoClock /> Coming Soon
-                          </span>
-                        </div>
-                        {expiresAt && daysLeft !== null && (
-                          <div className="mt-2 ml-8 flex items-center gap-2">
-                            <div className="flex-1 h-1 rounded-full overflow-hidden bg-amber-100">
-                              <div className="h-full rounded-full transition-all duration-700 bg-amber-400"
-                                style={{ width: `${pct}%` }} />
-                            </div>
-                            <span className="text-[9px] font-bold tabular-nums shrink-0 text-amber-500">
-                              {daysLeft}d left
-                            </span>
-                          </div>
-                        )}
+                        className="flex items-center gap-3 px-4 py-3 border-l-[3px] border-amber-300">
+                        <span className="text-[10px] font-bold tabular-nums shrink-0 w-5 text-center text-amber-500">{num}</span>
+                        <span className="shrink-0 text-amber-400"><IcoClock /></span>
+                        <span className="text-[12px] flex-1 min-w-0 truncate text-slate-600 font-medium">{lec}</span>
+                        <span className="shrink-0 flex items-center gap-1 text-[9px] font-semibold text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg whitespace-nowrap">
+                          <IcoClock /> Coming Soon
+                        </span>
                       </div>
                     );
                   }

@@ -4,12 +4,12 @@ import { apiGet, apiPut, apiDelete } from "../../lib/api";
 // Canonical lecture definitions per course
 const COURSE_LECTURES: Record<string, { id: string; label: string }[]> = {
   Foundation: [
-    { id: "l01", label: "L01 — HPO Axis & Follicular Endocrinology" },
-    { id: "l02", label: "L02 — Endocrinology of Follicular Phase" },
-    { id: "l03", label: "L03 — Ovulation & Precision Triggering" },
-    { id: "l04", label: "L04 — Luteal Phase Endocrinology" },
-    { id: "l05", label: "L05 — Implantation — Molecular Dialogue" },
-    { id: "l06", label: "L06 — Spermatogenesis" },
+    { id: "l01", label: "L01 — HPO Axis: From Physiology to Precision" },
+    { id: "l02", label: "L02 — The Endocrine Architecture of Follicular Phase" },
+    { id: "l03", label: "L03 — Ovulation: From Follicle Destiny to Follicle Rupture" },
+    { id: "l04", label: "L04 — Luteal Phase: Physiology, Endocrinology and Clinical Importance" },
+    { id: "l05", label: "L05 — Spermatogenesis: From Germ Cell Development to Semen Analysis" },
+    { id: "l06", label: "L06 — Implantation: From Endometrial Receptivity to Embryo Dialogue" },
   ],
 };
 

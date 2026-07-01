@@ -1,19 +1,20 @@
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PRICING } from "../lib/config";
-import { apiGet, getToken } from "../lib/api";
+import { apiGet, apiPost, getToken } from "../lib/api";
+import { useAuth } from "../context/AuthContext";
 
 /* ─── Data ───────────────────────────────────────────────── */
 const LECTURES = [
-  { id: "l01", no: "01", title: "300-day Ovarian Symphony - HPO Axis & Follicular Endocrinology",                           duration: "90 min · Live on Zoom" },
-  { id: "l02", no: "02", title: "Endocrinology of Follicular Phase",                                                        duration: "90 min · Live on Zoom" },
-  { id: "l03", no: "03", title: "Ovulation – Physiology / Precision Triggering / Molecular Dynamics to Clinical Applications", duration: "90 min · Live on Zoom" },
-  { id: "l04", no: "04", title: "Luteal Phase Endocrinology and Advances in Luteal Phase Support",                          duration: "90 min · Live on Zoom" },
-  { id: "l05", no: "05", title: "Implantation – Decoding the Molecular Dialogue of Human Embryo Implantation",             duration: "90 min · Live on Zoom" },
-  { id: "l06", no: "06", title: "Spermatogenesis - What Everyone Should Know",                                              duration: "90 min · Live on Zoom" },
+  { id: "l01", no: "01", title: "HPO Axis: From Physiology to Precision",                                                                                                    duration: "Live on Zoom" },
+  { id: "l02", no: "02", title: "The Endocrine Architecture of Follicular Phase — From Endocrinology to Survival of the Fittest Follicle",                                   duration: "Live on Zoom" },
+  { id: "l03", no: "03", title: "Ovulation: From Follicle Destiny to Follicle Rupture — The 350-Day Symphony",                                                               duration: "Live on Zoom" },
+  { id: "l04", no: "04", title: "Luteal Phase: Physiology, Endocrinology and Clinical Importance",                                                                            duration: "Live on Zoom" },
+  { id: "l05", no: "05", title: "Spermatogenesis: From Germ Cell Development to Semen Analysis, Genetics to Clinical Terminologies",                                         duration: "Live on Zoom" },
+  { id: "l06", no: "06", title: "Implantation: From Endometrial Receptivity to Endometrium–Embryo Dialogue",                                                                 duration: "Live on Zoom" },
 ];
 
-const { each: PRICE_EACH, bundlePrice: BUNDLE_PRICE, bundleSave: BUNDLE_SAVE } = PRICING;
+const { each: PRICE_EACH, bundlePrice: BUNDLE_PRICE, bundleSave: BUNDLE_SAVE, gstPct: GST_PCT, discountPct: DISCOUNT_PCT } = PRICING;
 
 const ACCENT     = "#21864E";
 const ACCENT_DARK = "#186138";
@@ -194,52 +195,78 @@ function loadRazorpayScript(): Promise<void> {
   });
 }
 
-/* ─── Already-access modal ───────────────────────────────── */
-function AlreadyAccessModal({ expiresAt, onDismiss }: { expiresAt: string | null; onDismiss: () => void }) {
+/* ─── Already enrolled banner (inline, not a dismissable modal) ── */
+function AlreadyEnrolledPage({ expiresAt, isAdmin }: { expiresAt: string | null; isAdmin?: boolean }) {
   const navigate = useNavigate();
   const daysLeft = expiresAt
     ? Math.max(0, Math.ceil((new Date(expiresAt).getTime() - Date.now()) / 86_400_000))
     : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}>
-      <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden animate-[fadeInUp_0.25s_ease]">
-        <div className="h-1" style={{ background: `linear-gradient(90deg, ${ACCENT}50, ${ACCENT}, ${ACCENT}50)` }} />
-        <div className="p-7">
-          {/* Icon */}
-          <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
-            style={{ background: `${ACCENT}15`, border: `1.5px solid ${ACCENT}40` }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12l5 5L19 7" stroke={ACCENT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Top bar */}
+      <div className="border-b border-gray-300 px-5 sm:px-8 md:px-12 py-5 bg-white">
+        <div className="max-w-[1180px] mx-auto flex items-center justify-between">
+          <div>
+            <span className="font-mono text-[11px] tracking-[0.26em] uppercase block mb-0.5" style={{ color: ACCENT }}>
+              Foundation Series · Tier I
+            </span>
+            <h1 className="font-display font-medium text-[18px] text-gray-900 leading-none">Enrolment</h1>
+          </div>
+          <Link
+            to="/course/foundation"
+            className="font-mono text-[9.5px] tracking-[0.18em] uppercase text-gray-400 hover:text-gray-700 transition-colors"
+          >
+            ← Back to Course
+          </Link>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-1 items-center justify-center px-5 py-20">
+        <div className="max-w-[400px] w-full text-center">
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+            style={{ background: `${ACCENT}12`, border: `1.5px solid ${ACCENT}40` }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12l5 5L19 7" stroke={ACCENT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
 
-          <h3 className="font-display font-semibold text-[20px] text-center text-gray-900 mb-2 leading-tight">
-            You already have access
-          </h3>
-          <p className="text-center text-[13px] text-gray-500 leading-[1.7] mb-1">
-            You have active access to the <strong className="text-gray-700">Foundation Series</strong>.
+          <span className="font-mono text-[9.5px] tracking-[0.26em] uppercase block mb-2" style={{ color: ACCENT }}>
+            {isAdmin ? "Admin Account" : "Already Enrolled"}
+          </span>
+          <h2 className="font-display font-medium text-[26px] text-gray-900 mb-3 leading-tight">
+            {isAdmin ? "Admins don't purchase courses." : "You already have access."}
+          </h2>
+          <p className="text-[13.5px] text-gray-500 leading-[1.7] mb-2">
+            {isAdmin
+              ? "Your admin account has full access to all content. Use the admin panel to manage courses and students."
+              : <>You have active access to the <strong className="text-gray-700">Foundation Series</strong>. There is nothing more to purchase.</>}
           </p>
-          {daysLeft !== null && (
-            <p className="text-center text-[12px] font-mono mb-5" style={{ color: daysLeft <= 5 ? "#ef4444" : ACCENT }}>
-              {daysLeft} day{daysLeft !== 1 ? "s" : ""} remaining
+          {!isAdmin && daysLeft !== null && (
+            <p className="text-[12px] font-mono mb-6" style={{ color: daysLeft <= 5 ? "#ef4444" : ACCENT }}>
+              {daysLeft} day{daysLeft !== 1 ? "s" : ""} of access remaining
             </p>
           )}
-          {daysLeft === null && <div className="mb-5" />}
+          {(!isAdmin && daysLeft === null) && <div className="mb-6" />}
+          {isAdmin && <div className="mb-6" />}
 
           <div className="flex flex-col gap-2.5">
             <button
-              onClick={() => navigate("/video")}
-              className="w-full py-3 rounded-xl font-mono text-[10.5px] font-bold tracking-[0.18em] uppercase text-white transition-opacity hover:opacity-90"
-              style={{ background: ACCENT }}>
-              Go to Video Library →
+              onClick={() => navigate(isAdmin ? "/admin" : "/video")}
+              className="w-full py-3 rounded-[4px] font-mono text-[10.5px] font-bold tracking-[0.18em] uppercase text-white transition-opacity hover:opacity-90"
+              style={{ background: ACCENT }}
+            >
+              {isAdmin ? "Go to Admin Panel →" : "Go to My Lectures →"}
             </button>
-            <button
-              onClick={onDismiss}
-              className="w-full py-2.5 rounded-xl font-mono text-[10px] font-medium tracking-[0.12em] uppercase text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors border border-gray-200">
-              Continue anyway
-            </button>
+            <Link
+              to="/course/foundation"
+              className="w-full py-2.5 rounded-[4px] font-mono text-[10px] font-medium tracking-[0.12em] uppercase text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors border border-gray-200 text-center block"
+            >
+              ← Back to Foundation Page
+            </Link>
           </div>
         </div>
       </div>
@@ -249,6 +276,7 @@ function AlreadyAccessModal({ expiresAt, onDismiss }: { expiresAt: string | null
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function FoundationEnrollPage() {
+  const { user, initialized } = useAuth();
   const [fullName,        setFullName]        = useState("");
   const [email,           setEmail]           = useState("");
   const [phone,           setPhone]           = useState("");
@@ -259,29 +287,69 @@ export default function FoundationEnrollPage() {
   const [success,         setSuccess]         = useState(false);
   const [error,           setError]           = useState("");
   const [accessModal,     setAccessModal]     = useState<{ expiresAt: string | null } | null>(null);
+  const [ownedLectureIds, setOwnedLectureIds] = useState<string[]>([]);
+  // Stays false until access check resolves — prevents the form flashing before redirect
+  const [accessChecked,   setAccessChecked]   = useState(false);
 
-  // If logged in, check whether the user already has active Foundation access
+  const isAdminUser = user?.systemRole === "admin" || user?.systemRole === "superadmin";
+
+  // If logged in, check whether the user already has active Foundation access.
+  // Wait for AuthContext to be initialized so systemRole is available.
   useEffect(() => {
-    if (!getToken()) return;
-    apiGet<{ courses: { course: string; expiresAt: string | null }[] }>("/admin/my-access")
+    if (!initialized) return;
+
+    // Admins and superadmins never purchase — block the form immediately
+    if (isAdminUser) {
+      setAccessModal({ expiresAt: null });
+      setAccessChecked(true);
+      return;
+    }
+
+    if (!getToken()) {
+      setAccessChecked(true);
+      return;
+    }
+
+    apiGet<{ courses: { course: string; expiresAt: string | null; grantAllLectures: boolean; lectureIds: string[] }[] }>("/admin/my-access")
       .then((d) => {
         const found = d.courses.find((c) => c.course === "foundation");
         if (!found) return;
         const notExpired = !found.expiresAt || new Date(found.expiresAt) > new Date();
-        if (notExpired) setAccessModal({ expiresAt: found.expiresAt });
+        if (!notExpired) return;
+        if (found.grantAllLectures) {
+          setAccessModal({ expiresAt: found.expiresAt });
+        } else if (found.lectureIds && found.lectureIds.length > 0) {
+          setOwnedLectureIds(found.lectureIds);
+        }
       })
-      .catch(() => {}); // silently ignore — don't block enrollment if check fails
-  }, []);
+      .catch(() => {})
+      .finally(() => setAccessChecked(true));
+  }, [initialized, isAdminUser]);
 
-  const toggleLecture = (id: string) =>
+  // Fire "cart_started" Mailchimp tag once the enroll page is confirmed visible to a logged-in user
+  useEffect(() => {
+    if (!accessChecked || accessModal || isAdminUser || !getToken()) return;
+    apiPost("/payment/cart-started", {}).catch(() => {});
+  }, [accessChecked, accessModal, isAdminUser]);
+
+  const availableLectures = LECTURES.filter((l) => !ownedLectureIds.includes(l.id));
+
+  const toggleLecture = (id: string) => {
+    if (ownedLectureIds.includes(id)) return;
     setSelected((prev) => prev.includes(id) ? prev.filter((l) => l !== id) : [...prev, id]);
+  };
 
-  const isBundle = selected.length === 6;
-  const subtotal = selected.length * PRICE_EACH;
-  const total    = isBundle ? BUNDLE_PRICE : subtotal;
+  const isBundle      = selected.length === 6 && ownedLectureIds.length === 0;
+  const subtotal      = selected.length * PRICE_EACH;
+  const discount      = isBundle ? subtotal - BUNDLE_PRICE : 0;
+  const afterDiscount = subtotal - discount;
+  const gst           = Math.round(afterDiscount * GST_PCT / 100);
+  const total         = afterDiscount + gst;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    // Hard guard — should never be reachable since accessModal replaces the page, but defensive
+    if (accessModal) return;
     if (!fullName.trim())                  { setError("Please enter your full name."); return; }
     if (!email.trim())                     { setError("Please enter your email address."); return; }
     if (!phone.trim()) { setError("Please enter a valid phone number."); return; }
@@ -318,7 +386,7 @@ export default function FoundationEnrollPage() {
           currency: orderData.currency,
           name: "Academy of SRT",
           description: isBundle
-            ? "Foundation Series — All 5 Lectures"
+            ? "Foundation Series — All 6 Lectures"
             : `Foundation Series — ${selected.length} Lecture${selected.length > 1 ? "s" : ""}`,
           order_id: orderData.orderId,
           prefill: {
@@ -380,15 +448,18 @@ export default function FoundationEnrollPage() {
   ].join(" ");
   const labelCls = "block mb-1.5 font-mono text-[10px] tracking-[0.14em] uppercase font-bold text-gray-700";
 
+  // Wait for the access check before rendering anything — prevents the form
+  // from flashing for a frame while the token/role check is pending
+  if (!accessChecked) return null;
+
+  // Block the entire page if user already has access — never show the payment form
+  if (accessModal) {
+    return <AlreadyEnrolledPage expiresAt={accessModal.expiresAt} isAdmin={isAdminUser} />;
+  }
+
   return (
     <>
-    {accessModal && (
-      <AlreadyAccessModal
-        expiresAt={accessModal.expiresAt}
-        onDismiss={() => setAccessModal(null)}
-      />
-    )}
-    <div className="min-h-screen bg-white" style={{ marginTop: -20 }}>
+    <div className="min-h-screen bg-white" style={{ marginTop: 0 }}>
 
       {/* ── Top bar ── */}
       <div className="border-b border-gray-300 px-5 sm:px-8 md:px-12 py-5 bg-white">
@@ -457,23 +528,37 @@ export default function FoundationEnrollPage() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => setSelected(selected.length === 5 ? [] : LECTURES.map((l) => l.id))}
+                    onClick={() => setSelected(selected.length === availableLectures.length ? [] : availableLectures.map((l) => l.id))}
                     className="font-mono text-[9px] tracking-[0.16em] uppercase transition-colors border px-3 py-1.5 rounded-[2px] text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"
                   >
-                    {selected.length === 5 ? "Clear all" : "Select all 5"}
+                    {selected.length === availableLectures.length && availableLectures.length > 0 ? "Clear all" : `Select all ${availableLectures.length}`}
                   </button>
                 </div>
 
-                {/* ── Bundle button — TOP ── */}
+                {/* ── Partial-access notice ── */}
+                {ownedLectureIds.length > 0 && (
+                  <div className="mb-4 flex items-start gap-3 px-4 py-3 rounded-[3px]"
+                    style={{ background: `${ACCENT}0d`, border: `1px solid ${ACCENT}30` }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5" stroke={ACCENT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12l5 5L19 7"/>
+                    </svg>
+                    <p className="text-[12.5px] leading-[1.6]" style={{ color: ACCENT }}>
+                      You already own {ownedLectureIds.length} lecture{ownedLectureIds.length > 1 ? "s" : ""} in this series.
+                      Select additional lectures below to continue your enrolment.
+                    </p>
+                  </div>
+                )}
+
+                {/* ── Bundle button — only when no prior purchases ── */}
+                {ownedLectureIds.length === 0 && (
                 <button
                   type="button"
                   onClick={() => setSelected(isBundle ? [] : LECTURES.map((l) => l.id))}
                   className="w-full mb-5 flex items-center gap-4 px-4 py-4 transition-all hover:brightness-105 active:scale-[0.99]"
                   style={{ background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`, border: `1px solid ${ACCENT}`, cursor: "pointer" }}
                 >
-                  {/* +/− icon circle */}
                   <div
-                    className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-200"
+                    className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
                     style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.3)" }}
                   >
                     {isBundle ? (
@@ -487,8 +572,6 @@ export default function FoundationEnrollPage() {
                       </svg>
                     )}
                   </div>
-
-                  {/* Text block */}
                   <div className="flex-1 text-left">
                     <p className="text-white font-semibold text-[14px] leading-none mb-1">
                       {isBundle ? "All 6 Lectures Selected" : "Enroll All 6 Lectures"}
@@ -496,12 +579,10 @@ export default function FoundationEnrollPage() {
                     <p className="font-mono text-[10px] tracking-wide" style={{ color: "rgba(255,255,255,0.6)" }}>
                       ₹{BUNDLE_PRICE.toLocaleString("en-IN")} bundle&nbsp;
                       <span className="line-through" style={{ color: "rgba(255,255,255,0.35)" }}>
-                        ₹{(PRICE_EACH * 5).toLocaleString("en-IN")}
+                        ₹{(PRICE_EACH * 6).toLocaleString("en-IN")}
                       </span>
                     </p>
                   </div>
-
-                  {/* Save pill */}
                   <div
                     className="shrink-0 text-center px-3 py-1.5"
                     style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)" }}
@@ -510,30 +591,34 @@ export default function FoundationEnrollPage() {
                     <p className="font-display font-medium text-white text-[15px] leading-none">₹{BUNDLE_SAVE.toLocaleString("en-IN")}</p>
                   </div>
                 </button>
+                )}
 
                 {/* ── Lecture accordion ── */}
                 <div className="mb-5" style={{ border: "1.5px solid #d1d5db", borderRadius: 3 }}>
                   {LECTURES.map((l, i) => {
-                    const checked  = selected.includes(l.id);
+                    const owned    = ownedLectureIds.includes(l.id);
+                    const checked  = owned || selected.includes(l.id);
                     const isOpen   = expandedId === l.id;
                     return (
                       <div
                         key={l.id}
                         style={{
                           borderBottom: i < LECTURES.length - 1 ? "1.5px solid #d1d5db" : "none",
-                          background: checked ? `${ACCENT}08` : "#fff",
+                          background: owned ? `${ACCENT}06` : checked ? `${ACCENT}08` : "#fff",
+                          opacity: owned ? 0.7 : 1,
                         }}
                       >
-                        {/* Collapsed header row — always visible */}
+                        {/* Collapsed header row */}
                         <div className="flex items-center gap-3 px-4 py-3.5 select-none">
 
-                          {/* Checkbox — stops propagation so it doesn't toggle expand */}
+                          {/* Checkbox / owned indicator */}
                           <div
-                            onClick={(e) => { e.stopPropagation(); toggleLecture(l.id); }}
-                            className="w-[18px] h-[18px] rounded-[3px] flex items-center justify-center shrink-0 cursor-pointer transition-colors"
+                            onClick={(e) => { if (!owned) { e.stopPropagation(); toggleLecture(l.id); } }}
+                            className="w-[18px] h-[18px] rounded-[3px] flex items-center justify-center shrink-0 transition-colors"
                             style={{
                               background: checked ? ACCENT : "#fff",
                               border: `2px solid ${checked ? ACCENT : "#6b7280"}`,
+                              cursor: owned ? "default" : "pointer",
                             }}
                           >
                             {checked && (
@@ -551,88 +636,132 @@ export default function FoundationEnrollPage() {
                             {l.no}
                           </span>
 
-                          {/* Title — click to expand */}
+                          {/* Title */}
                           <span
-                            className="flex-1 text-[13.5px] font-medium leading-[1.3] cursor-pointer"
-                            style={{ color: "#111827" }}
-                            onClick={() => setExpandedId(isOpen ? null : l.id)}
+                            className="flex-1 text-[13.5px] font-medium leading-[1.3]"
+                            style={{ color: owned ? "#6b7280" : "#111827", cursor: owned ? "default" : "pointer" }}
+                            onClick={() => { if (!owned) setExpandedId(isOpen ? null : l.id); }}
                           >
                             {l.title}
                           </span>
 
-                          {/* Chevron — expand toggle */}
-                          <button
-                            type="button"
-                            onClick={() => setExpandedId(isOpen ? null : l.id)}
-                            className="shrink-0 ml-2 p-1 transition-transform duration-200"
-                            style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
-                            aria-label={isOpen ? "Collapse" : "Expand"}
-                          >
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#6b7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="3 6 8 11 13 6" />
-                            </svg>
-                          </button>
+                          {/* Owned badge OR chevron */}
+                          {owned ? (
+                            <span
+                              className="font-mono text-[9px] tracking-[0.12em] uppercase px-2 py-0.5 rounded-full shrink-0"
+                              style={{ background: `${ACCENT}15`, color: ACCENT }}
+                            >
+                              Purchased
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setExpandedId(isOpen ? null : l.id)}
+                              className="shrink-0 ml-2 p-1 transition-transform duration-200"
+                              style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                              aria-label={isOpen ? "Collapse" : "Expand"}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#6b7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="3 6 8 11 13 6" />
+                              </svg>
+                            </button>
+                          )}
                         </div>
 
-                        {/* Expanded content */}
-                        <div
-                          style={{
-                            overflow: "hidden",
-                            maxHeight: isOpen ? "120px" : "0px",
-                            transition: "max-height 0.3s ease",
-                          }}
-                        >
+                        {/* Expanded content — only for non-owned */}
+                        {!owned && (
                           <div
-                            className="px-4 pb-4 pt-0 ml-[54px] flex items-center justify-between"
-                            style={{ borderTop: `1px solid #e5e7eb` }}
+                            style={{
+                              overflow: "hidden",
+                              maxHeight: isOpen ? "120px" : "0px",
+                              transition: "max-height 0.3s ease",
+                            }}
                           >
-                            <div className="pt-3">
-                              <span className="font-mono text-[11px] text-gray-600 block mb-1">{l.duration}</span>
-                              <span
-                                className="font-mono text-[10px] tracking-[0.14em] uppercase cursor-pointer"
-                                style={{ color: checked ? ACCENT : "#374151" }}
-                                onClick={() => toggleLecture(l.id)}
-                              >
-                                {checked ? "✓ Selected" : "Click to select"}
+                            <div
+                              className="px-4 pb-4 pt-0 ml-[54px] flex items-center justify-between"
+                              style={{ borderTop: `1px solid #e5e7eb` }}
+                            >
+                              <div className="pt-3">
+                                <span className="font-mono text-[11px] text-gray-600 block mb-1">{l.duration}</span>
+                                <span
+                                  className="font-mono text-[10px] tracking-[0.14em] uppercase cursor-pointer"
+                                  style={{ color: checked ? ACCENT : "#374151" }}
+                                  onClick={() => toggleLecture(l.id)}
+                                >
+                                  {checked ? "✓ Selected" : "Click to select"}
+                                </span>
+                              </div>
+                              <span className="font-mono text-[15px] font-bold" style={{ color: "#111827" }}>
+                                ₹{PRICE_EACH.toLocaleString("en-IN")}
                               </span>
                             </div>
-                            <span
-                              className="font-mono text-[15px] font-bold"
-                              style={{ color: "#111827" }}
-                            >
-                              ₹{PRICE_EACH.toLocaleString("en-IN")}
-                            </span>
                           </div>
-                        </div>
-
+                        )}
                       </div>
                     );
                   })}
                 </div>
 
                 {/* ── Price summary ── */}
-                <div className="flex items-end justify-between pt-4" style={{ borderTop: "1.5px solid #d1d5db" }}>
-                  <div className="space-y-1">
-                    {selected.length > 0 && (
-                      <p className="text-[13px] text-gray-700">
-                        {selected.length} lecture{selected.length > 1 ? "s" : ""} × ₹{PRICE_EACH.toLocaleString("en-IN")}
-                        <span className="ml-2 font-medium">= ₹{subtotal.toLocaleString("en-IN")}</span>
+                <div className="pt-4 space-y-2" style={{ borderTop: "1.5px solid #d1d5db" }}>
+
+                  {selected.length === 0 ? (
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-gray-400">Total</span>
+                      <span className="font-display text-[28px] text-gray-200 leading-none">₹ —</span>
+                    </div>
+                  ) : (
+                    <>
+                      {/* Subtotal row */}
+                      <div className="flex items-center justify-between">
+                        <span className="text-[13px] text-gray-500">
+                          {selected.length} lecture{selected.length > 1 ? "s" : ""} × ₹{PRICE_EACH.toLocaleString("en-IN")}
+                        </span>
+                        <span className="text-[13px] text-gray-700 font-medium">₹{subtotal.toLocaleString("en-IN")}</span>
+                      </div>
+
+                      {/* Bundle discount row */}
+                      {isBundle && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-[13px] font-semibold" style={{ color: ACCENT }}>
+                            Bundle discount ({DISCOUNT_PCT}% off)
+                          </span>
+                          <span className="text-[13px] font-semibold" style={{ color: ACCENT }}>
+                            −₹{discount.toLocaleString("en-IN")}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* After-discount subtotal — only show when discount applied */}
+                      {isBundle && (
+                        <div className="flex items-center justify-between pb-1" style={{ borderBottom: "1px dashed #d1d5db" }}>
+                          <span className="text-[12px] text-gray-400">Subtotal after discount</span>
+                          <span className="text-[12px] text-gray-600">₹{afterDiscount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+
+                      {/* GST row */}
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12.5px] text-gray-500">
+                          GST ({GST_PCT}%)
+                        </span>
+                        <span className="text-[12.5px] text-gray-600">+₹{gst.toLocaleString("en-IN")}</span>
+                      </div>
+
+                      {/* Total */}
+                      <div className="flex items-center justify-between pt-2" style={{ borderTop: "1.5px solid #d1d5db" }}>
+                        <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-gray-500">Total Payable</span>
+                        <span className="font-display text-[32px] leading-none" style={{ color: "#111827" }}>
+                          ₹{total.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+
+                      {/* GST notice */}
+                      <p className="font-mono text-[9px] tracking-[0.1em] text-gray-400 text-right">
+                        Inclusive of {GST_PCT}% GST · ₹{gst.toLocaleString("en-IN")} per order
                       </p>
-                    )}
-                    {isBundle && (
-                      <p className="text-[13px] font-semibold" style={{ color: ACCENT }}>
-                        Bundle discount −₹{BUNDLE_SAVE.toLocaleString("en-IN")}
-                      </p>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <p className="font-mono text-[9px] tracking-[0.16em] uppercase text-gray-500 mb-0.5">Total</p>
-                    <p className="font-display text-[32px] leading-none" style={{ color: "#111827" }}>
-                      {selected.length === 0
-                        ? <span className="text-gray-300 text-[24px]">₹ —</span>
-                        : `₹${total.toLocaleString("en-IN")}`}
-                    </p>
-                  </div>
+                    </>
+                  )}
                 </div>
 
               </div>
@@ -696,7 +825,7 @@ export default function FoundationEnrollPage() {
                     )}
 
                     {/* Order summary + pay */}
-                    <div className="pt-4" style={{ borderTop: "1.5px solid #d1d5db" }}>
+                    <div className="pt-4 relative" style={{ borderTop: "1.5px solid #d1d5db" }}>
                       <div className="flex justify-between items-center mb-4">
                         <span className="font-mono text-[10px] tracking-[0.16em] uppercase font-semibold" style={{ color: "#374151" }}>
                           {selected.length === 0
@@ -733,6 +862,37 @@ export default function FoundationEnrollPage() {
                           <>PAY NOW <span className="group-hover:translate-x-0.5 transition-transform inline-block">→</span></>
                         )}
                       </button>
+
+                      {/* "Payment Live Soon" blur overlay */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          backdropFilter: "blur(6px)",
+                          WebkitBackdropFilter: "blur(6px)",
+                          backgroundColor: "rgba(255,255,255,0.55)",
+                          borderRadius: "4px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <span style={{ fontSize: "18px" }}>🔒</span>
+                        <p
+                          className="font-mono font-bold tracking-[0.15em] uppercase text-center"
+                          style={{ fontSize: "11px", color: ACCENT }}
+                        >
+                          Payment Opening Soon
+                        </p>
+                        <p
+                          className="font-mono text-center"
+                          style={{ fontSize: "10px", color: "#6b7280" }}
+                        >
+                          Enrolment opens 15 July 2026
+                        </p>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-center gap-2 pt-1">

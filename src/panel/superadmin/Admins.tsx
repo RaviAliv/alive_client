@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from "react";
-import { apiGet, apiPost, apiPatch } from "../../lib/api";
+import { apiGet, apiPost, apiPatch, apiDelete } from "../../lib/api";
 import { Link } from "react-router-dom";
 
 type AdminRow = {
@@ -36,6 +36,8 @@ export default function ManageAdmins() {
   const [profileForm,   setProfileForm]   = useState<Partial<AdminRow>>({});
   const [profileSaving, setProfileSaving] = useState(false);
   const [resending,     setResending]     = useState(false);
+  const [resendSent,    setResendSent]    = useState(false);
+  const [deletingAdmin, setDeletingAdmin] = useState(false);
 
   // Invite panel
   const [showInvite,  setShowInvite]  = useState(false);
@@ -109,7 +111,7 @@ export default function ManageAdmins() {
 
   // ── Profile panel ─────────────────────────────────────────────────────────
   const openProfile = (admin: AdminRow) => {
-    setProfileAdmin(admin);
+    setProfileAdmin(admin); setResendSent(false);
     setProfileForm({
       name: admin.name, organisation: admin.organisation ?? "",
       contactNumber: admin.contactNumber ?? "", designation: admin.designation ?? "",
@@ -134,13 +136,27 @@ export default function ManageAdmins() {
   };
 
   const resendInvite = async (admin: AdminRow) => {
-    setResending(true);
+    setResending(true); setResendSent(false);
     try {
       await apiPost("/admin/invite-admin", { email: admin.email });
-      flash(`Invite resent to ${admin.email}`);
+      setResendSent(true);
+      flash(`Invitation email resent to ${admin.email}`);
     } catch (err) {
-      flash(err instanceof Error ? err.message : "Failed to resend", "error");
+      flash(err instanceof Error ? err.message : "Failed to resend invite", "error");
     } finally { setResending(false); }
+  };
+
+  const cancelInvite = async (admin: AdminRow) => {
+    if (!confirm(`Cancel the invitation for ${admin.email}?\n\nThis will delete the pending admin account.`)) return;
+    setDeletingAdmin(true);
+    try {
+      await apiDelete(`/admin/users/${admin._id}`);
+      setAdmins((prev) => prev.filter((a) => a._id !== admin._id));
+      setProfileAdmin(null);
+      flash(`Invitation cancelled for ${admin.email}`);
+    } catch (err) {
+      flash(err instanceof Error ? err.message : "Failed to cancel invitation", "error");
+    } finally { setDeletingAdmin(false); }
   };
 
   // ── Invite admin ──────────────────────────────────────────────────────────
@@ -572,27 +588,54 @@ export default function ManageAdmins() {
 
             {/* Panel body */}
             <div className="flex-1 overflow-y-auto p-5 space-y-4">
-              {/* Pending warning + resend */}
+              {/* Pending warning + resend + cancel */}
               {isPending(profileAdmin) && (
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                  <p className="text-xs text-amber-700 font-medium mb-3 leading-relaxed">
-                    This admin has not yet accepted their invitation and set a password.
-                    Seat quotas will unlock once they log in.
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
+                  <p className="text-xs text-amber-700 font-medium leading-relaxed">
+                    This admin has not yet accepted their invitation or set a password.
+                    Seat quotas unlock once they log in.
                   </p>
-                  <button
-                    onClick={() => resendInvite(profileAdmin)}
-                    disabled={resending}
-                    className="flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-900 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
-                  >
-                    {resending ? (
-                      <div className="w-3 h-3 border border-amber-600 border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+
+                  {resendSent && (
+                    <div className="flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                    )}
-                    Resend Invitation Email
-                  </button>
+                      Invitation email sent — ask them to check Spam / Promotions if not in inbox.
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => resendInvite(profileAdmin)}
+                      disabled={resending || deletingAdmin}
+                      className="flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-900 bg-amber-100 hover:bg-amber-200 px-3 py-2 rounded-lg transition-colors disabled:opacity-50 flex-1 justify-center"
+                    >
+                      {resending ? (
+                        <div className="w-3 h-3 border border-amber-600 border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      )}
+                      {resending ? "Sending…" : "Resend Email"}
+                    </button>
+
+                    <button
+                      onClick={() => cancelInvite(profileAdmin)}
+                      disabled={resending || deletingAdmin}
+                      className="flex items-center gap-1.5 text-xs font-bold text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-3 py-2 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {deletingAdmin ? (
+                        <div className="w-3 h-3 border border-red-500 border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      )}
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               )}
 

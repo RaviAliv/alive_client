@@ -4,7 +4,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   /* ── CORE LECTURE 01 ─────────────────────────────────────────── */
   {
     num: "01",
-    title: "Severe Male Factor and the Limits of Routine Workup",
+    title: "Female Infertility Evaluation: A Roadmap — A Sequential, Evidence-Based and Phenotype-Driven Approach",
     thumbnail: "/images/coreL1.webp",
     headline: "The semen analysis tells you what is wrong. Not what to do next.",
     tagline: "A clinical framework for severe male factor — when optimization stops and decision-making begins.",
@@ -13,7 +13,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     date: "Wednesday, 3 September 2026",
     dateShort: "Wed, 3 Sep 2026",
     time: "8 PM IST",
-    duration: "90 minutes",
+    duration: "",
     platform: "Live on Zoom",
     whatItIsTitle: "When the semen analysis has already told you the worst.",
     whatItIsBody: [
@@ -26,7 +26,7 @@ export const coreLectureDetails: LectureDetailData[] = [
       "A ninety-minute lecture taught live on Zoom by Dr. Sunita Tandulwadkar. The cohort is practising doctors who are seeing these cases every week. Every question asked is answered in the moment, by her, in front of the group.",
       "The interactive Q&A at the end is where the framework is stress-tested. Bring the couple whose workup is complete and whose path is still unclear. Hear how a clinician with thirty years of male factor experience reasons through it.",
     ],
-    formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    formatAttrs: ["Live Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
       "Stratify severe male factor by prognosis, not just by WHO parameter thresholds",
       "Know which advanced sperm tests change clinical management and which ones do not",
@@ -35,7 +35,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Live",      value: "Attendance with Dr. Sunita Tandulwadkar" },
       { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
       { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Clinical decision framework sheet" },
@@ -53,7 +53,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   /* ── CORE LECTURE 02 ─────────────────────────────────────────── */
   {
     num: "02",
-    title: "Oocyte Quality and the Follicular Microenvironment",
+    title: "Precision Ovulation Induction with Letrozole — A Clinical Masterclass in Protocols, Monitoring and Patient Journey",
     thumbnail: "/images/coreL2.webp",
     headline: "The follicle you see on scan is not the oocyte you retrieve.",
     tagline: "The hidden biology of oocyte competence, and the signals the follicular environment gives you before retrieval.",
@@ -62,7 +62,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     date: "Wednesday, 10 September 2026",
     dateShort: "Wed, 10 Sep 2026",
     time: "8 PM IST",
-    duration: "90 minutes",
+    duration: "",
     platform: "Live on Zoom",
     whatItIsTitle: "Oocyte quality is the variable that decides most IVF outcomes.",
     whatItIsBody: [
@@ -75,7 +75,7 @@ export const coreLectureDetails: LectureDetailData[] = [
       "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. Every doctor in the cohort is present in the same session. Every question asked is answered in the moment, by her, on the call.",
       "The interactive segment is where the biology becomes clinical. Bring the patient whose oocyte quality has been inconsistent across cycles. Ask the question about DHEA, about CoQ10, about antioxidants, and hear the evidence-based answer from someone who has been reading this literature for two decades.",
     ],
-    formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    formatAttrs: ["Live Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
       "Understand the bioenergetic and mitochondrial basis of oocyte quality decline with age",
       "Interpret a stimulation cycle's cohort size, E2 curve, and follicular morphology as oocyte quality signals",
@@ -84,7 +84,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Live",      value: "Attendance with Dr. Sunita Tandulwadkar" },
       { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
       { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Clinical protocol sheet" },
@@ -102,7 +102,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   /* ── CORE LECTURE 03 ─────────────────────────────────────────── */
   {
     num: "03",
-    title: "Ovulation Induction for IUI, Read Like a Clinician",
+    title: "Gonadotropin Ovulation Induction for IUI: History, Molecules, Protocols, Monitoring, Evidence and Clinical Decision-Making",
     thumbnail: "/images/coreL3.png",
     headline: "The protocol is written down. The judgment is not.",
     tagline: "When to use letrozole, when clomiphene, when gonadotropins — and how to read the cycle once induction is underway.",
@@ -111,7 +111,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     date: "Wednesday, 17 September 2026",
     dateShort: "Wed, 17 Sep 2026",
     time: "8 PM IST",
-    duration: "90 minutes",
+    duration: "",
     platform: "Live on Zoom",
     whatItIsTitle: "Induction for IUI is a clinical judgment, not a guideline lookup.",
     whatItIsBody: [
@@ -124,7 +124,7 @@ export const coreLectureDetails: LectureDetailData[] = [
       "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. The interactive segment at the end is where the framework gets tested against real cases — the cycle that is not responding, the patient who has failed letrozole twice, the patient whose response on gonadotropins is unpredictably large.",
       "Bring the IUI cycle you are uncertain about. Hear how an experienced reproductive specialist would manage it.",
     ],
-    formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    formatAttrs: ["Live Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
       "Match induction agent to patient-specific factors rather than applying a fixed first-line default",
       "Interpret monitoring scans during induction and make mid-cycle adjustments when response is inadequate or excessive",
@@ -133,7 +133,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Live",      value: "Attendance with Dr. Sunita Tandulwadkar" },
       { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
       { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Clinical induction decision sheet" },
@@ -151,7 +151,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   /* ── CORE LECTURE 04 ─────────────────────────────────────────── */
   {
     num: "04",
-    title: "IUI Monitoring and Outcome Optimization",
+    title: "Optimizing IUI Results: From Couple Selection to Stimulation, Timing, Support and Strategy",
     thumbnail: "/images/coreL4.png",
     headline: "The cycle does not end when the trigger is given.",
     tagline: "What the follicle and endometrium are telling you between the first scan and the last decision of the IUI cycle.",
@@ -160,7 +160,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     date: "Wednesday, 24 September 2026",
     dateShort: "Wed, 24 Sep 2026",
     time: "8 PM IST",
-    duration: "90 minutes",
+    duration: "",
     platform: "Live on Zoom",
     whatItIsTitle: "Monitoring is the part of the IUI cycle most clinicians underuse.",
     whatItIsBody: [
@@ -173,7 +173,7 @@ export const coreLectureDetails: LectureDetailData[] = [
       "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. Scan images and real cycle data are used throughout. The interactive segment is where monitoring decisions are discussed against actual cases from clinical practice.",
       "Bring the scan you are uncertain about. Bring the cycle where the monitoring looked right and the outcome was wrong. Hear how an experienced reproductive specialist reads both.",
     ],
-    formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    formatAttrs: ["Live Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
       "Read follicular morphology, not just diameter, as a readiness signal on monitoring scans",
       "Interpret endometrial pattern and thickness as a marker of receptivity, not just a threshold to clear",
@@ -182,7 +182,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Live",      value: "Attendance with Dr. Sunita Tandulwadkar" },
       { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
       { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "IUI monitoring reference sheet" },
@@ -200,7 +200,7 @@ export const coreLectureDetails: LectureDetailData[] = [
   /* ── CORE LECTURE 05 ─────────────────────────────────────────── */
   {
     num: "05",
-    title: "Pelvic Infections and the Chronic Inflammation Cascade",
+    title: "Unravelling Oligoasthenoteratozoospermia: From Molecular Pathogenesis to Evidence-Based Management — Advanced Medical / Surgical and ART Management",
     headline: "The most under-diagnosed driver of infertility sits in the pelvis, silent.",
     tagline: "How chronic pelvic inflammation shapes implantation, ovulation, and tubal function — and how to look for it before it explains a failed cycle.",
     heroBody:
@@ -208,7 +208,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     date: "Wednesday, 1 October 2026",
     dateShort: "Wed, 1 Oct 2026",
     time: "8 PM IST",
-    duration: "90 minutes",
+    duration: "",
     platform: "Live on Zoom",
     whatItIsTitle: "Subclinical pelvic inflammation is the infertility variable most workups miss.",
     whatItIsBody: [
@@ -221,7 +221,7 @@ export const coreLectureDetails: LectureDetailData[] = [
       "A ninety-minute lecture taught in real time, on Zoom, by Dr. Sunita Tandulwadkar. The lecture covers the clinical pattern recognition, the diagnostic approach, and the treatment that reverses the inflammation before the next fertility treatment cycle.",
       "The interactive Q&A is where cases are brought and the diagnostic reasoning is tested. Bring the unexplained infertility patient who has had multiple failed IUIs. Bring the IVF patient whose transfer cycle keeps failing without an obvious endometrial factor. Hear how an experienced specialist works through the pelvic infection differential.",
     ],
-    formatAttrs: ["Live 90-Minute Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
+    formatAttrs: ["Live Lecture", "Interactive Q&A", "Cohort of Practising Doctors"],
     outcomes: [
       "Recognise the clinical profile of subclinical chronic pelvic inflammation in an infertility workup",
       "Know when to test for chronic endometritis, which tests to use, and how to interpret the result",
@@ -230,7 +230,7 @@ export const coreLectureDetails: LectureDetailData[] = [
     ],
     logisticsTitle: "Everything you need to know before reserving.",
     whatsIncluded: [
-      { key: "Live",      value: "Attendance with Dr. Sunita" },
+      { key: "Live",      value: "Attendance with Dr. Sunita Tandulwadkar" },
       { key: "Q&A",       value: "Interactive segment at the end of every lecture" },
       { key: "Replay",    value: "Six weeks of access after the live cohort closes" },
       { key: "Materials", value: "Pelvic infection diagnostic checklist" },
