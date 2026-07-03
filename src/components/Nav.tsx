@@ -91,7 +91,9 @@ export default function Nav() {
   const dropdownTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, hasCourseAccess } = useAuth();
+
+  const isStudent = isLoggedIn && user?.systemRole !== "admin" && user?.systemRole !== "superadmin";
 
   const panelHref =
     user?.systemRole === "superadmin" ? "/panel/super" :
@@ -343,30 +345,33 @@ export default function Nav() {
         </ul>
 
         {/* Desktop CTA */}
-        {isLoggedIn ? (
-          <Link
-            to={panelHref}
-            className="hidden md:flex items-center gap-2 flex-shrink-0 group"
-          >
-            {user?.avatar && !avatarError ? (
-              <img
-                key={user.avatar}
-                src={user.avatar}
-                alt={user.name}
-                referrerPolicy="no-referrer"
-                onError={() => setAvatarError(true)}
-                className="w-9 h-9 rounded-full object-cover shrink-0 ring-2 ring-[rgba(197,164,109,0.45)] group-hover:ring-[rgba(197,164,109,0.9)] transition-all"
-              />
-            ) : (
-              <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-[13px] text-navy shrink-0 ring-2 ring-[rgba(197,164,109,0.45)] group-hover:ring-[rgba(197,164,109,0.9)] transition-all ${goldGradient}`}>
-                {initials}
-              </div>
-            )}
-            <span className={`font-body text-sm font-medium tracking-[0.03em] ${goldGradientText}`}>
-              {user?.name?.split(" ")[0]}
-            </span>
-          </Link>
-        ) : (
+        {isLoggedIn ? (() => {
+          const canClick = !isStudent || hasCourseAccess === true;
+          const avatarEl = user?.avatar && !avatarError ? (
+            <img
+              key={user.avatar}
+              src={user.avatar}
+              alt={user.name}
+              referrerPolicy="no-referrer"
+              onError={() => setAvatarError(true)}
+              className={`w-9 h-9 rounded-full object-cover shrink-0 ring-2 ring-[rgba(197,164,109,0.45)] transition-all ${canClick ? "group-hover:ring-[rgba(197,164,109,0.9)]" : ""}`}
+            />
+          ) : (
+            <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-[13px] text-navy shrink-0 ring-2 ring-[rgba(197,164,109,0.45)] transition-all ${canClick ? "group-hover:ring-[rgba(197,164,109,0.9)]" : ""} ${goldGradient}`}>
+              {initials}
+            </div>
+          );
+          const nameEl = <span className={`font-body text-sm font-medium tracking-[0.03em] ${goldGradientText}`}>{user?.name?.split(" ")[0]}</span>;
+          return canClick ? (
+            <Link to={panelHref} className="hidden md:flex items-center gap-2 flex-shrink-0 group">
+              {avatarEl}{nameEl}
+            </Link>
+          ) : (
+            <div className="hidden md:flex items-center gap-2 flex-shrink-0 cursor-default">
+              {avatarEl}{nameEl}
+            </div>
+          );
+        })() : (
           <Link
             to="/login"
             className={`hidden md:inline-flex flex-shrink-0 items-center gap-2.5 px-4 py-2 font-body font-bold text-[15px] tracking-[0.02em] border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)] group`}
@@ -543,32 +548,41 @@ export default function Nav() {
           </ul>
 
           <div className="mt-8 space-y-3">
-            {isLoggedIn ? (
-              <Link
-                to={panelHref}
-                className="flex items-center gap-3 p-4 rounded-xl border border-[rgba(197,164,109,0.2)] bg-white/[0.03] hover:bg-white/[0.06] transition-colors"
-              >
-                {user?.avatar && !avatarError ? (
-                  <img
-                    key={user.avatar}
-                    src={user.avatar}
-                    alt={user?.name}
-                    referrerPolicy="no-referrer"
-                    onError={() => setAvatarError(true)}
-                    className="w-11 h-11 rounded-full object-cover shrink-0"
-                  />
-                ) : (
-                  <div className={`w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm text-navy shrink-0 ${goldGradient}`}>
-                    {initials}
+            {isLoggedIn ? (() => {
+              const canClick = !isStudent || hasCourseAccess === true;
+              const inner = (
+                <>
+                  {user?.avatar && !avatarError ? (
+                    <img
+                      key={user.avatar}
+                      src={user.avatar}
+                      alt={user?.name}
+                      referrerPolicy="no-referrer"
+                      onError={() => setAvatarError(true)}
+                      className="w-11 h-11 rounded-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className={`w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm text-navy shrink-0 ${goldGradient}`}>
+                      {initials}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="font-body text-[15px] font-semibold text-ivory truncate">{user?.name}</p>
+                    <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gold/70">{roleLabel}</span>
                   </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="font-body text-[15px] font-semibold text-ivory truncate">{user?.name}</p>
-                  <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gold/70">{roleLabel}</span>
+                  {canClick && <span className="text-[#f7db7d] text-lg">&rarr;</span>}
+                </>
+              );
+              return canClick ? (
+                <Link to={panelHref} className="flex items-center gap-3 p-4 rounded-xl border border-[rgba(197,164,109,0.2)] bg-white/[0.03] hover:bg-white/[0.06] transition-colors">
+                  {inner}
+                </Link>
+              ) : (
+                <div className="flex items-center gap-3 p-4 rounded-xl border border-[rgba(197,164,109,0.2)] bg-white/[0.03]">
+                  {inner}
                 </div>
-                <span className="text-[#f7db7d] text-lg">&rarr;</span>
-              </Link>
-            ) : (
+              );
+            })() : (
               <Link
                 to="/login"
                 className={`w-full flex items-center justify-center gap-2.5 px-4 py-3.5 font-body font-bold text-[15px] tracking-[0.04em] border border-gold text-navy rounded-[2px] ${goldGradient}`}

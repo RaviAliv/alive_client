@@ -105,8 +105,7 @@ export default function HomePage() {
               Reproductive medicine, taught the way it deserves to be
             </h1>
             <p className="text-gold-light text-[clamp(17px,1vw,25px)] leading-[1.55] mb-2 max-w-[520px]">
-              A stepwise learning platform in Infertility and Reproductive Endocrinology
-Built to strengthen fundamentals, sharpen clinical reasoning, and translate biology into better patient care and outcomes. <br/>
+              A stepwise learning platform in Infertility and Reproductive Endocrinology. Built to strengthen fundamentals, sharpen clinical reasoning, and translate biology into better patient care and outcomes. <br/>
 </p><p className="text-white text-[clamp(10px,1vw,15px)]  text-bold leading-[1.55] mb-2 max-w-[520px]">LIVE 60 Minutes With Dr. Sunita Tandulwadkar Followed by Q&A
 </p>
 
@@ -166,9 +165,6 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
               endocrinology through to advanced IVF decision-making, taught
               directly by one of India's most respected pioneers in the field
             </p>
-            <div className="mt-9 font-display italic text-[clamp(20px,1.8vw,26px)] text-gold-deep pl-5 border-l-2 border-gold">
-              Four tiers. One continuous pathway. Fourty plus lectures.
-            </div>
           </div>
           <div className="md:sticky md:top-[120px] flex md:flex-col flex-row md:gap-3 gap-3 items-center md:pl-5 pl-0 md:border-l md:border-t-0 border-t border-gold-deep md:pt-0 pt-5">
             {[
@@ -214,7 +210,7 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
                 rest: "oundation",
                 tier: "Tier I",
                 title: "Foundation",
-                subTitle: "Foundation of Reproductive Medicine",
+                subTitle: "Foundation: The Fundamentals",
                 desc: "The basics, taught like they decide everything. Rebuild the biology that quietly governs every cycle you manage.",
                 lectures: "6 Lectures",
                 to: "/course/foundation",
@@ -231,7 +227,7 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
                 rest: "ore",
                 tier: "Tier II",
                 title: "Core",
-                subTitle: "Core Clinical Skills",
+                subTitle: "Core: The Practice",
                 desc: "Where most pregnancies are actually won. The judgment behind the everyday cases, and the pelvic factors working against them.",
                 lectures: "6 Lectures",
                 to: "/course/core",
@@ -248,8 +244,8 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
                 rest: "dvanced",
                 tier: "Tier III",
                 title: "Advanced",
-                subTitle: "Advanced IVF Practice",
-                desc: "The skill between the textbook and the lab. Tactical execution for when the standard approach is not enough",
+                subTitle: "Advanced: The Craft",
+                desc: "Where textbook knowledge meets real-world IVF decision-making.",
                 lectures: "7 Lectures",
                 to: "/course/advanced",
                 cta: "Explore",
@@ -265,8 +261,8 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
                 rest: "asterclass",
                 tier: "Tier IV",
                 title: "Masterclass",
-                subTitle: "Masterclass in Complex Cases",
-                desc: "For the cases that do not resolve. Single-subject deep dives into the hardest problems in reproductive medicine",
+                subTitle: "Masterclass: The Specialisation",
+                desc: "For the cases that do not resolve. Single-subject deep dives into the hardest problems in reproductive medicine.",
                 lectures: "10 Lectures",
                 to: "/course/masterclass",
                 cta: "Explore",
@@ -397,7 +393,7 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
               { num: "40+",  label: "Total Lectures",  sub: "Across 4 tiers"          },
               { num: "4",    label: "Tiers in Pathway", sub: "Foundation to Masterclass" },
               { num: "35+",  label: "Years Experience", sub: "Dr. Sunita Tandulwadkar"  },
-              { num: "live", label: "Every Session",    sub: "LIVE followed by Q&A"      },
+              { num: "live", label: "Every Session",    sub: "LIVE lecture followed by Q&A" },
             ].map((s) => (
               <div key={s.label} className="bg-ivory flex flex-col items-center justify-center py-4 px-4 text-center gap-1.5">
                 {s.num === "live" ? (
@@ -426,11 +422,8 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
           <h2 className="font-display font-medium text-[clamp(30px,3.8vw,38px)] leading-[1.1] text-navy mb-5">
             A doctor-led academic platform in infertility and IVF
           </h2>
-          <p className="text-slate text-[17px] leading-[1.7]">
-            Founded by Dr. Sunita Tandulwadkar, India's pioneering IVF and
-            endoscopic surgeon. Designed to train the next generation of
-            reproductive medicine specialists the way serious clinical work is
-            actually practised.
+          <p className="text-slate text-[15px] leading-[1.7]">
+            Founded by Dr. Sunita Tandulwadkar, India's pioneering IVF and endoscopic surgeon. Designed to train the next generation of reproductive medicine specialists the way serious clinical work is actually practised.
           </p>
         </div>
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,4vw,80px)] flex md:grid md:grid-cols-3 gap-3 md:gap-2 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-pl-[clamp(20px,4vw,80px)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden group/cards">
@@ -466,22 +459,9 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
             src: "/images/mam.webp",
             eb: "Taught by a pioneer",
             h: "Learn directly from one of India's most authoritative voices in IVF.",
-            p: "Dr. Sunita Tandulwadkar brings over 35 years to IVF and endoscopic surgery, and is widely recognised as India's first female endoscopic surgeon. Throughout her career she has authored over 39+ books and 93+ publications. She serves as Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune, Founder Solo IVF & ObGyn, and Co-Founder of ALIV Regenerative Wellness. One of the greatest achievements to her name was in the year 2018, when she delivered the world's first stem cell baby, to a 45-year-old woman.\n\nShe is currently President of ISAR (2026–2028) and Immediate Past President of FOGSI, and has led IAGE and POGS at the national level. Academy of SRT brings Dr. Sunita Tandulwadkar’s decades of clinical wisdom into a structured live interactive format, directly accessible to doctors across the globe.",
+            p: "Dr. Sunita Tandulwadkar brings over 35 years to IVF and endoscopic surgery, and is widely recognised as India's first female endoscopic surgeon. Throughout her career she has authored over 39+ books and 93+ publications. She serves as Chief of the IVF and Endoscopy Centre at Ruby Hall Clinic, Pune, Founder Solo IVF & ObGyn, and Co-Founder of ALIV Regenerative Wellness. One of the greatest achievements to her name was in the year 2018, when she delivered the world's first stem cell baby, to a 45-year-old woman.\n\nShe is currently President of ISAR (2026–2028) and Immediate Past President of FOGSI, and has led IAGE and POGS to the national level. Academy of SRT brings Dr. Sunita Tandulwadkar’s decades of clinical wisdom into a structured live interactive format, directly accessible to doctors across the globe.",
           }
-          // {
-          //   reverse: true,
-          //   src: "/images/jugment.webp",
-          //   eb: "Built for clinical judgment",
-          //   h: "Not just protocols. Practical reasoning for real patients.",
-          //   p: "Most online infertility courses teach lists of steps. STAR teaches the reasoning behind the steps. You will learn not only what to do in a given clinical situation, but why it works, when it fails, and how to adapt when the case does not follow the textbook. This is the difference between information and judgment.",
-          // },
-          // {
-          //   reverse: false,
-          //   src: "/images/pyramid.webp",
-          //   eb: "Progressive, not fragmented",
-          //   h: "A continuous pathway, not a one-off webinar.",
-          //   p: "Webinars teach a topic. STAR teaches a subject. From the first lecture on reproductive endocrinology to the final masterclass on difficult cases, every session builds on the one before it. The four tiers form one connected educational pathway that takes clinicians from fundamentals to advanced application.",
-          // },
+
         ].map((row, i) => (
           <div
             key={i}
@@ -534,21 +514,20 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
           {/* Content */}
           <div className="relative z-[3] max-w-[880px] mx-auto text-center px-[clamp(24px,5vw,56px)] py-[clamp(40px,6vw,70px)] text-ivory">
 
-            <span className="inline-block font-mono text-[10px] sm:text-[12px] font-medium tracking-[0.15em] sm:tracking-[0.3em] uppercase text-gold mb-4 whitespace-nowrap">
-              Now Enrolling &middot; 15th july 2026
+            <span className="inline-block font-display text-[15px] sm:text-[13px] font-bold tracking-[0.15em] sm:tracking-[0.3em] uppercase text-gold mb-4 whitespace-nowrap">
+              Now Enrolling
             </span>
 
             <h2 className="font-display font-medium text-[clamp(16px,2vw,30px)] leading-[1.12] tracking-[-0.015em] text-ivory mb-4">
-              The first batch begins on 15 July Reserve your seat
+              The first session begins on 15th July Reserve your seat.
               <span className="italic text-gold-light">
                 {" "}
               </span>
             </h2>
 
             <p className="text-[15px] leading-[1.7] text-ivory/80 max-w-[66ch] mx-auto mb-7">
-              The Foundation Series runs live, every Wednesday at 8 PM IST.
-              Interactive Q&amp;A in every session. Seats are limited so the cohort
-              stays small enough for direct teaching.
+              The Foundation Series runs LIVE, every Wednesday at 8 PM IST.
+              Interactive Q&A after every session. Seats are limited so the cohort stays small enough for direct teaching.
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center">
@@ -688,7 +667,7 @@ Built to strengthen fundamentals, sharpen clinical reasoning, and translate biol
             </ul>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-6 border-t border-white/25">
               {[
-                "Commences 15th july 2026",
+                "Commences 15th July 2026",
                 "Wednesdays, 8:00 PM IST",
                 "Live on Zoom",
                 "Certificate on completion",

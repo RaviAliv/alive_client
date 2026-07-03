@@ -13,12 +13,12 @@ export const COURSE = {
 
 /* ─── Foundation pricing ─────────────────────────────────── */
 export const PRICING = {
-  each:        999,
+  each:        1,                               // TEST — restore to 999
   gstPct:      18,                              // 18% GST added on top
   discountPct: 40,                              // bundle discount (all 6)
-  bundleFull:  999 * 6,                         // 5994 — full price without discount
-  bundlePrice: Math.round(999 * 6 * 0.6),       // 3597 — after 40% off
-  get bundleSave() { return this.bundleFull - this.bundlePrice; }, // 2397
+  bundleFull:  1 * 6,                           // TEST
+  bundlePrice: Math.round(1 * 6 * 0.6),         // TEST
+  get bundleSave() { return this.bundleFull - this.bundlePrice; },
 } as const;
 
 /* ─── Media ──────────────────────────────────────────────── */

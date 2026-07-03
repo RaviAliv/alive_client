@@ -27,7 +27,7 @@ type Errors = {
   name?: string;
   email?: string;
   mobile?: string;
-  dob?: string;
+
   password?: string;
   confirm?: string;
   terms?: string;
@@ -64,12 +64,7 @@ const PhoneIcon = () => (
     />
   </svg>
 );
-const CalendarIcon = () => (
-  <svg viewBox="0 0 24 24" className={icon}>
-    <rect x="3" y="5" width="18" height="16" rx="2" />
-    <path d="M3 9h18M8 3v4M16 3v4" strokeLinecap="round" />
-  </svg>
-);
+
 const BadgeIcon = () => (
   <svg viewBox="0 0 24 24" className={icon}>
     <circle cx="12" cy="9" r="3" />
@@ -145,7 +140,6 @@ export default function SignUp() {
     name: "",
     email: "",
     mobile: "",
-    dob: "",
     role: "",
     password: "",
     confirm: "",
@@ -238,7 +232,6 @@ export default function SignUp() {
     return s;
   }, [form.password]);
 
-  const today = new Date().toISOString().split("T")[0];
 
   const validate = (): Errors => {
     const next: Errors = {};
@@ -246,11 +239,10 @@ export default function SignUp() {
     if (!form.email.trim()) next.email = "Email is required.";
     else if (!EMAIL_RE.test(form.email.trim()))
       next.email = "Enter a valid email address.";
-    // mobile & dob are optional — only validated when provided
+    // mobile is optional — only validated when provided
     if (form.mobile.trim() && !PHONE_RE.test(form.mobile.trim()))
       next.mobile = "Enter a valid mobile number.";
-    if (form.dob && form.dob > today)
-      next.dob = "Date of birth can't be in the future.";
+
     if (!form.password) next.password = "Password is required.";
     else if (form.password.length < 8)
       next.password = "Use at least 8 characters.";
@@ -274,7 +266,7 @@ export default function SignUp() {
         name: form.name.trim(),
         email: form.email.trim(),
         mobile: form.mobile.trim(),
-        dob: form.dob || undefined,
+
         role: form.role || undefined,
         password: form.password,
       });
@@ -485,22 +477,7 @@ export default function SignUp() {
               </Field>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field
-                label="Date of Birth"
-                icon={<CalendarIcon />}
-                error={errors.dob}
-              >
-                <input
-                  type="date"
-                  max={today}
-                  value={form.dob}
-                  onChange={(e) => set("dob", e.target.value)}
-                  aria-invalid={!!errors.dob}
-                  className={`${inputCls} ${errors.dob ? errInputCls : ""}`}
-                />
-              </Field>
-
+            <div>
               <div>
                 <label className={labelCls}>You Are A</label>
                 <div className="relative">

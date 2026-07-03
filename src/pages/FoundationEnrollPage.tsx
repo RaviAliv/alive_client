@@ -3,18 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { PRICING } from "../lib/config";
 import { apiGet, apiPost, getToken } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
+import { setPostLoginRedirect } from "../lib/postLoginRedirect";
+
+const CART_DRAFT_KEY = "star_enroll_draft";
 
 /* ─── Data ───────────────────────────────────────────────── */
 const LECTURES = [
-  { id: "l01", no: "01", title: "HPO Axis: From Physiology to Precision",                                                                                                    duration: "Live on Zoom" },
-  { id: "l02", no: "02", title: "The Endocrine Architecture of Follicular Phase — From Endocrinology to Survival of the Fittest Follicle",                                   duration: "Live on Zoom" },
-  { id: "l03", no: "03", title: "Ovulation: From Follicle Destiny to Follicle Rupture — The 350-Day Symphony",                                                               duration: "Live on Zoom" },
-  { id: "l04", no: "04", title: "Luteal Phase: Physiology, Endocrinology and Clinical Importance",                                                                            duration: "Live on Zoom" },
-  { id: "l05", no: "05", title: "Spermatogenesis: From Germ Cell Development to Semen Analysis, Genetics to Clinical Terminologies",                                         duration: "Live on Zoom" },
-  { id: "l06", no: "06", title: "Implantation: From Endometrial Receptivity to Endometrium–Embryo Dialogue",                                                                 duration: "Live on Zoom" },
+  { id: "l01", no: "01", title: "HPO Axis: From Physiology to Precision",                                                                                                    date: "Wednesday, 15th July 2026" },
+  { id: "l02", no: "02", title: "The Endocrine Architecture of Follicular Phase — From Endocrinology to Survival of the Fittest Follicle",                                   date: "Wednesday, 22nd July 2026" },
+  { id: "l03", no: "03", title: "Ovulation: From Follicle Destiny to Follicle Rupture — The 350-Day Symphony",                                                               date: "Wednesday, 29th July 2026" },
+  { id: "l04", no: "04", title: "Luteal Phase: Physiology, Endocrinology and Clinical Importance",                                                                            date: "Wednesday, 5th August 2026" },
+  { id: "l05", no: "05", title: "Spermatogenesis: From Germ Cell Development to Semen Analysis, Genetics to Clinical Terminologies",                                         date: "Wednesday, 12th August 2026" },
+  { id: "l06", no: "06", title: "Implantation: From Endometrial Receptivity to Endometrium–Embryo Dialogue",                                                                 date: "Wednesday, 19th August 2026" },
 ];
 
-const { each: PRICE_EACH, bundlePrice: BUNDLE_PRICE, bundleSave: BUNDLE_SAVE, gstPct: GST_PCT, discountPct: DISCOUNT_PCT } = PRICING;
+const { each: PRICE_EACH, bundlePrice: BUNDLE_PRICE, gstPct: GST_PCT, discountPct: DISCOUNT_PCT } = PRICING;
 
 const ACCENT     = "#21864E";
 const ACCENT_DARK = "#186138";
@@ -276,12 +279,17 @@ function AlreadyEnrolledPage({ expiresAt, isAdmin }: { expiresAt: string | null;
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function FoundationEnrollPage() {
-  const { user, initialized } = useAuth();
-  const [fullName,        setFullName]        = useState("");
-  const [email,           setEmail]           = useState("");
-  const [phone,           setPhone]           = useState("");
-  const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES[0]);
-  const [selected,        setSelected]        = useState<string[]>([]);
+  const navigate = useNavigate();
+  const { user, initialized, refreshCourseAccess } = useAuth();
+
+  // Restore draft saved before login redirect
+  const _draft = (() => { try { const s = sessionStorage.getItem(CART_DRAFT_KEY); return s ? JSON.parse(s) : null; } catch { return null; } })();
+
+  const [fullName,        setFullName]        = useState<string>(_draft?.fullName ?? "");
+  const email = user?.email ?? "";
+  const [phone,           setPhone]           = useState<string>(_draft?.phone ?? "");
+  const [selectedCountry, setSelectedCountry] = useState<Country>(_draft?.country ?? COUNTRIES[0]);
+  const [selected,        setSelected]        = useState<string[]>(_draft?.selected ?? []);
   const [expandedId,      setExpandedId]      = useState<string | null>(null);
   const [submitting,      setSubmitting]      = useState(false);
   const [success,         setSuccess]         = useState(false);
@@ -326,21 +334,43 @@ export default function FoundationEnrollPage() {
       .finally(() => setAccessChecked(true));
   }, [initialized, isAdminUser]);
 
-  // Fire "cart_started" Mailchimp tag once the enroll page is confirmed visible to a logged-in user
+  // Fire "cart_started" Mailchimp tag once the enroll page is confirmed visible to a logged-in user.
+  // Also clear any draft saved before the login redirect.
   useEffect(() => {
     if (!accessChecked || accessModal || isAdminUser || !getToken()) return;
+    sessionStorage.removeItem(CART_DRAFT_KEY);
     apiPost("/payment/cart-started", {}).catch(() => {});
   }, [accessChecked, accessModal, isAdminUser]);
 
+  // Debounced cart-update: tag user "abandonment_cart" + send cart items to Mailchimp
+  const cartDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    const newIds = selected.filter((id) => !ownedLectureIds.includes(id));
+    if (!getToken() || newIds.length === 0) return;
+    if (cartDebounceRef.current) clearTimeout(cartDebounceRef.current);
+    cartDebounceRef.current = setTimeout(() => {
+      apiPost("/payment/cart-update", { lectureIds: newIds }).catch(() => {});
+    }, 1500);
+    return () => { if (cartDebounceRef.current) clearTimeout(cartDebounceRef.current); };
+  }, [selected, ownedLectureIds]);
+
   const availableLectures = LECTURES.filter((l) => !ownedLectureIds.includes(l.id));
+
+  // When owned lectures are fetched, purge any that slipped into selected (e.g. from draft)
+  useEffect(() => {
+    if (ownedLectureIds.length === 0) return;
+    setSelected((prev) => prev.filter((id) => !ownedLectureIds.includes(id)));
+  }, [ownedLectureIds]);
 
   const toggleLecture = (id: string) => {
     if (ownedLectureIds.includes(id)) return;
     setSelected((prev) => prev.includes(id) ? prev.filter((l) => l !== id) : [...prev, id]);
   };
 
-  const isBundle      = selected.length === 6 && ownedLectureIds.length === 0;
-  const subtotal      = selected.length * PRICE_EACH;
+  // Only new (un-owned) lectures count toward price
+  const newSelected   = selected.filter((id) => !ownedLectureIds.includes(id));
+  const isBundle      = newSelected.length === 6 && ownedLectureIds.length === 0;
+  const subtotal      = newSelected.length * PRICE_EACH;
   const discount      = isBundle ? subtotal - BUNDLE_PRICE : 0;
   const afterDiscount = subtotal - discount;
   const gst           = Math.round(afterDiscount * GST_PCT / 100);
@@ -348,12 +378,16 @@ export default function FoundationEnrollPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Hard guard — should never be reachable since accessModal replaces the page, but defensive
     if (accessModal) return;
+    if (!getToken()) {
+      sessionStorage.setItem(CART_DRAFT_KEY, JSON.stringify({ fullName, phone, country: selectedCountry, selected }));
+      setPostLoginRedirect("/course/foundation/enroll");
+      navigate("/login");
+      return;
+    }
     if (!fullName.trim())                  { setError("Please enter your full name."); return; }
-    if (!email.trim())                     { setError("Please enter your email address."); return; }
     if (!phone.trim()) { setError("Please enter a valid phone number."); return; }
-    if (selected.length === 0)             { setError("Please select at least one lecture."); return; }
+    if (newSelected.length === 0)          { setError("Please select at least one lecture."); return; }
 
     setSubmitting(true);
     setError("");
@@ -364,7 +398,7 @@ export default function FoundationEnrollPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          lectureIds: selected,
+          lectureIds: newSelected,
           fullName: fullName.trim(),
           email: email.trim(),
           phone: selectedCountry.code + phone.trim(),
@@ -401,11 +435,15 @@ export default function FoundationEnrollPage() {
             try {
               const verifyRes = await fetch("/api/payment/verify", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
+                },
                 body: JSON.stringify(response),
               });
               const verifyData = await verifyRes.json();
               if (!verifyRes.ok) throw new Error(verifyData.message || "Payment verification failed.");
+              await refreshCourseAccess();
               setSuccess(true);
               resolve();
             } catch (err: any) {
@@ -432,6 +470,9 @@ export default function FoundationEnrollPage() {
 
         rzp.open();
       });
+
+      // Payment verified — go to student panel
+      navigate("/panel/my-courses");
     } catch (err: any) {
       // Silently drop user-initiated cancellations; show real errors
       if (err.message !== "__cancelled__") {
@@ -573,22 +614,17 @@ export default function FoundationEnrollPage() {
                     )}
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-white font-semibold text-[14px] leading-none mb-1">
+                    <p className="text-white font-semibold text-[14px] leading-none">
                       {isBundle ? "All 6 Lectures Selected" : "Enroll All 6 Lectures"}
                     </p>
-                    <p className="font-mono text-[10px] tracking-wide" style={{ color: "rgba(255,255,255,0.6)" }}>
-                      ₹{BUNDLE_PRICE.toLocaleString("en-IN")} bundle&nbsp;
-                      <span className="line-through" style={{ color: "rgba(255,255,255,0.35)" }}>
-                        ₹{(PRICE_EACH * 6).toLocaleString("en-IN")}
-                      </span>
-                    </p>
                   </div>
-                  <div
-                    className="shrink-0 text-center px-3 py-1.5"
-                    style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)" }}
-                  >
-                    <p className="font-mono text-[8px] tracking-[0.14em] uppercase text-white/70 leading-none mb-0.5">Save</p>
-                    <p className="font-display font-medium text-white text-[15px] leading-none">₹{BUNDLE_SAVE.toLocaleString("en-IN")}</p>
+                  <div className="shrink-0 text-right">
+                    <p className="text-white font-bold text-[18px] leading-none">
+                      ₹{BUNDLE_PRICE.toLocaleString("en-IN")}
+                    </p>
+                    <p className="font-mono text-[10px] tracking-wide mt-0.5 line-through" style={{ color: "rgba(255,255,255,0.45)" }}>
+                      ₹{(PRICE_EACH * 6).toLocaleString("en-IN")}
+                    </p>
                   </div>
                 </button>
                 )}
@@ -682,13 +718,8 @@ export default function FoundationEnrollPage() {
                               style={{ borderTop: `1px solid #e5e7eb` }}
                             >
                               <div className="pt-3">
-                                <span className="font-mono text-[11px] text-gray-600 block mb-1">{l.duration}</span>
-                                <span
-                                  className="font-mono text-[10px] tracking-[0.14em] uppercase cursor-pointer"
-                                  style={{ color: checked ? ACCENT : "#374151" }}
-                                  onClick={() => toggleLecture(l.id)}
-                                >
-                                  {checked ? "✓ Selected" : "Click to select"}
+                                <span className="font-mono text-[11px] text-gray-600 block leading-[1.7]">
+                                  {l.date} &nbsp;·&nbsp; 8 PM IST &nbsp;·&nbsp; Live on Zoom
                                 </span>
                               </div>
                               <span className="font-mono text-[15px] font-bold" style={{ color: "#111827" }}>
@@ -790,17 +821,6 @@ export default function FoundationEnrollPage() {
                       />
                     </div>
 
-                    {/* Email */}
-                    <div>
-                      <label className={labelCls}>Email Address <span style={{ color: ACCENT }}>*</span></label>
-                      <input
-                        type="email" required placeholder="your@email.com"
-                        value={email} onChange={(e) => setEmail(e.target.value)}
-                        className={inputCls}
-                        style={{ color: "#111827" }}
-                      />
-                    </div>
-
                     {/* Phone */}
                     <div>
                       <label className={labelCls}>Phone Number <span style={{ color: ACCENT }}>*</span></label>
@@ -858,41 +878,13 @@ export default function FoundationEnrollPage() {
                           </>
                         ) : selected.length === 0 ? (
                           "← Select lectures first"
+                        ) : !getToken() ? (
+                          <>Login to Pay <span className="group-hover:translate-x-0.5 transition-transform inline-block">→</span></>
                         ) : (
                           <>PAY NOW <span className="group-hover:translate-x-0.5 transition-transform inline-block">→</span></>
                         )}
                       </button>
 
-                      {/* "Payment Live Soon" blur overlay */}
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          backdropFilter: "blur(6px)",
-                          WebkitBackdropFilter: "blur(6px)",
-                          backgroundColor: "rgba(255,255,255,0.55)",
-                          borderRadius: "4px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "8px",
-                        }}
-                      >
-                        <span style={{ fontSize: "18px" }}>🔒</span>
-                        <p
-                          className="font-mono font-bold tracking-[0.15em] uppercase text-center"
-                          style={{ fontSize: "11px", color: ACCENT }}
-                        >
-                          Payment Opening Soon
-                        </p>
-                        <p
-                          className="font-mono text-center"
-                          style={{ fontSize: "10px", color: "#6b7280" }}
-                        >
-                          Enrolment opens 15 July 2026
-                        </p>
-                      </div>
                     </div>
 
                     <div className="flex items-center justify-center gap-2 pt-1">

@@ -23,9 +23,11 @@ type AuthValue = {
   isLoggedIn: boolean;
   initialized: boolean;            // true once localStorage has been read
   sessionKicked: boolean;          // true when another device logged in
+  hasCourseAccess: boolean | null; // null = still loading
   login: (token: string, user: AuthUser) => void;
   logout: () => void;
   clearKicked: () => void;
+  refreshCourseAccess: () => Promise<void>;
 };
 
 
@@ -33,10 +35,11 @@ const STORAGE_KEY = "star_auth";
 const AuthContext = createContext<AuthValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token,         setToken]         = useState<string | null>(null);
-  const [user,          setUser]          = useState<AuthUser>(null);
-  const [sessionKicked, setSessionKicked] = useState(false);
-  const [initialized,   setInitialized]   = useState(false);
+  const [token,            setToken]            = useState<string | null>(null);
+  const [user,             setUser]             = useState<AuthUser>(null);
+  const [sessionKicked,    setSessionKicked]    = useState(false);
+  const [initialized,      setInitialized]      = useState(false);
+  const [hasCourseAccess,  setHasCourseAccess]  = useState<boolean | null>(null);
   const tokenRef = useRef<string | null>(null); // always mirrors token without closure issues
 
   // Restore session from localStorage on first load
@@ -118,10 +121,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Fetch course access once for regular students (not admin/superadmin)
+  const checkAccess = async (tok: string, role?: string) => {
+    if (role === "admin" || role === "superadmin") { setHasCourseAccess(true); return; }
+    try {
+      const r = await fetch("/api/admin/my-access", { headers: { Authorization: `Bearer ${tok}` } });
+      const data = await r.json();
+      const active = (data.courses || []).some(
+        (c: any) => !c.expiresAt || new Date(c.expiresAt) > new Date()
+      );
+      setHasCourseAccess(active);
+    } catch { setHasCourseAccess(null); }
+  };
+
+  useEffect(() => {
+    if (!initialized || !token || !user) return;
+    checkAccess(token, user.systemRole ?? undefined);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialized, user?.id]);
+
+  const refreshCourseAccess = async () => {
+    if (!tokenRef.current || !user) return;
+    await checkAccess(tokenRef.current, user.systemRole ?? undefined);
+  };
+
   const hardLogout = () => {
     setToken(null);
     tokenRef.current = null;
     setUser(null);
+    setHasCourseAccess(null);
     localStorage.removeItem(STORAGE_KEY);
   };
 
@@ -148,7 +176,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, isLoggedIn: !!token, initialized, sessionKicked, login, logout, clearKicked }}
+      value={{ user, token, isLoggedIn: !!token, initialized, sessionKicked, hasCourseAccess, login, logout, clearKicked, refreshCourseAccess }}
     >
       {children}
     </AuthContext.Provider>

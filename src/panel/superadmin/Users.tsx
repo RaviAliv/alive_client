@@ -311,7 +311,7 @@ export default function AllUsers() {
                     </td>
                     {/* Course badges */}
                     <td className="px-4 py-3">
-                      <div className="flex flex-wrap gap-1">
+                      <div className="flex flex-nowrap gap-1">
                         {COURSES.map((c) => {
                           const has     = u.courses.includes(c);
                           const lecs    = has ? (u.courseLectures[c] ?? null) : undefined;
@@ -333,7 +333,7 @@ export default function AllUsers() {
                                 noLecs    ? `No lectures granted · click to manage` :
                                             `${(lecs as string[]).length} lectures · click to manage`
                               }
-                              className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded font-semibold capitalize transition-all min-w-[60px] justify-center ${
+                              className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded font-semibold capitalize transition-all min-w-[52px] justify-center ${
                                 isBusy ? "opacity-50 cursor-wait" :
                                 has    ? "text-white hover:opacity-80 cursor-pointer" :
                                          "bg-slate-100 text-slate-400 hover:bg-slate-200 cursor-pointer"

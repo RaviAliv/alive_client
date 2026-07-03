@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const CONTACT = {
-  email: "xyz@staracademy.in",
-  emailHref: "mailto:xyz@staracademy.in",
+  email: "drsrtacademy@gmail.com",
+  emailHref: "mailto:drsrtacademy@gmail.com",
   address: "6th Floor, Bund Garden, Pune",
   hours: "Mon – Sat · 10 AM – 6 PM IST",
   mapShortUrl: "https://share.google/XjDvADxB5FtvKmyX1",
@@ -149,7 +149,7 @@ export default function ContactPage() {
                     className="group flex items-center justify-between gap-3 hover:opacity-80 transition-opacity"
                   >
                     <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-ivory/70">Email</span>
-                    <span className="text-[12px] text-gold font-medium font-mono truncate group-hover:text-gold-light transition-colors">
+                    <span className="text-[15px] text-gold font-medium font-mono truncate group-hover:text-gold-light transition-colors">
                       {emailCopied ? "Copied ✓" : CONTACT.email}
                     </span>
                   </a>
@@ -159,65 +159,6 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="relative pb-8">
-          <div className="max-w-[1200px] mx-auto px-[clamp(20px,4vw,80px)]">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-0 rounded-2xl border border-gold/15 bg-[rgba(255,255,255,0.025)] backdrop-blur-md overflow-hidden">
-              <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[380px] bg-[#0A0E16] border-b lg:border-b-0 lg:border-r border-gold/15">
-                <iframe
-                  title="STAR Academy location"
-                  src="https://www.google.com/maps?q=Bund+Garden+Pune&output=embed"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 w-full h-full border-0 invert hue-rotate-180 contrast-95"
-                  allowFullScreen
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[rgba(10,14,22,0.35)] to-transparent" />
-              </div>
-
-              <div className="p-6 md:p-7 flex flex-col">
-                <span className="font-mono text-[11px] tracking-[0.24em] uppercase text-gold/80 mb-2">✦ Find us</span>
-                <h1 className="font-display text-[15px] text-ivory leading-[1.2] mb-3">STAR ACADEMY ·  PUNE</h1>
-                <p className="font-display text-[20px] text-ivory leading-[1.3] mb-3"> 6th Floor, ALIV - Regenerative Wellness</p>
-                <p className="text-[13px] text-ivory/65 leading-[1.6] mb-5">
-                  Bund Garden, Pune 411001 · Maharashtra, India
-                </p>
-
-                <div className="space-y-2 mb-5">
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-1 h-1 rounded-full bg-gold" />
-                    <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gold/70 w-14">Day</span>
-                    <span className="text-[12.5px] text-ivory/85">Mon – Sat</span>
-                    
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-1 h-1 rounded-full bg-gold" />
-                    <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gold/70 w-14">Hours</span>
-                    <span className="text-[12.5px] text-ivory/85">10 AM – 6 PM IST</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-1 h-1 rounded-full bg-gold" />
-                    <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gold/70 w-14">Visits</span>
-                    <span className="text-[12.5px] text-ivory/85">By appointment</span>
-                  </div>
-                </div>
-
-                <a
-                  href={CONTACT.mapShortUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group mt-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 font-body font-semibold text-[13px] tracking-[0.02em] rounded-xl border border-gold-deep text-black rounded-md bg-[#A87928] hover:brightness-110 hover:shadow-[0_10px_26px_-6px_rgba(247,219,125,0.7)]"
-                >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  Get Directions
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <section className="relative pb-8">
           <div className="max-w-[1200px] mx-auto px-[clamp(20px,4vw,80px)]">
